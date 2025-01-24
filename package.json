@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "kplus",
   "private": true,
   "scripts": {
     "admin:run": "lerna run dev --scope kplus-admin",
@@ -16,6 +16,7 @@
     "crypto-js": "^4.2.0",
     "element-plus": "^2.9.3",
     "jsencrypt": "3.3.2",
+    "kplus-components": "workspace:^",
     "lodash-es": "^4.17.21",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

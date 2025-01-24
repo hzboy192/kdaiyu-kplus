@@ -4,7 +4,8 @@
       <el-col :span="4" />
       <el-col :span="8" />
       <el-col :span="8" class="form-container">
-        <el-form ref="loginFormRef" class="login-form" :model="loginData" :rules="loginRules" size="large" :label-width="0">
+        <el-form ref="loginFormRef" class="login-form" :model="loginData" :rules="loginRules" size="large"
+          :label-width="0">
           <el-form-item>
             <div class="login-title"><span>登录</span><span>没有帐号？ 点此注册</span></div>
           </el-form-item>
@@ -22,20 +23,14 @@
               <el-checkbox v-model="loginData.rememberMe" :checked="true">记住我</el-checkbox>
             </el-form-item>
             <el-form-item>
-              <el-button :disabled="limitRequest" type="warning" class="login-btn" @click="loginHandler(loginFormRef)"> 登录 </el-button>
+              <el-button :disabled="limitRequest" type="warning" class="login-btn" @click="loginHandler(loginFormRef)">
+                登录 </el-button>
             </el-form-item>
           </div>
           <div v-show="showCaptcha">
             <el-form-item prop="code" :validate-event="false">
-              <verify
-                ref="verifyRef"
-                v-model="loginData.code"
-                mode="banner"
-                captcha-type="clickWord"
-                :img-size="{ width: '375px', height: '200px' }"
-                @success="checkSuccess"
-                @ready="initReady"
-              />
+              <verify ref="verifyRef" v-model="loginData.code" mode="banner" captcha-type="clickWord"
+                :img-size="{ width: '375px', height: '200px' }" @success="checkSuccess" @ready="initReady" />
             </el-form-item>
           </div>
           <el-form-item justify="center">
@@ -43,6 +38,7 @@
           </el-form-item>
           <el-form-item><el-divider>其他登录方式</el-divider></el-form-item>
           <el-form-item>建设中...</el-form-item>
+          <demo />
         </el-form>
       </el-col>
       <el-col :span="4" />
@@ -54,6 +50,8 @@
 import { useRouter, useRoute } from 'vue-router'
 import useUserStore from '@s/user'
 import verify from '@c/captcha/Verify.vue'
+// 共享组件引用示例
+import { Demo } from 'kplus-components'
 
 const router = useRouter()
 const route = useRoute()
@@ -155,6 +153,7 @@ let initReady = function (ins) {
   background: url('/image/fina-login-bg.jpg') no-repeat center center;
   background-size: cover;
 }
+
 .login-container {
   margin-top: 60px;
   height: 580px;
@@ -174,6 +173,7 @@ let initReady = function (ins) {
 .login-form {
   width: 100%;
   padding-bottom: 10px;
+
   .login-title {
     width: 100%;
     display: flex;
