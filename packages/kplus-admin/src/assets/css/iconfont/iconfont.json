@@ -1,0 +1,121 @@
+{
+  "id": "4627186",
+  "name": "kline-plus",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6455673",
+      "name": "账号管理",
+      "font_class": "zhanghaoguanli",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "7898737",
+      "name": "数据分析-宝贝分析",
+      "font_class": "shujufenxi-baobeifenxi",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "12249269",
+      "name": "工作台",
+      "font_class": "gongzuotai",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "7819412",
+      "name": "bell",
+      "font_class": "bell",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "248925",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "10787921",
+      "name": "训练营",
+      "font_class": "xunlianying",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "35518523",
+      "name": "训练记录",
+      "font_class": "xunlianjilu",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "39839235",
+      "name": "最小化",
+      "font_class": "zuixiaohua",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "5064096",
+      "name": "统计",
+      "font_class": "tongji",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "5821116",
+      "name": "more",
+      "font_class": "more",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "3865272",
+      "name": "设置",
+      "font_class": "shezhi1",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "12365406",
+      "name": "7指标元管理",
+      "font_class": "zhibiaoyuanguanli",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "16807742",
+      "name": "指标库选中",
+      "font_class": "zhibiaokuxuanzhong",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "30743809",
+      "name": "指标中心 2",
+      "font_class": "a-zhibiaozhongxin2",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "32474959",
+      "name": "全屏最大化",
+      "font_class": "quanpingzuidahua",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "40794693",
+      "name": "指标中心-fx",
+      "font_class": "zhibiaozhongxin-fx",
+      "unicode": "e800",
+      "unicode_decimal": 59392
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+.dark{
+    --kline-border-color:#292929;
+    --kline-select-bg-color:rgba(22, 119, 255, .15);
+    --kline-active-color:#1677ff;
+}
+
+.light{
+
+}

@@ -1,0 +1,16 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "admin:run": "lerna run dev --scope kplus-admin",
+    "admin:build": "lerna run build --scope kplus-admin",
+    "user:run": "lerna run dev --scope kplus-user",
+    "user:build": "lerna run build --scope kplus-user"
+  },
+  "dependencies": {
+    "element-plus": "^2.9.3"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.9"
+  }
+}
