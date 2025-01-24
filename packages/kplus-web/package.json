@@ -1,5 +1,5 @@
 {
-  "name": "kplus-admin",
+  "name": "kplus-web",
   "version": "1.0.0",
   "author": "@泊远",
   "scripts": {
@@ -22,17 +22,5 @@
     "simple-flakeid": "^0.0.5",
     "stompjs": "^2.3.3"
   },
-  "devDependencies": {
-    "@rushstack/eslint-patch": "^1.10.4",
-    "@vitejs/plugin-vue": "^4.6.2",
-    "@vue/eslint-config-prettier": "^8.0.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.27.0",
-    "prettier": "^3.3.3",
-    "unplugin": "^1.12.0",
-    "unplugin-auto-import": "^0.16.7",
-    "unplugin-icons": "^0.19.1",
-    "vite": "^4.5.3",
-    "vite-plugin-eslint": "^1.8.1"
-  }
+  "devDependencies": {}
 }

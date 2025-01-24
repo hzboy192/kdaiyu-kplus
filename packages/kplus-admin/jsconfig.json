@@ -2,24 +2,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@c/*": [
-        "./src/components/*"
-      ],
-      "@d/*": [
-        "./src/api/*"
-      ],
-      "@r/*": [
-        "./src/router/*"
-      ],
-      "@s/*": [
-        "./src/stores/*"
-      ],
-      "@u/*": [
-        "./src/utils/*"
-      ],
+      "@/*": ["./src/*"],
+      "@c/*": ["./src/components/*"],
+      "@d/*": ["./src/api/*"],
+      "@r/*": ["./src/router/*"],
+      "@s/*": ["./src/stores/*"],
+      "@u/*": ["./src/utils/*"]
     }
   },
   "description": "勿删除，解决webstorm无法识别vite alias问题"

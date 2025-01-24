@@ -53,13 +53,16 @@ let registerRules = reactive({
   ],
   confirmPassword: [
     { required: true, message: '请确认密码!' },
-    { validator: (rule, value, callback) => {
-      if (value !== registerData.password) {
-        callback(new Error('两次输入的密码不一致!'))
-      } else {
-        callback()
-      }
-    }, trigger: 'blur' }
+    {
+      validator: (rule, value, callback) => {
+        if (value !== registerData.password) {
+          callback(new Error('两次输入的密码不一致!'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
   ]
 })
 

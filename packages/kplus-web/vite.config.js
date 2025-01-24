@@ -2,7 +2,6 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import autoImport from 'unplugin-auto-import/vite'
-import eslintPlugin from 'vite-plugin-eslint'
 import IconsResolver from 'unplugin-icons/resolver'
 import vue from '@vitejs/plugin-vue'
 
@@ -26,9 +25,6 @@ export default defineConfig(({ command, mode }) => {
             prefix: 'Icon'
           })
         ]
-      }),
-      eslintPlugin({
-        include: ['src/**/*.js', 'src/**/*.vue']
       })
     ],
     resolve: {
@@ -43,14 +39,15 @@ export default defineConfig(({ command, mode }) => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     server: {
+      port: 80,
       proxy:
         env.VITE_APP_MODE === 'dev'
           ? {
-            '/api': {
-              target: env.VITE_APP_API_URL,
-              changeOrigin: true
+              '/api': {
+                target: env.VITE_APP_API_URL,
+                changeOrigin: true
+              }
             }
-          }
           : null
     },
     build: {

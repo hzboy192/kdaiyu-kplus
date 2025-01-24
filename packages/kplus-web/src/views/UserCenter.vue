@@ -13,7 +13,7 @@
         <div class="header-content">
           <div class="vcenter">
             <span style="width: 15px">&nbsp;</span>
-            <img alt="口袋鱼" src="/image/logo.png" width="40px" height="40px">
+            <img alt="口袋鱼" src="/image/logo.png" width="40px" height="40px" />
             <span>口袋鱼</span>
           </div>
           <div class="vcenter">

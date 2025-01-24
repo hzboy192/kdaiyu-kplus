@@ -2,43 +2,45 @@ import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import defAva from '@/assets/images/profile.jpg'
 
-const useUserStore = defineStore(
-  'user',
-  {
-    state: () => ({
-      token: getToken(),
-      id: '',
-      name: '',
-      avatar: '',
-      roles: [],
-      permissions: []
-    }),
-    actions: {
-      // 登录
-      login(userInfo) {
-        return new Promise((resolve, reject) => {
-          login(userInfo).then(res => {
-            if(res.status === 200){
+const useUserStore = defineStore('user', {
+  state: () => ({
+    token: getToken(),
+    id: '',
+    name: '',
+    avatar: '',
+    roles: [],
+    permissions: []
+  }),
+  actions: {
+    // 登录
+    login(userInfo) {
+      return new Promise((resolve, reject) => {
+        login(userInfo)
+          .then((res) => {
+            if (res.status === 200) {
               setToken(res.data)
               this.token = res.data
               resolve(res)
             } else {
               reject(res)
             }
-          }).catch((error) => {
+          })
+          .catch((error) => {
             console.error(error)
           })
-        })
-      },
-      // 获取用户信息
-      getInfo() {
-        return new Promise((resolve, reject) => {
-          getInfo().then(({data}) => {
+      })
+    },
+    // 获取用户信息
+    getInfo() {
+      return new Promise((resolve, reject) => {
+        getInfo()
+          .then(({ data }) => {
             const res = data
             const user = res.user
-            const avatar = (user.avatar == "" || user.avatar == null) ? defAva : import.meta.env.VITE_APP_BASE_API + user.avatar;
+            const avatar = user.avatar == '' || user.avatar == null ? defAva : import.meta.env.VITE_APP_BASE_API + user.avatar
 
-            if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            if (res.roles && res.roles.length > 0) {
+              // 验证返回的roles是否是一个非空数组
               this.roles = res.roles
               this.permissions = res.permissions
             } else {
@@ -48,26 +50,29 @@ const useUserStore = defineStore(
             this.name = user.userName
             this.avatar = avatar
             resolve(res)
-          }).catch(error => {
+          })
+          .catch((error) => {
             reject(error)
           })
-        })
-      },
-      // 退出系统
-      logOut() {
-        return new Promise((resolve, reject) => {
-          logout(this.token).then(() => {
+      })
+    },
+    // 退出系统
+    logOut() {
+      return new Promise((resolve, reject) => {
+        logout(this.token)
+          .then(() => {
             this.token = ''
             this.roles = []
             this.permissions = []
             removeToken()
             resolve()
-          }).catch(error => {
+          })
+          .catch((error) => {
             reject(error)
           })
-        })
-      }
+      })
     }
-  })
+  }
+})
 
 export default useUserStore

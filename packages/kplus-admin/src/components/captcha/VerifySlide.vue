@@ -12,32 +12,46 @@
       </div>
     </div>
     <!-- 公共部分 -->
-    <div class="verify-bar-area"
-      :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }">
+    <div class="verify-bar-area" :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }">
       <span class="verify-msg" v-text="text" />
-      <div class="verify-left-bar" :style="{
-        width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
-        height: barSize.height,
-        'border-color': leftBarBorderColor,
-        transaction: transitionWidth
-      }">
-        <span class="verify-msg" v-text="finishText" />
-        <div class="verify-move-block" :style="{
-          width: barSize.height,
+      <div
+        class="verify-left-bar"
+        :style="{
+          width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
           height: barSize.height,
-          'background-color': moveBlockBackgroundColor,
-          left: moveBlockLeft,
-          transition: transitionLeft
-        }" @touchstart="start" @mousedown="start">
+          'border-color': leftBarBorderColor,
+          transaction: transitionWidth
+        }"
+      >
+        <span class="verify-msg" v-text="finishText" />
+        <div
+          class="verify-move-block"
+          :style="{
+            width: barSize.height,
+            height: barSize.height,
+            'background-color': moveBlockBackgroundColor,
+            left: moveBlockLeft,
+            transition: transitionLeft
+          }"
+          @touchstart="start"
+          @mousedown="start"
+        >
           <i :class="['verify-icon iconfont', iconClass]" :style="{ color: iconColor }" />
-          <div v-if="type === '2'" class="verify-sub-block" :style="{
-            width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
-            height: setSize.imgHeight,
-            top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
-            'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
-          }">
-            <img :src="'data:image/png;base64,' + blockBackImgBase" alt=""
-              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none" />
+          <div
+            v-if="type === '2'"
+            class="verify-sub-block"
+            :style="{
+              width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
+              height: setSize.imgHeight,
+              top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
+              'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
+            }"
+          >
+            <img
+              :src="'data:image/png;base64,' + blockBackImgBase"
+              alt=""
+              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none"
+            />
           </div>
         </div>
       </div>

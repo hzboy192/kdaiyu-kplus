@@ -51,7 +51,7 @@ export default defineConfig(({ mode, command }) => {
             AtRule: {
               charset: (atRule) => {
                 if (atRule.name === 'charset') {
-                  atRule.remove();
+                  atRule.remove()
                 }
               }
             }

@@ -9,9 +9,21 @@
       </div>
       <div class="verifybox-bottom" :style="{ padding: props.mode == 'pop' ? '15px' : '0' }">
         <!-- 验证码容器 -->
-        <component :is="componentType" v-if="componentType" ref="instance" :captcha-type="captchaType"
-          :type="verifyType" :figure="figure" :arith="arith" :mode="props.mode" :v-space="vSpace" :explain="explain"
-          :img-size="imgSize" :block-size="blockSize" :bar-size="barSize" />
+        <component
+          :is="componentType"
+          v-if="componentType"
+          ref="instance"
+          :captcha-type="captchaType"
+          :type="verifyType"
+          :figure="figure"
+          :arith="arith"
+          :mode="props.mode"
+          :v-space="vSpace"
+          :explain="explain"
+          :img-size="imgSize"
+          :block-size="blockSize"
+          :bar-size="barSize"
+        />
       </div>
     </div>
   </div>
@@ -61,13 +73,9 @@ let props = defineProps({
   }
 })
 
-const VerifySlide = defineAsyncComponent(() =>
-  import('@c/captcha/VerifySlide.vue')
-)
+const VerifySlide = defineAsyncComponent(() => import('@c/captcha/VerifySlide.vue'))
 
-const VerifyPoints = defineAsyncComponent(() =>
-  import('@c/captcha/VerifyPoints.vue')
-)
+const VerifyPoints = defineAsyncComponent(() => import('@c/captcha/VerifyPoints.vue'))
 
 const clickShow = ref(false)
 const verifyType = ref(undefined)
@@ -127,7 +135,7 @@ defineExpose({
   closeBox,
   refresh,
   show
-}) 
+})
 </script>
 <style>
 .verifybox {

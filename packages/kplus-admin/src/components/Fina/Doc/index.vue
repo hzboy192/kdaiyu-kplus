@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-const url = ref('http://doc.kdaiyu.com/fina-vue');
+const url = ref('http://doc.kdaiyu.com/fina-vue')
 
 function goto() {
   window.open(url.value)

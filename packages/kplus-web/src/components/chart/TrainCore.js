@@ -271,7 +271,12 @@ let closeTrade = () => {
     tradeBilling.open = sum(openArray) / trainOption.closeNum
     tradeBilling.direction = holdingList[0].direction
     // 总收益 = (平仓点位-开仓点位)*手数*每跳单价-平仓续费-开仓续费
-    tradeBilling.income = (tradeBilling.direction === TRADE_DIRECTION.UP ? tradeBilling.close - tradeBilling.open : tradeBilling.open - tradeBilling.close) * tradeBilling.trdNum * unitPrice - tradeBilling.serAmount - openSerAmount
+    tradeBilling.income =
+      (tradeBilling.direction === TRADE_DIRECTION.UP ? tradeBilling.close - tradeBilling.open : tradeBilling.open - tradeBilling.close) *
+        tradeBilling.trdNum *
+        unitPrice -
+      tradeBilling.serAmount -
+      openSerAmount
     trainOption.transList.push(tradeBilling)
     emit.emit('doCloseTrade', trainOption.transList)
   } else {

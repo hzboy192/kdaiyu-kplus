@@ -2,32 +2,55 @@
 //     (c) 2011-2013 Thomas Fuchs
 //     keymaster.js may be freely distributed under the MIT license.
 
-; (function (global) {
+;(function (global) {
   let k,
     _handlers = {},
     _mods = { 16: false, 18: false, 17: false, 91: false },
     _scope = 'all',
     // modifier keys
     _MODIFIERS = {
-      '⇧': 16, shift: 16,
-      '⌥': 18, alt: 18, option: 18,
-      '⌃': 17, ctrl: 17, control: 17,
-      '⌘': 91, command: 91
+      '⇧': 16,
+      shift: 16,
+      '⌥': 18,
+      alt: 18,
+      option: 18,
+      '⌃': 17,
+      ctrl: 17,
+      control: 17,
+      '⌘': 91,
+      command: 91
     },
     // special keys
     _MAP = {
-      backspace: 8, tab: 9, clear: 12,
-      enter: 13, 'return': 13,
-      esc: 27, escape: 27, space: 32,
-      left: 37, up: 38,
-      right: 39, down: 40,
-      del: 46, 'delete': 46,
-      home: 36, end: 35,
-      pageup: 33, pagedown: 34,
-      ',': 188, '.': 190, '/': 191,
-      '`': 192, '-': 189, '=': 187,
-      ';': 186, '\'': 222,
-      '[': 219, ']': 221, '\\': 220
+      backspace: 8,
+      tab: 9,
+      clear: 12,
+      enter: 13,
+      return: 13,
+      esc: 27,
+      escape: 27,
+      space: 32,
+      left: 37,
+      up: 38,
+      right: 39,
+      down: 40,
+      del: 46,
+      delete: 46,
+      home: 36,
+      end: 35,
+      pageup: 33,
+      pagedown: 34,
+      ',': 188,
+      '.': 190,
+      '/': 191,
+      '`': 192,
+      '-': 189,
+      '=': 187,
+      ';': 186,
+      "'": 222,
+      '[': 219,
+      ']': 221,
+      '\\': 220
     },
     code = function (x) {
       return _MAP[x] || x.toUpperCase().charCodeAt(0)
@@ -60,7 +83,7 @@
   }
   function updateModifierKey(event) {
     for (k in _mods) _mods[k] = event[modifierMap[k]]
-  };
+  }
 
   // handle keydown event
   function dispatch(event) {
@@ -99,8 +122,7 @@
         // check if modifiers match if any
         modifiersMatch = handler.mods.length > 0
         for (k in _mods)
-          if ((!_mods[k] && index(handler.mods, +k) > -1) ||
-            (_mods[k] && index(handler.mods, +k) == -1)) modifiersMatch = false
+          if ((!_mods[k] && index(handler.mods, +k) > -1) || (_mods[k] && index(handler.mods, +k) == -1)) modifiersMatch = false
         // call the handler and stop the event if neccessary
         if ((handler.mods.length == 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91]) || modifiersMatch) {
           if (handler.method(event, handler) === false) {
@@ -112,11 +134,12 @@
         }
       }
     }
-  };
+  }
 
   // unset modifier keys on keyup
   function clearModifier(event) {
-    let key = event.keyCode, k,
+    let key = event.keyCode,
+      k,
       i = index(_downKeys, key)
 
     // remove key from _downKeys
@@ -129,12 +152,12 @@
       _mods[key] = false
       for (k in _MODIFIERS) if (_MODIFIERS[k] == key) assignKey[k] = false
     }
-  };
+  }
 
   function resetModifiers() {
     for (k in _mods) _mods[k] = false
     for (k in _MODIFIERS) assignKey[k] = false
-  };
+  }
 
   // parse and assign shortcut
   function assignKey(key, scope, method) {
@@ -161,13 +184,16 @@
       if (!(key in _handlers)) _handlers[key] = []
       _handlers[key].push({ shortcut: keys[i], scope: scope, method: method, key: keys[i], mods: mods })
     }
-  };
+  }
 
   // unbind all handlers for given key in current scope
   function unbindKey(key, scope) {
-    let multipleKeys, keys,
+    let multipleKeys,
+      keys,
       mods = [],
-      i, j, obj
+      i,
+      j,
+      obj
 
     multipleKeys = getKeys(key)
 
@@ -195,12 +221,12 @@
         }
       }
     }
-  };
+  }
 
   // Returns true if the key with code 'keyCode' is currently down
   // Converts strings into key codes.
   function isPressed(keyCode) {
-    if (typeof (keyCode) == 'string') {
+    if (typeof keyCode == 'string') {
       keyCode = code(keyCode)
     }
     return index(_downKeys, keyCode) != -1
@@ -220,8 +246,12 @@
   for (k in _MODIFIERS) assignKey[k] = false
 
   // set current scope (default 'all')
-  function setScope(scope) { _scope = scope || 'all' };
-  function getScope() { return _scope || 'all' };
+  function setScope(scope) {
+    _scope = scope || 'all'
+  }
+  function getScope() {
+    return _scope || 'all'
+  }
 
   // delete all handlers for a given scope
   function deleteScope(scope) {
@@ -229,19 +259,19 @@
 
     for (key in _handlers) {
       handlers = _handlers[key]
-      for (i = 0; i < handlers.length;) {
+      for (i = 0; i < handlers.length; ) {
         if (handlers[i].scope === scope) handlers.splice(i, 1)
         else i++
       }
     }
-  };
+  }
 
   // abstract key logic for assign and unassign
   function getKeys(key) {
     let keys
     key = key.replace(/\s/g, '')
     keys = key.split(',')
-    if ((keys[keys.length - 1]) == '') {
+    if (keys[keys.length - 1] == '') {
       keys[keys.length - 2] += ','
     }
     return keys
@@ -250,21 +280,23 @@
   // abstract mods logic for assign and unassign
   function getMods(key) {
     let mods = key.slice(0, key.length - 1)
-    for (let mi = 0; mi < mods.length; mi++)
-      mods[mi] = _MODIFIERS[mods[mi]]
+    for (let mi = 0; mi < mods.length; mi++) mods[mi] = _MODIFIERS[mods[mi]]
     return mods
   }
 
   // cross-browser events
   function addEvent(object, event, method) {
-    if (object.addEventListener)
-      object.addEventListener(event, method, false)
+    if (object.addEventListener) object.addEventListener(event, method, false)
     else if (object.attachEvent)
-      object.attachEvent('on' + event, function () { method(window.event) })
-  };
+      object.attachEvent('on' + event, function () {
+        method(window.event)
+      })
+  }
 
   // set the handlers globally on document
-  addEvent(document, 'keydown', function (event) { dispatch(event) }) // Passing _scope to a callback to ensure it remains the same by execution. Fixes #48
+  addEvent(document, 'keydown', function (event) {
+    dispatch(event)
+  }) // Passing _scope to a callback to ensure it remains the same by execution. Fixes #48
   addEvent(document, 'keyup', clearModifier)
 
   // reset modifiers to false whenever the window is (re)focused.
@@ -292,5 +324,4 @@
   global.key.unbind = unbindKey
 
   if (typeof module !== 'undefined') module.exports = assignKey
-
 })(this)

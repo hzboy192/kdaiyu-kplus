@@ -3,28 +3,14 @@
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
         <h2>KPlus管理系统</h2>
-        <p>
-          <b>项目简介:</b> <span>基于Vue3 + Element-Plus + SpringBoot的后台管理系统</span>
-        </p>
+        <p><b>项目简介:</b> <span>基于Vue3 + Element-Plus + SpringBoot的后台管理系统</span></p>
         <p>
           <b>当前版本:</b> <span>v{{ version }}</span>
         </p>
+        <p></p>
         <p>
-        </p>
-        <p>
-          <el-button
-            type="primary"
-            icon="Cloudy"
-            plain
-            @click="goTarget('https://gitee.com/y_project/Fina-Vue')"
-            >访问码云</el-button
-          >
-          <el-button
-            icon="HomeFilled"
-            plain
-            @click="goTarget('http://kdaiyu.com')"
-            >访问主页</el-button
-          >
+          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://gitee.com/y_project/Fina-Vue')">访问码云</el-button>
+          <el-button icon="HomeFilled" plain @click="goTarget('http://kdaiyu.com')">访问主页</el-button>
         </p>
       </el-col>
 
@@ -74,16 +60,10 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：
-              <el-link href="http://www.kdaiyu.com" target="_blank" >
-                http://www.kdaiyu.com
-              </el-link>
+              <el-link href="http://www.kdaiyu.com" target="_blank"> http://www.kdaiyu.com </el-link>
             </p>
-            <p>
-              <i class="el-icon-user-solid"></i> 邮箱：<s>hzboy192@126.com</s>
-            </p>
-            <p>
-              <i class="el-icon-chat-dot-round"></i> 微信：<a>/ 翁泊远</a>
-            </p>
+            <p><i class="el-icon-user-solid"></i> 邮箱：<s>hzboy192@126.com</s></p>
+            <p><i class="el-icon-chat-dot-round"></i> 微信：<a>/ 翁泊远</a></p>
           </div>
         </el-card>
       </el-col>
@@ -111,9 +91,7 @@
               <span>公告栏</span>
             </div>
           </template>
-          <div class="body">
-            
-          </div>
+          <div class="body"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -151,7 +129,7 @@ function goTarget(url) {
     margin: 0;
   }
 
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -191,4 +169,3 @@ function goTarget(url) {
   }
 }
 </style>
-

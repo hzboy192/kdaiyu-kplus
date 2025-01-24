@@ -2,7 +2,7 @@
   <div style="position: relative">
     <div v-if="type === '2'" class="verify-img-out" :style="{ height: parseInt(setSize.imgHeight) + vSpace + 'px' }">
       <div class="verify-img-panel" :style="{ width: setSize.imgWidth, height: setSize.imgHeight }">
-        <img :src="'data:image/png;base64,' + backImgBase" alt="" style="width: 100%; height: 100%; display: block">
+        <img :src="'data:image/png;base64,' + backImgBase" alt="" style="width: 100%; height: 100%; display: block" />
         <div v-show="showRefresh" class="verify-refresh" @click="refresh">
           <i class="iconfont icon-refresh" />
         </div>
@@ -51,7 +51,7 @@
               :src="'data:image/png;base64,' + blockBackImgBase"
               alt=""
               style="width: 100%; height: 100%; display: block; -webkit-user-drag: none"
-            >
+            />
           </div>
         </div>
       </div>

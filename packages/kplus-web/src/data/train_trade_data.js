@@ -22,17 +22,15 @@ export function updateTrainData(data) {
   return http.put('/userTrain', data)
 }
 
-
 /**
  * 获取训练品种的信息
- * 
+ *
  * @param {googCode, symbol} data 商品编码/合约编码
  * @returns 合约设置/手续费/保证金...
  */
 export function getTrainSymbol(data) {
   return http.post('/userTrain/SymbolInfo', data)
 }
-
 
 /**
  * 查询交易记录详情

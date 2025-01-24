@@ -4,8 +4,9 @@
   "scripts": {
     "admin:run": "lerna run dev --scope kplus-admin",
     "admin:build": "lerna run build --scope kplus-admin",
-    "user:run": "lerna run dev --scope kplus-user",
-    "user:build": "lerna run build --scope kplus-user"
+    "web:run": "lerna run dev --scope kplus-web",
+    "web:build": "lerna run build --scope kplus-web",
+    "lint": "pnpm dlx eslint . --fix-dry-run --ignore-pattern ./**/node_modules/*,./**/assets"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -20,6 +21,19 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "lerna": "^8.1.9"
+    "@rushstack/eslint-patch": "^1.10.4",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "lerna": "^8.1.9",
+    "prettier": "^3.3.3",
+    "sass": "1.77.5",
+    "unplugin": "^1.12.0",
+    "unplugin-auto-import": "^19.0.0",
+    "unplugin-icons": "^0.19.1",
+    "vite": "^6.0.11",
+    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-svg-icons": "2.0.1"
   }
 }

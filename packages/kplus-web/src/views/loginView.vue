@@ -4,8 +4,7 @@
       <el-col :span="4" />
       <el-col :span="8" />
       <el-col :span="8" class="form-container">
-        <el-form ref="loginFormRef" class="login-form" :model="loginData" :rules="loginRules" size="large"
-          :label-width="0">
+        <el-form ref="loginFormRef" class="login-form" :model="loginData" :rules="loginRules" size="large" :label-width="0">
           <el-form-item>
             <div class="login-title"><span>登录</span><span>没有帐号？ 点此注册</span></div>
           </el-form-item>
@@ -23,15 +22,20 @@
               <el-checkbox v-model="loginData.rememberMe" :checked="true">记住我</el-checkbox>
             </el-form-item>
             <el-form-item>
-              <el-button :disabled="limitRequest" type="warning" class="login-btn" @click="loginHandler(loginFormRef)">
-                登录
-              </el-button>
+              <el-button :disabled="limitRequest" type="warning" class="login-btn" @click="loginHandler(loginFormRef)"> 登录 </el-button>
             </el-form-item>
           </div>
           <div v-show="showCaptcha">
             <el-form-item prop="code" :validate-event="false">
-              <verify ref="verifyRef" v-model="loginData.code" mode="banner" captcha-type="clickWord"
-                :img-size="{ width: '375px', height: '200px' }" @success="checkSuccess" @ready="initReady" />
+              <verify
+                ref="verifyRef"
+                v-model="loginData.code"
+                mode="banner"
+                captcha-type="clickWord"
+                :img-size="{ width: '375px', height: '200px' }"
+                @success="checkSuccess"
+                @ready="initReady"
+              />
             </el-form-item>
           </div>
           <el-form-item justify="center">
@@ -122,7 +126,7 @@ let submitForm = async function () {
       retryCount.value = data
       errorTips.value = message
       // loading.value = false
-      limitRequest.value = (status === 400108 || status === 400109)
+      limitRequest.value = status === 400108 || status === 400109
       if (captchaEnabled.value && retryCount.value > 2 && status == 400104) {
         showCaptcha.value = true
       } else {
@@ -142,7 +146,6 @@ let checkSuccess = function (captchaVerification) {
 let initReady = function (ins) {
   loginData.uuid = ins.backToken
 }
-
 </script>
 
 <style scoped>

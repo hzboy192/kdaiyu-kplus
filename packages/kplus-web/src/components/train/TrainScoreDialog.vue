@@ -20,13 +20,16 @@ let showDialog = (traId) => {
   finishDialog.show = true
 }
 
-watch(() => trainSummary.traId, (newVal) => {
-  console.log('watch', newVal)
-  getTrainSummary(newVal).then(({ data }) => {
-    console.log('getTrainSummary', data)
-    Object.assign(trainSummary, data)
-  })
-})
+watch(
+  () => trainSummary.traId,
+  (newVal) => {
+    console.log('watch', newVal)
+    getTrainSummary(newVal).then(({ data }) => {
+      console.log('getTrainSummary', data)
+      Object.assign(trainSummary, data)
+    })
+  }
+)
 
 defineExpose({ showDialog })
 </script>
