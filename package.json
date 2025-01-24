@@ -8,7 +8,16 @@
     "user:build": "lerna run build --scope kplus-user"
   },
   "dependencies": {
-    "element-plus": "^2.9.3"
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vueuse/core": "^12.5.0",
+    "axios": "^1.7.2",
+    "cross-env": "^7.0.3",
+    "crypto-js": "^4.2.0",
+    "element-plus": "^2.9.3",
+    "jsencrypt": "3.3.2",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "lerna": "^8.1.9"

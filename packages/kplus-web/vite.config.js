@@ -1,0 +1,70 @@
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { defineConfig, loadEnv } from 'vite'
+import autoImport from 'unplugin-auto-import/vite'
+import eslintPlugin from 'vite-plugin-eslint'
+import IconsResolver from 'unplugin-icons/resolver'
+import vue from '@vitejs/plugin-vue'
+
+// https://vitejs.dev/config/
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, resolve(__dirname, './'), '')
+  return {
+    base: '/',
+    plugins: [
+      vue(),
+      autoImport({
+        dts: './assets/types/auto-imports.d.ts',
+        eslintrc: {
+          enabled: true,
+          filepath: './assets/types/.eslintrc-auto-import.json',
+          globalsPropValue: true
+        },
+        imports: ['vue', 'vue-router'],
+        resolvers: [
+          IconsResolver({
+            prefix: 'Icon'
+          })
+        ]
+      }),
+      eslintPlugin({
+        include: ['src/**/*.js', 'src/**/*.vue']
+      })
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@c': fileURLToPath(new URL('./src/components', import.meta.url)),
+        '@d': fileURLToPath(new URL('./src/data', import.meta.url)),
+        '@r': fileURLToPath(new URL('./src/router', import.meta.url)),
+        '@s': fileURLToPath(new URL('./src/stores', import.meta.url)),
+        '@u': fileURLToPath(new URL('./src/utils', import.meta.url))
+      },
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+    },
+    server: {
+      proxy:
+        env.VITE_APP_MODE === 'dev'
+          ? {
+            '/api': {
+              target: env.VITE_APP_API_URL,
+              changeOrigin: true
+            }
+          }
+          : null
+    },
+    build: {
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[ext]/[name] - [hash][extname]'
+        }
+      }
+    }
+  }
+})

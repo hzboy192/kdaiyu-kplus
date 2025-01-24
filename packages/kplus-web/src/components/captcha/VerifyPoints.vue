@@ -1,38 +1,53 @@
 <template>
   <div style="position: relative">
     <div class="verify-img-out">
-      <div class="verify-img-panel" :style="{
-        width: setSize.imgWidth,
-        height: setSize.imgHeight,
-        'background-size': setSize.imgWidth + ' ' + setSize.imgHeight,
-        'margin-bottom': vSpace + 'px'
-      }">
+      <div
+        class="verify-img-panel"
+        :style="{
+          width: setSize.imgWidth,
+          height: setSize.imgHeight,
+          'background-size': setSize.imgWidth + ' ' + setSize.imgHeight,
+          'margin-bottom': vSpace + 'px'
+        }"
+      >
         <div v-show="showRefresh" class="verify-refresh" style="z-index: 3" @click="refresh">
           <i class="iconfont icon-refresh" />
         </div>
-        <img ref="canvas" :src="'data:image/png;base64,' + pointBackImgBase" alt=""
-          style="width: 100%; height: 100%; display: block" @click="bindingClick ? canvasClick($event) : undefined" />
+        <img
+          ref="canvas"
+          :src="'data:image/png;base64,' + pointBackImgBase"
+          alt=""
+          style="width: 100%; height: 100%; display: block"
+          @click="bindingClick ? canvasClick($event) : undefined"
+        />
 
-        <div v-for="(tempPoint, index) in tempPoints" :key="index" class="point-area" :style="{
-          'background-color': '#1abd6c',
-          color: '#fff',
-          'z-index': 9999,
-          width: '20px',
-          height: '20px',
-          'text-align': 'center',
-          'line-height': '20px',
-          'border-radius': '50%',
-          position: 'absolute',
-          top: parseInt(tempPoint.y - 10) + 'px',
-          left: parseInt(tempPoint.x - 10) + 'px'
-        }">
+        <div
+          v-for="(tempPoint, index) in tempPoints"
+          :key="index"
+          class="point-area"
+          :style="{
+            'background-color': '#1abd6c',
+            color: '#fff',
+            'z-index': 9999,
+            width: '20px',
+            height: '20px',
+            'text-align': 'center',
+            'line-height': '20px',
+            'border-radius': '50%',
+            position: 'absolute',
+            top: parseInt(tempPoint.y - 10) + 'px',
+            left: parseInt(tempPoint.x - 10) + 'px'
+          }"
+        >
           {{ index + 1 }}
         </div>
       </div>
     </div>
     <!-- 'height': this.barSize.height, -->
-    <div class="verify-bar-area"
-      :style="{ width: setSize.imgWidth, color: barAreaColor, 'border-color': barAreaBorderColor, 'line-height': barSize.height }">
+    <div
+      class="verify-bar-area"
+      :style="{ width: setSize.imgWidth, color: barAreaColor, 'border-color': barAreaBorderColor, 'line-height': barSize.height }"
+    >
       <span class="verify-msg">{{ text }}</span>
     </div>
   </div>
@@ -44,7 +59,7 @@
  * */
 import { resetSize, _code_chars, _code_color1, _code_color2 } from '@c/captcha/verify-help'
 import { encrypt } from '@/utils/tools'
-import { reqGet, reqCheck } from '@d/captcha/captcha_data'
+import { reqGet, reqCheck } from '@d/captcha_data'
 import { computed, onMounted, reactive, ref, watch, nextTick, toRefs, watchEffect, getCurrentInstance } from 'vue'
 export default {
   name: 'VerifyPoints',
@@ -110,13 +125,14 @@ export default {
       fontPos.splice(0, fontPos.length)
       checkPosArr.splice(0, checkPosArr.length)
       num.value = 1
-      getPictrue().then(() => {
+      getPictrue()
+      nextTick(() => {
         let { imgHeight, imgWidth, barHeight, barWidth } = resetSize(proxy)
         setSize.imgHeight = imgHeight
         setSize.imgWidth = imgWidth
         setSize.barHeight = barHeight
         setSize.barWidth = barWidth
-        proxy.$parent.$parent.$emit('ready', proxy)
+        proxy.$parent.$emit('ready', proxy)
       })
     }
     onMounted(() => {
@@ -153,12 +169,15 @@ export default {
               barAreaBorderColor.value = '#5cb85c'
               text.value = '验证成功'
               bindingClick.value = false
-              setTimeout(() => {
-                proxy.$parent.$parent.closeBox()
-                proxy.$parent.$parent.$emit('success', captchaVerification)
-              }, 700)
+              if (mode.value == 'pop') {
+                setTimeout(() => {
+                  proxy.$parent.clickShow = false
+                  refresh()
+                }, 1500)
+              }
+              proxy.$parent.$emit('success', captchaVerification)
             } else {
-              proxy.$parent.$parent.$emit('error', proxy)
+              proxy.$parent.$emit('error', proxy)
               barAreaColor.value = '#d9534f'
               barAreaBorderColor.value = '#d9534f'
               text.value = '验证失败'
@@ -193,6 +212,8 @@ export default {
       checkPosArr.splice(0, checkPosArr.length)
       num.value = 1
       getPictrue()
+      text.value = '验证失败'
+      showRefresh.value = true
     }
 
     // 请求背景图片和验证图片
@@ -200,7 +221,7 @@ export default {
       let data = {
         captchaType: captchaType.value
       }
-      return reqGet(data).then((res) => {
+      reqGet(data).then((res) => {
         if (res.status === 200) {
           pointBackImgBase.value = res.data.originalImageBase64
           backToken.value = res.data.token

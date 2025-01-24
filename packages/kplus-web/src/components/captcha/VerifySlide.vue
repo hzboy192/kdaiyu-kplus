@@ -2,7 +2,7 @@
   <div style="position: relative">
     <div v-if="type === '2'" class="verify-img-out" :style="{ height: parseInt(setSize.imgHeight) + vSpace + 'px' }">
       <div class="verify-img-panel" :style="{ width: setSize.imgWidth, height: setSize.imgHeight }">
-        <img :src="'data:image/png;base64,' + backImgBase" alt="" style="width: 100%; height: 100%; display: block" />
+        <img :src="'data:image/png;base64,' + backImgBase" alt="" style="width: 100%; height: 100%; display: block">
         <div v-show="showRefresh" class="verify-refresh" @click="refresh">
           <i class="iconfont icon-refresh" />
         </div>
@@ -12,32 +12,46 @@
       </div>
     </div>
     <!-- 公共部分 -->
-    <div class="verify-bar-area"
-      :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }">
+    <div class="verify-bar-area" :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }">
       <span class="verify-msg" v-text="text" />
-      <div class="verify-left-bar" :style="{
-        width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
-        height: barSize.height,
-        'border-color': leftBarBorderColor,
-        transaction: transitionWidth
-      }">
-        <span class="verify-msg" v-text="finishText" />
-        <div class="verify-move-block" :style="{
-          width: barSize.height,
+      <div
+        class="verify-left-bar"
+        :style="{
+          width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
           height: barSize.height,
-          'background-color': moveBlockBackgroundColor,
-          left: moveBlockLeft,
-          transition: transitionLeft
-        }" @touchstart="start" @mousedown="start">
+          'border-color': leftBarBorderColor,
+          transaction: transitionWidth
+        }"
+      >
+        <span class="verify-msg" v-text="finishText" />
+        <div
+          class="verify-move-block"
+          :style="{
+            width: barSize.height,
+            height: barSize.height,
+            'background-color': moveBlockBackgroundColor,
+            left: moveBlockLeft,
+            transition: transitionLeft
+          }"
+          @touchstart="start"
+          @mousedown="start"
+        >
           <i :class="['verify-icon iconfont', iconClass]" :style="{ color: iconColor }" />
-          <div v-if="type === '2'" class="verify-sub-block" :style="{
-            width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
-            height: setSize.imgHeight,
-            top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
-            'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
-          }">
-            <img :src="'data:image/png;base64,' + blockBackImgBase" alt=""
-              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none" />
+          <div
+            v-if="type === '2'"
+            class="verify-sub-block"
+            :style="{
+              width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
+              height: setSize.imgHeight,
+              top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
+              'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
+            }"
+          >
+            <img
+              :src="'data:image/png;base64,' + blockBackImgBase"
+              alt=""
+              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none"
+            >
           </div>
         </div>
       </div>
@@ -51,7 +65,7 @@
  * */
 import { encrypt } from '@/utils/tools'
 import { resetSize } from '@c/captcha/verify-help'
-import { reqGet, reqCheck } from '@d/captcha/captcha_data'
+import { reqGet, reqCheck } from '@d/captcha_data'
 import { computed, onMounted, reactive, ref, watch, nextTick, toRefs, watchEffect, getCurrentInstance } from 'vue'
 //  "captchaType":"blockPuzzle",
 export default {
@@ -153,7 +167,7 @@ export default {
         setSize.imgWidth = imgWidth
         setSize.barHeight = barHeight
         setSize.barWidth = barWidth
-        proxy.$parent.$parent.$emit('ready', proxy)
+        proxy.$parent.$emit('ready', proxy)
       })
 
       window.removeEventListener('touchmove', function (e) {
@@ -269,7 +283,7 @@ export default {
             isEnd.value = true
             if (mode.value == 'pop') {
               setTimeout(() => {
-                proxy.$parent.$parent.clickShow = false
+                proxy.$parent.clickShow = false
                 refresh()
               }, 1500)
             }
@@ -280,8 +294,8 @@ export default {
               : backToken.value + '---' + JSON.stringify({ x: moveLeftDistance, y: 5.0 })
             setTimeout(() => {
               tipWords.value = ''
-              proxy.$parent.$parent.closeBox()
-              proxy.$parent.$parent.$emit('success', { captchaVerification })
+              proxy.$parent.closeBox()
+              proxy.$parent.$emit('success', { captchaVerification })
             }, 1000)
           } else {
             moveBlockBackgroundColor.value = '#d9534f'
@@ -292,7 +306,7 @@ export default {
             setTimeout(function () {
               refresh()
             }, 1000)
-            proxy.$parent.$parent.$emit('error', proxy)
+            proxy.$parent.$emit('error', proxy)
             tipWords.value = '验证失败'
             setTimeout(() => {
               tipWords.value = ''
