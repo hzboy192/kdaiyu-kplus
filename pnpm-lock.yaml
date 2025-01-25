@@ -132,9 +132,6 @@ importers:
       '@vueuse/math':
         specifier: ^10.11.0
         version: 10.11.1(vue@3.5.13(typescript@5.7.3))
-      components:
-        specifier: workspace:../components
-        version: link:../components
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

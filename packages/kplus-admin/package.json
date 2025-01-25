@@ -1,12 +1,12 @@
 {
   "name": "kplus-admin",
-  "version": "3.8.8",
+  "version": "1.0.0",
   "description": "kplus",
   "author": "@泊远",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode development",
-    "pro": "vite --mode production",
+    "dev": "cross-env NODE_ENV=development vite --mode development",
+    "pro": "cross-env NODE_ENV=production vite --mode production",
     "build:prod": "vite build --mode production",
     "build:stage": "vite build --mode staging",
     "preview": "vite preview"

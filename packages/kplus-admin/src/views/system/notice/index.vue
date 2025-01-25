@@ -155,9 +155,9 @@ const { queryParams, form, rules } = toRefs(data)
 /** 查询公告列表 */
 function getList() {
   loading.value = true
-  listNotice(queryParams.value).then((response) => {
-    noticeList.value = response.rows
-    total.value = response.total
+  listNotice(queryParams.value).then(({ data }) => {
+    noticeList.value = data.records
+    total.value = data.totalRow
     loading.value = false
   })
 }

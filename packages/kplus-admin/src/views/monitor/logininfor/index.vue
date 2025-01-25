@@ -132,9 +132,9 @@ const queryParams = ref({
 /** 查询登录日志列表 */
 function getList() {
   loading.value = true
-  list(proxy.addDateRange(queryParams.value, dateRange.value)).then((response) => {
-    logininforList.value = response.rows
-    total.value = response.total
+  list(proxy.addDateRange(queryParams.value, dateRange.value)).then(({ data }) => {
+    logininforList.value = data.records
+    total.value = data.totalRow
     loading.value = false
   })
 }
