@@ -4,7 +4,7 @@ import { logout } from '@d/user_data'
 import useUserStore from '@s/user'
 
 const defaultOption = {
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: import.meta.env.VITE_APP_AXISO_TIMEOUT,
   loading: false,
   headers: {

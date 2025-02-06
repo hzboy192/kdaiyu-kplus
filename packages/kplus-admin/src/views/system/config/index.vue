@@ -47,7 +47,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange" stripe border>
+    <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange"
+      height="calc(100vh - 280px)" stripe border>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="参数主键" align="center" prop="configId" />
       <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
@@ -129,7 +130,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     configName: undefined,
     configKey: undefined,
     configType: undefined
@@ -243,7 +244,7 @@ function handleDelete(row) {
       getList()
       proxy.$modal.msgSuccess('删除成功')
     })
-    .catch(() => {})
+    .catch(() => { })
 }
 
 /** 导出按钮操作 */

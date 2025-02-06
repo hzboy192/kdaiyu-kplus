@@ -43,11 +43,11 @@ export default defineConfig(({ command, mode }) => {
       proxy:
         env.VITE_APP_MODE === 'dev'
           ? {
-              '/api': {
-                target: env.VITE_APP_API_URL,
-                changeOrigin: true
-              }
+            '/api': {
+              target: env.VITE_APP_API_URL,
+              changeOrigin: true
             }
+          }
           : null
     },
     build: {

@@ -194,9 +194,9 @@ function getTypeList() {
 /** 查询字典数据列表 */
 function getList() {
   loading.value = true
-  listData(queryParams.value).then((response) => {
-    dataList.value = response.rows
-    total.value = response.total
+  listData(queryParams.value).then(({ data }) => {
+    dataList.value = data.records
+    total.value = data.Row
     loading.value = false
   })
 }
@@ -303,7 +303,7 @@ function handleDelete(row) {
       proxy.$modal.msgSuccess('删除成功')
       useDictStore().removeDict(queryParams.value.dictType)
     })
-    .catch(() => {})
+    .catch(() => { })
 }
 
 /** 导出按钮操作 */

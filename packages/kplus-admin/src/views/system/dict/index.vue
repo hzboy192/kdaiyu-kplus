@@ -47,7 +47,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange" stripe border>
+    <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange"
+      height="calc(100vh - 290px)" stripe border>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="字典编号" align="center" prop="dictId" />
       <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
@@ -133,7 +134,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     dictName: undefined,
     dictType: undefined,
     status: undefined
@@ -245,7 +246,7 @@ function handleDelete(row) {
       getList()
       proxy.$modal.msgSuccess('删除成功')
     })
-    .catch(() => {})
+    .catch(() => { })
 }
 
 /** 导出按钮操作 */

@@ -2,17 +2,20 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true">
       <el-form-item label="登录地址" prop="ipaddr">
-        <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable style="width: 200px" @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable style="width: 200px"
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="用户名称" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 200px" @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 200px"
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%">
+    <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)"
+      style="width: 100%">
       <el-table-column label="序号" width="50" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
@@ -32,9 +35,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']"
-            >强退</el-button
-          >
+          <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row)"
+            v-hasPermi="['monitor:online:forceLogout']">强退</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,9 +54,11 @@ const onlineList = ref([])
 const loading = ref(true)
 const total = ref(0)
 const pageNum = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(20)
 
 const queryParams = ref({
+  pageNum: pageNum.value,
+  pageSize: pageSize.value,
   ipaddr: undefined,
   userName: undefined
 })
@@ -62,9 +66,9 @@ const queryParams = ref({
 /** 查询登录日志列表 */
 function getList() {
   loading.value = true
-  initData(queryParams.value).then((response) => {
-    onlineList.value = response.rows
-    total.value = response.total
+  initData(queryParams.value).then(({ data }) => {
+    onlineList.value = data.records
+    total.value = data.totalRow
     loading.value = false
   })
 }
@@ -92,7 +96,7 @@ function handleForceLogout(row) {
       getList()
       proxy.$modal.msgSuccess('删除成功')
     })
-    .catch(() => {})
+    .catch(() => { })
 }
 
 getList()
