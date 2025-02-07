@@ -18,10 +18,13 @@ module_name=$2
 
 function build(){
     if [ "$module_name" == "kplus-admin" ]; then
+      pnpm install
       pnpm admin:build
     elif [ "$module_name" == "kplus-web" ]; then
+      pnpm install
       pnpm web:build
     elif [ "$module_name" == "ALL" ]; then
+      pnpm install
       pnpm all:build
     else 
       error "module name not in ALL|kplus-admin|kplus-web"
