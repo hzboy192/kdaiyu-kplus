@@ -42,7 +42,7 @@ function deploy(){
     fi
 }
 
-function deploy_moudule(){
+function deploy_module(){
     local cur_module=$1
     ssh $web_server "rm -rf $web_workdir/$cur_module/*"
     scp -r $build_dir/packages/$cur_module/dist/* $web_server:$web_workdir/$cur_module/
