@@ -19,7 +19,7 @@ module_name=$2
 function build(){
     if [ "$module_name" == "kplus-admin" ]; then
       pnpm admin:build
-    if [ "$module_name" == "kplus-web" ]; then
+    elif [ "$module_name" == "kplus-web" ]; then
       pnpm web:build
     elif [ "$module_name" == "ALL" ]; then
       pnpm all:build

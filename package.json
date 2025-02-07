@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "admin:run": "lerna run dev --scope kplus-admin",
-    "admin:build": "lerna run build:prod --scope kplus-admin",
+    "admin:build": "lerna run build --scope kplus-admin",
     "web:run": "lerna run dev --scope kplus-web",
     "web:build": "lerna run build --scope kplus-web",
     "all:build": "lerna run build",
