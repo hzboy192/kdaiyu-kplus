@@ -32,7 +32,7 @@ http.interceptors.response.use(
     return response.data
   },
   (error) => {
-    const statusCode = error && error.response.status
+    const statusCode = error && error.response?.status
     const message = error && error.message
     if (statusCode === 500 || statusCode === 404) {
       ElNotification({ title: '系统异常', message: `服务端出现${statusCode}异常，请于技术人员联系。`, type: 'error' })

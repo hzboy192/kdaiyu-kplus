@@ -80,9 +80,15 @@ service.interceptors.response.use(
     return Promise.resolve(res.data)
   },
   (error) => {
-    const statusCode = error && error.response.status
     const message = error && error.message
-    if (statusCode === 401) {
+    const statusCode = error && error.response?.status
+    if (message == 'Network Error') {
+      ElMessage({ message: '网络异常', type: 'error' })
+      return Promise.reject()
+    } else if (message.includes('timeout')) {
+      ElMessage({ message: '系统接口请求超时', type: 'error' })
+      return Promise.reject()
+    } else if (statusCode === 401) {
       if (!isRelogin.show) {
         isRelogin.show = true
         ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
@@ -106,11 +112,6 @@ service.interceptors.response.use(
     } else if (statusCode === 500 || statusCode === 404) {
       ElNotification({ title: '系统异常', message: `服务端出现${statusCode}异常，请于技术人员联系。`, type: 'error' })
       return Promise.reject(new Error(message))
-    }
-    if (message == 'Network Error') {
-      ElMessage({ message: '网络异常', type: 'error' })
-    } else if (message.includes('timeout')) {
-      ElMessage({ message: '系统接口请求超时', type: 'error' })
     }
     return Promise.reject(error.response.data)
   }
