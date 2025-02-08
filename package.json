@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "admin:run": "lerna run dev --scope kplus-admin",
-    "admin:build": "lerna run build --scope kplus-admin",
     "web:run": "lerna run dev --scope kplus-web",
+    "admin:build": "lerna run build --scope kplus-admin",
     "web:build": "lerna run build --scope kplus-web",
     "all:build": "lerna run build",
     "lint": "pnpm dlx eslint . --fix-dry-run --ignore-pattern ./**/node_modules/*,./**/assets"
