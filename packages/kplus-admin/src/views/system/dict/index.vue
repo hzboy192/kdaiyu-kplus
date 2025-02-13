@@ -48,7 +48,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange"
-      height="calc(100vh - 290px)" stripe border>
+      max-height="calc(100vh - 290px)" stripe border>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="字典编号" align="center" prop="dictId" />
       <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />

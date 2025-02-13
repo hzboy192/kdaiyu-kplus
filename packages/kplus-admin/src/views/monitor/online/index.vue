@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="onlineList.slice((pageNum - 1) * pageSize, pageNum * pageSize)"
-      style="width: 100%">
+      style="width: 100%" stripe border>
       <el-table-column label="序号" width="50" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>

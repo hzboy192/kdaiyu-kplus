@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询模板列表
 export function listTemplate(query) {
   return request({
-    url: '/system/templates/list',
+    url: '/system/templates/page',
     method: 'get',
     params: query
   })

@@ -48,7 +48,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange"
-      height="calc(100vh - 280px)" stripe border>
+      max-height="calc(100vh - 280px)" stripe border>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="参数主键" align="center" prop="configId" />
       <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />

@@ -44,7 +44,7 @@
 
     <!-- 表格数据 -->
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange"
-      height="calc(100vh - 280px)" border stripe>
+      max-height="calc(100vh - 280px)" border stripe>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="角色编号" prop="roleId" width="100" />
       <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" />
