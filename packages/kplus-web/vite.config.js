@@ -40,15 +40,12 @@ export default defineConfig(({ command, mode }) => {
     },
     server: {
       port: 80,
-      proxy:
-        env.VITE_APP_MODE === 'dev'
-          ? {
-              '/api': {
-                target: env.VITE_APP_API_URL,
-                changeOrigin: true
-              }
-            }
-          : null
+      proxy:  {
+        '/api': {
+          target: env.VITE_APP_API_URL,
+          changeOrigin: true
+        }
+      }
     },
     build: {
       terserOptions: {

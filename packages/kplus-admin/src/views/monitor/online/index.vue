@@ -62,9 +62,9 @@ const queryParams = ref({
 /** 查询登录日志列表 */
 function getList() {
   loading.value = true
-  initData(queryParams.value).then((response) => {
-    onlineList.value = response.rows
-    total.value = response.total
+  initData(queryParams.value).then(({ data }) => {
+    onlineList.value = data
+    total.value = data.totalRow
     loading.value = false
   })
 }
