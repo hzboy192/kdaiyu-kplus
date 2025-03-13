@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite --mode development",
     "pro": "cross-env NODE_ENV=production vite --mode production",
-    "build:prod": "vite build --mode production",
-    "build:stage": "vite build --mode staging",
+    "build": "cross-env NODE_ENV=production vite build --mode production",
     "preview": "vite preview"
   },
   "repository": {

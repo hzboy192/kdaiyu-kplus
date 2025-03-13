@@ -10,28 +10,51 @@ cd `dirname $0`
 build_dir=$(pwd)
 
 web_server="root@tx.cn"
-web_workdir="/data/iapps/fina-web"
+web_workdir="/data/iapps"
 
 
 # jenkins veriable
-#module_name=$2
+module_name=$2
 
-function build_ui(){
-    pnpm install
-    pnpm build
+function build(){
+    if [ "$module_name" == "kplus-admin" ]; then
+      pnpm install
+      pnpm admin:build
+    elif [ "$module_name" == "kplus-web" ]; then
+      pnpm install
+      pnpm web:build
+    elif [ "$module_name" == "ALL" ]; then
+      pnpm install
+      pnpm all:build
+    else 
+      error "module name not in ALL|kplus-admin|kplus-web"
+      exit 1
+    fi
     log "pnpm build prod finish. exit status:$?" 
 }
 
+function deploy(){
+    if [ "$module_name" == "kplus-admin" -o "$module_name" == "kplus-web" ]; then
+      deploy_module $module_name
+    elif [ "$module_name" == "ALL" ]; then
+      deploy_module "kplus-admin"
+      deploy_module "kplus-web"
+    else 
+      error "module name not in ALL|kplus-admin|kplus-web"
+      exit 1
+    fi
+}
 
-function deploy_ui(){
-    ssh $web_server "rm -rf $web_workdir/*"
-    scp -r $build_dir/dist/* $web_server:$web_workdir
+function deploy_module(){
+    local cur_module=$1
+    ssh $web_server "rm -rf $web_workdir/$cur_module/*"
+    scp -r $build_dir/packages/$cur_module/dist/* $web_server:$web_workdir/$cur_module/
     run_status=$?
     if [ $run_status -ne 0 ]; then
-        error "deploy web server failed"
+        error "deploy web $cur_module failed"
         exit 1
     else
-        log "deploy web server success."
+        log "deploy web $cur_module success."
     fi
 }
 
@@ -59,14 +82,14 @@ function Help()
 
 case $1 in
 	build)
-			build_ui
+			build
 			;;
 	deploy)
-			deploy_ui
+			deploy
 			;;
 	redeploy)
-			build_ui
-			deploy_ui
+			build
+			deploy
 			;;
 	help)
 			Help

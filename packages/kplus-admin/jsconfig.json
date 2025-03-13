@@ -10,5 +10,5 @@
       "@u/*": ["./src/utils/*"]
     }
   },
-  "description": "勿删除，解决webstorm无法识别vite alias问题"
+  "description": "勿删除，解决webstorm/vscode无法识别vite alias问题"
 }

@@ -4,7 +4,7 @@ import { logout } from '@d/user_data'
 import useUserStore from '@s/user'
 
 const defaultOption = {
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: import.meta.env.VITE_APP_AXISO_TIMEOUT,
   loading: false,
   headers: {
@@ -32,7 +32,7 @@ http.interceptors.response.use(
     return response.data
   },
   (error) => {
-    const statusCode = error && error.response.status
+    const statusCode = error && error.response?.status
     const message = error && error.message
     if (statusCode === 500 || statusCode === 404) {
       ElNotification({ title: '系统异常', message: `服务端出现${statusCode}异常，请于技术人员联系。`, type: 'error' })
