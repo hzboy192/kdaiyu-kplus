@@ -42,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
       port: 80,
       proxy:  {
         '/api': {
-          target: env.VITE_APP_API_URL,
+          target: env.VITE_APP_API_BASE,
           changeOrigin: true
         }
       }
