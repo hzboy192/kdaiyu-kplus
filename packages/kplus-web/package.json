@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "author": "@泊远",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev vite -m dev",
-    "pro": "cross-env NODE_ENV=prod vite -m prod",
-    "build": "cross-env NODE_ENV=prod vite build -m prod",
-    "preview": "cross-env NODE_ENV=prod vite preview -m prod",
+    "dev": "cross-env NODE_ENV=dev vite --mode dev",
+    "pro": "cross-env NODE_ENV=prod vite --mode prod",
+    "build": "cross-env NODE_ENV=prod vite build --mode prod",
+    "preview": "cross-env NODE_ENV=prod vite preview --mode prod",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
