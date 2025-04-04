@@ -126,9 +126,15 @@ importers:
 
   packages/kplus-web:
     dependencies:
+      '@element-plus/icons-vue':
+        specifier: ^2.3.1
+        version: 2.3.1(vue@3.5.13(typescript@5.7.3))
       '@klinecharts/pro':
         specifier: ^0.1.1
         version: 0.1.1(klinecharts@9.8.12)
+      '@vueuse/core':
+        specifier: ^12.5.0
+        version: 12.5.0(typescript@5.7.3)
       '@vueuse/math':
         specifier: ^10.11.0
         version: 10.11.1(vue@3.5.13(typescript@5.7.3))
@@ -138,6 +144,12 @@ importers:
       dateformat:
         specifier: ^5.0.3
         version: 5.0.3
+      echarts:
+        specifier: ^5.5.0
+        version: 5.5.1
+      element-plus:
+        specifier: ^2.9.3
+        version: 2.9.3(vue@3.5.13(typescript@5.7.3))
       klinecharts:
         specifier: ^9.8.10
         version: 9.8.12
@@ -159,6 +171,12 @@ importers:
       stompjs:
         specifier: ^2.3.3
         version: 2.3.3
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.13(typescript@5.7.3)
+      vue-router:
+        specifier: ^4.5.0
+        version: 4.5.0(vue@3.5.13(typescript@5.7.3))
 
 packages:
 
@@ -4559,6 +4577,7 @@ packages:
   yaeti@0.0.6:
     resolution: {integrity: sha512-MvQa//+KcZCUkBTIC9blM+CU9J2GzuTytsOUwf2lidtvkx/6gnEp1QvJv34t9vdjhFmha/mUiNDbN0D0mJWdug==}
     engines: {node: '>=0.10.32'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
