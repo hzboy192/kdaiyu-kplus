@@ -61,7 +61,8 @@ const route = useRoute()
 let menuData = reactive([
   { id: 'dashboard', name: '数据总览', icon: 'icon-gongzuotai', routeTo: '/userCenter' },
   { id: 'analyses', name: '交易统计', icon: 'icon-shujufenxi-baobeifenxi', routeTo: '/userCenter/analyses' },
-  { id: 'accountMgr', name: '账号管理', icon: 'icon-zhanghaoguanli', routeTo: '/userCenter/accountMgr' }
+  { id: 'accountMgr', name: '账户管理', icon: 'icon-zhanghaoguanli', routeTo: '/userCenter/accountMgr' },
+  { id: 'profile', name: '信息维护', icon: 'icon-zhanghaoguanli', routeTo: '/userCenter/profile' }
 ])
 
 let activeMenu = computed(() => {

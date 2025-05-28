@@ -62,6 +62,11 @@ const router = createRouter({
           path: 'accountMgr',
           name: 'accountMgr',
           component: () => import('../components/home/accountMgr.vue')
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../components/user/profile.vue')
         }
       ]
     }
