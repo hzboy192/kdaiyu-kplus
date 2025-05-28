@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
+
 /* Layout */
 import Layout from '@/layout'
 
@@ -161,7 +162,7 @@ export const dynamicRoutes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.VITE_APP_BASE_PATH || '/'),
   routes: constantRoutes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

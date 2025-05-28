@@ -36,6 +36,7 @@
     "unplugin-icons": "^0.19.1",
     "vite": "^6.0.11",
     "vite-plugin-compression": "0.5.1",
-    "vite-plugin-svg-icons": "2.0.1"
+    "vite-plugin-svg-icons": "2.0.1",
+    "vite-plugin-zip-pack": "^1.2.4"
   }
 }
