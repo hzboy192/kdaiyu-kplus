@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js'
 
-const key = CryptoJS.enc.Utf8.parse('***REMOVED***')
-const iv = CryptoJS.enc.Utf8.parse('***REMOVED***')
+const key = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_APP_AES_KEY)
+const iv = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_APP_AES_IV)
 const aesCfg = { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
 // AES加密
 export function encrypt(text, keyIv) {
