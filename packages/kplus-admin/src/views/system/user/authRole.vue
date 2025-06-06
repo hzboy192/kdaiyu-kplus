@@ -17,14 +17,8 @@
     </el-form>
 
     <h4 class="form-header h4">角色信息</h4>
-    <el-table
-      v-loading="loading"
-      :row-key="getRowKey"
-      @row-click="clickRow"
-      ref="roleRef"
-      @selection-change="handleSelectionChange"
-      :data="roles.slice((pageNum - 1) * pageSize, pageNum * pageSize)"
-    >
+    <el-table v-loading="loading" :row-key="getRowKey" @row-click="clickRow" ref="roleRef"
+      @selection-change="handleSelectionChange" :data="roles.slice((pageNum - 1) * pageSize, pageNum * pageSize)">
       <el-table-column label="序号" width="55" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
@@ -101,13 +95,13 @@ function submitForm() {
   })
 }
 
-;(() => {
+; (() => {
   const userId = route.params && route.params.userId
   if (userId) {
     loading.value = true
-    getAuthRole(userId).then((response) => {
-      form.value = response.user
-      roles.value = response.roles
+    getAuthRole(userId).then(({ data }) => {
+      form.value = data.user
+      roles.value = data.roles
       total.value = roles.value.length
       nextTick(() => {
         roles.value.forEach((row) => {

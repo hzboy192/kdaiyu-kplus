@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { encrypt } from '@/utils/tools'
 import { parseStrEmpty } from '@/utils/fina'
 
 // 查询用户列表
@@ -48,7 +49,7 @@ export function delUser(userId) {
 export function resetUserPwd(userId, password) {
   const data = {
     userId,
-    password
+    password: encrypt(password)
   }
   return request({
     url: '/system/user/resetPwd',
