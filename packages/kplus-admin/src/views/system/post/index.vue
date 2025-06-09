@@ -42,11 +42,11 @@
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange"
       max-height="calc(100vh - 280px)" border stripe>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="postId" />
+      <el-table-column label="岗位编号" align="center" prop="postId" width="100" />
       <el-table-column label="岗位编码" align="center" prop="postCode" />
       <el-table-column label="岗位名称" align="center" prop="postName" />
-      <el-table-column label="岗位排序" align="center" prop="postSort" />
-      <el-table-column label="状态" align="center" prop="status">
+      <el-table-column label="岗位排序" align="center" prop="postSort" width="100" />
+      <el-table-column label="状态" align="center" prop="status" width="100">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
@@ -84,7 +84,7 @@
         <el-form-item label="岗位状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label
-              }}</el-radio>
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">

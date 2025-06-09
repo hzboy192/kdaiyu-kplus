@@ -50,16 +50,16 @@
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange"
       max-height="calc(100vh - 280px)" stripe border>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数主键" align="center" prop="configId" />
-      <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键名" align="center" prop="configKey" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键值" align="center" prop="configValue" :show-overflow-tooltip="true" />
-      <el-table-column label="系统内置" align="center" prop="configType">
+      <el-table-column label="主键" width="80" align="center" prop="configId" />
+      <el-table-column label="参数名称" prop="configName" :show-overflow-tooltip="true" />
+      <el-table-column label="参数键名" prop="configKey" :show-overflow-tooltip="true" />
+      <el-table-column label="参数键值" prop="configValue" :show-overflow-tooltip="true" />
+      <el-table-column label="系统内置" align="center" prop="configType" width="90">
         <template #default="scope">
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -93,7 +93,7 @@
         <el-form-item label="系统内置" prop="configType">
           <el-radio-group v-model="form.configType">
             <el-radio v-for="dict in sys_yes_no" :key="dict.value" :value="dict.value">{{ dict.label
-              }}</el-radio>
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">

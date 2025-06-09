@@ -49,6 +49,7 @@
       <el-table-column label="角色编号" prop="roleId" width="100" />
       <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" />
       <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" />
+      <el-table-column label="权限描述" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="显示顺序" prop="roleSort" width="100" />
       <el-table-column label="状态" align="center" width="100">
         <template #default="scope">
@@ -109,7 +110,7 @@
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label
-              }}</el-radio>
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="菜单权限">

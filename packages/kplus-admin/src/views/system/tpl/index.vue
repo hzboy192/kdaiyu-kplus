@@ -57,13 +57,13 @@
       <el-table-column label="模板Key" width="190" prop="tplKey" show-overflow-tooltip />
       <el-table-column label="模板标题" prop="title" :show-overflow-tooltip="true" />
       <el-table-column label="模板语言" width="120" align="center" prop="tplLang" :show-overflow-tooltip="true" />
-      <el-table-column label="模板内容" align="center" prop="tplContent" :show-overflow-tooltip="true" />
+      <el-table-column label="模板内容" prop="tplContent" :show-overflow-tooltip="true" />
       <el-table-column label="启用状态" width="120" align="center" prop="enabled">
         <template #default="scope">
           <dict-tag :options="sys_enabled_char" :value="scope.row.enabled" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="更新时间" align="center" prop="updateTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.updateTime) }}</span>
@@ -100,7 +100,7 @@
         <el-form-item label="启用状态" prop="enabled">
           <el-radio-group v-model="form.enabled">
             <el-radio v-for="dict in sys_enabled_char" :key="dict.value" :value="dict.value">{{ dict.label
-              }}</el-radio>
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">

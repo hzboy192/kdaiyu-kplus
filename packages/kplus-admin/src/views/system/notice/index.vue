@@ -38,24 +38,24 @@
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange" stripe border>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="noticeId" width="100" />
-      <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true" />
-      <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
+      <el-table-column label="公告标题" prop="noticeTitle" :show-overflow-tooltip="true" />
+      <el-table-column label="公告类型" align="center" prop="noticeType" width="120">
         <template #default="scope">
           <dict-tag :options="sys_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column label="状态" align="center" prop="status" width="120">
         <template #default="scope">
           <dict-tag :options="sys_notice_status" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="100">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
+      <el-table-column label="创建者" align="center" prop="createBy" width="180" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="190">
+        <!-- <template #default="scope">
+          <span>scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template> -->
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['system:notice:edit']">修改</el-button>
@@ -89,7 +89,7 @@
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in sys_notice_status" :key="dict.value" :value="dict.value">{{ dict.label
-                  }}</el-radio>
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

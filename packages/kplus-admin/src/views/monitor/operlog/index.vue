@@ -53,7 +53,7 @@
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange"
       :default-sort="defaultSort" @sort-change="handleSortChange" max-height="calc(100vh - 330px)" stripe border>
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column label="日志编号" align="center" prop="operId" />
+      <el-table-column label="日志编号" align="center" prop="operId" width="150" />
       <el-table-column label="系统模块" align="center" prop="title" :show-overflow-tooltip="true" />
       <el-table-column label="操作类型" align="center" prop="businessType">
         <template #default="scope">
