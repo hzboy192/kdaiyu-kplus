@@ -101,7 +101,7 @@ service.interceptors.response.use(
             useUserStore()
               .logOut()
               .then(() => {
-                location.href = '/index'
+                location.href = import.meta.env.VITE_APP_BASE_PATH + '/index'
               })
           })
           .catch(() => {
