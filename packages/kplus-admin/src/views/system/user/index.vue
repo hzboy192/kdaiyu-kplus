@@ -166,7 +166,7 @@
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label
-                  }}</el-radio>
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -524,12 +524,12 @@ function handleAdd() {
 function handleUpdate(row) {
   reset()
   const userId = row.userId || ids.value
-  getUser(userId).then((response) => {
-    form.value = response.data
-    postOptions.value = response.posts
-    roleOptions.value = response.roles
-    form.value.postIds = response.postIds
-    form.value.roleIds = response.roleIds
+  getUser(userId).then(({ data }) => {
+    form.value = data.data
+    postOptions.value = data.posts
+    roleOptions.value = data.roles
+    form.value.postIds = data.postIds
+    form.value.roleIds = data.roleIds
     open.value = true
     title.value = '修改用户'
     form.password = ''
