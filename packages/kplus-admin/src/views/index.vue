@@ -2,14 +2,15 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>KPlus管理系统</h2>
+        <h2>{{ title }}</h2>
         <p><b>项目简介:</b> <span>基于Vue3 + Element-Plus + SpringBoot的后台管理系统</span></p>
         <p>
           <b>当前版本:</b> <span>v{{ version }}</span>
         </p>
         <p></p>
         <p>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://gitee.com/y_project/Fina-Vue')">访问码云</el-button>
+          <el-button type="primary" icon="Cloudy" plain
+            @click="goTarget('https://gitee.com/y_project/Fina-Vue')">访问码云</el-button>
           <el-button icon="HomeFilled" plain @click="goTarget('http://kdaiyu.com')">访问主页</el-button>
         </p>
       </el-col>
@@ -100,6 +101,7 @@
 
 <script setup name="Index">
 const version = ref('1.0.1')
+const title = import.meta.env.VITE_APP_TITLE
 
 function goTarget(url) {
   window.open(url, '__blank')
@@ -114,12 +116,14 @@ function goTarget(url) {
     font-size: 17.5px;
     border-left: 5px solid #eee;
   }
+
   hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
     border-top: 1px solid #eee;
   }
+
   .col-item {
     margin-bottom: 20px;
   }
@@ -129,7 +133,11 @@ function goTarget(url) {
     margin: 0;
   }
 
-  font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'open sans',
+  'Helvetica Neue',
+  Helvetica,
+  Arial,
+  sans-serif;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;

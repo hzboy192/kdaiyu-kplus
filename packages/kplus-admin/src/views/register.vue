@@ -1,45 +1,27 @@
 <template>
   <div class="register">
     <el-form ref="registerRef" :model="registerForm" :rules="registerRules" class="register-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">{{ title }}</h3>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
           <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="registerForm.password"
-          type="password"
-          size="large"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter="handleRegister"
-        >
+        <el-input v-model="registerForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
+          @keyup.enter="handleRegister">
           <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword">
-        <el-input
-          v-model="registerForm.confirmPassword"
-          type="password"
-          size="large"
-          auto-complete="off"
-          placeholder="确认密码"
-          @keyup.enter="handleRegister"
-        >
+        <el-input v-model="registerForm.confirmPassword" type="password" size="large" auto-complete="off"
+          placeholder="确认密码" @keyup.enter="handleRegister">
           <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input
-          size="large"
-          v-model="registerForm.code"
-          auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter="handleRegister"
-        >
+        <el-input size="large" v-model="registerForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
+          @keyup.enter="handleRegister">
           <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
         </el-input>
         <div class="register-code">
@@ -58,7 +40,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>Copyright © 2018-2024 kdaiyu.com All Rights Reserved.</span>
+      <span>{{ copyright }}</span>
     </div>
   </div>
 </template>
@@ -67,6 +49,8 @@
 import { ElMessageBox } from 'element-plus'
 import { getCodeImg, register } from '@/api/login'
 
+const title = import.meta.env.VITE_APP_TITLE
+const copyright = import.meta.env.VITE_APP_COPYRIGHT
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 
@@ -121,7 +105,7 @@ function handleRegister() {
             .then(() => {
               router.push('/login')
             })
-            .catch(() => {})
+            .catch(() => { })
         })
         .catch(() => {
           loading.value = false
@@ -155,6 +139,7 @@ getCode()
   background-image: url('../assets/images/login-background.jpg');
   background-size: cover;
 }
+
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -166,32 +151,39 @@ getCode()
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
+
   .el-input {
     height: 40px;
+
     input {
       height: 40px;
     }
   }
+
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 0px;
   }
 }
+
 .register-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .register-code {
   width: 33%;
   height: 40px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
   }
 }
+
 .el-register-footer {
   height: 40px;
   line-height: 40px;
@@ -204,6 +196,7 @@ getCode()
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .register-code-img {
   height: 40px;
   padding-left: 12px;

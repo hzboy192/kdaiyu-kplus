@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">{{ title }}</h3>
       <el-form-item v-if="errorTips">
         <el-alert :title="errorTips" type="error" show-icon :closable="false" />
       </el-form-item>
@@ -11,28 +11,15 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="loginForm.password"
-          type="password"
-          size="large"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter="handleLogin"
-          show-password
-        >
+        <el-input v-model="loginForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
+          @keyup.enter="handleLogin" show-password>
           <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" :validate-event="false">
         <template v-if="captchaType == 'normal'">
-          <el-input
-            v-model="loginForm.code"
-            size="large"
-            auto-complete="off"
-            placeholder="验证码"
-            style="width: 63%"
-            @keyup.enter="handleLogin"
-          >
+          <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%"
+            @keyup.enter="handleLogin">
             <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
           </el-input>
           <div class="login-code">
@@ -40,20 +27,14 @@
           </div>
         </template>
         <template v-else>
-          <verify
-            ref="verifyRef"
-            v-model="loginForm.code"
-            mode="pop"
-            :captcha-type="captchaAjType"
-            :img-size="{ width: '375px', height: '200px' }"
-            @success="checkSuccess"
-            @ready="initReady"
-          />
+          <verify ref="verifyRef" v-model="loginForm.code" mode="pop" :captcha-type="captchaAjType"
+            :img-size="{ width: '375px', height: '200px' }" @success="checkSuccess" @ready="initReady" />
         </template>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px">记住密码</el-checkbox>
       <el-form-item style="width: 100%">
-        <el-button :loading="loading" :disabled="limitRequest" size="large" type="primary" style="width: 100%" @click.prevent="handleLogin">
+        <el-button :loading="loading" :disabled="limitRequest" size="large" type="primary" style="width: 100%"
+          @click.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
@@ -64,7 +45,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2025 kdaiyu.com All Rights Reserved.</span>
+      <span>{{ copyright }}</span>
     </div>
   </div>
 </template>
@@ -75,6 +56,9 @@ import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import useUserStore from '@/store/modules/user'
 import verify from '@/components/captcha/Verify.vue'
+
+const title = import.meta.env.VITE_APP_TITLE
+const copyright = import.meta.env.VITE_APP_COPYRIGHT
 
 const userStore = useUserStore()
 const route = useRoute()
@@ -185,11 +169,11 @@ function handleLogin() {
 
 function getCode() {
   if (captchaType == 'normal') {
-    getCodeImg().then((res) => {
-      captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled
+    getCodeImg().then(({ data }) => {
+      captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled
       if (captchaEnabled.value) {
-        codeUrl.value = 'data:image/gif;base64,' + res.img
-        loginForm.value.uuid = res.uuid
+        codeUrl.value = 'data:image/gif;base64,' + data.img
+        loginForm.value.uuid = data.uuid
       }
     })
   } else {
@@ -224,6 +208,7 @@ getCookie()
   background-image: url('../assets/images/login-background.jpg');
   background-size: cover;
 }
+
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -235,32 +220,39 @@ getCookie()
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
+
   .el-input {
     height: 40px;
+
     input {
       height: 40px;
     }
   }
+
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 0px;
   }
 }
+
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .login-code {
   width: 33%;
   height: 40px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
   }
 }
+
 .el-login-footer {
   height: 40px;
   line-height: 40px;
@@ -273,6 +265,7 @@ getCookie()
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .login-code-img {
   height: 40px;
   padding-left: 12px;
