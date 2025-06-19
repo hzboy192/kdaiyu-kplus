@@ -5,8 +5,8 @@
         <el-input v-model="queryParams.configName" placeholder="请输入参数名称" clearable style="width: 240px"
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="参数键名" prop="configKey">
-        <el-input v-model="queryParams.configKey" placeholder="请输入参数键名" clearable style="width: 240px"
+      <el-form-item label="参数Key" prop="configKey">
+        <el-input v-model="queryParams.configKey" placeholder="请输入参数Key" clearable style="width: 240px"
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="系统内置" prop="configType">
@@ -44,6 +44,11 @@
         <el-button type="danger" plain icon="Refresh" @click="handleRefreshCache"
           v-hasPermi="['system:config:remove']">刷新缓存</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-tag type="info" size="large" effect="plain"
+          style="border: 0;">规则：参数key请用sys(系统框架)、app(应用)+模块名称+功能名称,如：sys.user.loginCapche,
+          app.xx.delFlag</el-tag>
+      </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -52,8 +57,8 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="主键" width="80" align="center" prop="configId" />
       <el-table-column label="参数名称" prop="configName" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键名" prop="configKey" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键值" prop="configValue" :show-overflow-tooltip="true" />
+      <el-table-column label="参数Key" prop="configKey" :show-overflow-tooltip="true" />
+      <el-table-column label="参数值" prop="configValue" :show-overflow-tooltip="true" />
       <el-table-column label="系统内置" align="center" prop="configType" width="90">
         <template #default="scope">
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />
@@ -84,11 +89,11 @@
         <el-form-item label="参数名称" prop="configName">
           <el-input v-model="form.configName" placeholder="请输入参数名称" />
         </el-form-item>
-        <el-form-item label="参数键名" prop="configKey">
-          <el-input v-model="form.configKey" placeholder="请输入参数键名" />
+        <el-form-item label="参数Key" prop="configKey">
+          <el-input v-model="form.configKey" placeholder="请输入参数Key" />
         </el-form-item>
-        <el-form-item label="参数键值" prop="configValue">
-          <el-input v-model="form.configValue" placeholder="请输入参数键值" />
+        <el-form-item label="参数值" prop="configValue">
+          <el-input v-model="form.configValue" placeholder="请输入参数值" />
         </el-form-item>
         <el-form-item label="系统内置" prop="configType">
           <el-radio-group v-model="form.configType">
