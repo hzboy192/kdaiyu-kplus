@@ -45,9 +45,7 @@
           v-hasPermi="['system:config:remove']">刷新缓存</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-tag type="info" size="large" effect="plain"
-          style="border: 0;">规则：参数key请用sys(系统框架)、app(应用)+模块名称+功能名称,如：sys.user.loginCapche,
-          app.xx.delFlag</el-tag>
+        <el-tag type="info" size="large" effect="plain" style="border: 0;"></el-tag>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -57,8 +55,28 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="主键" width="80" align="center" prop="configId" />
       <el-table-column label="参数名称" prop="configName" :show-overflow-tooltip="true" />
-      <el-table-column label="参数Key" prop="configKey" :show-overflow-tooltip="true" />
-      <el-table-column label="参数值" prop="configValue" :show-overflow-tooltip="true" />
+      <el-table-column label="参数Key" prop="configKey" :show-overflow-tooltip="true">
+        <template #header="{ row }">
+          <el-tooltip class="item" effect="dark" placement="top">
+            <template #content>规则：参数key请用sys(系统框架)、app(应用)+模块名称+功能名称,如：sys.user.loginCapche,
+              app.xx.delFlag
+            </template>
+            <span style="display: flex; align-items: center;">参数Key<el-icon>
+                <QuestionFilled />
+              </el-icon></span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column label="参数值" prop="configValue" :show-overflow-tooltip="true">
+        <template #header="{ row }">
+          <el-tooltip class="item" effect="dark" placement="top">
+            <template #content>参数值将被缓存到内存中，修改会自动刷新缓存，长度不要超过500个字符。</template>
+            <span style="display: flex; align-items: center;">参数值<el-icon>
+                <QuestionFilled />
+              </el-icon></span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column label="系统内置" align="center" prop="configType" width="90">
         <template #default="scope">
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />
