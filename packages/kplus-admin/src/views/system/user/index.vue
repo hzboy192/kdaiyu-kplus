@@ -511,9 +511,9 @@ function cancel() {
 /** 新增按钮操作 */
 function handleAdd() {
   reset()
-  getUser().then((response) => {
-    postOptions.value = response.posts
-    roleOptions.value = response.roles
+  getUser().then(({ data }) => {
+    postOptions.value = data.posts
+    roleOptions.value = data.roles
     open.value = true
     title.value = '添加用户'
     form.value.password = initPassword.value
