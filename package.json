@@ -2,11 +2,11 @@
   "name": "kplus",
   "private": true,
   "scripts": {
-    "admin:run": "lerna run dev --scope kplus-admin",
-    "web:run": "lerna run dev --scope kplus-web",
-    "admin:build": "lerna run build --scope kplus-admin",
-    "web:build": "lerna run build --scope kplus-web",
-    "all:build": "lerna run build",
+    "admin:run": "pnpm --filter kplus-admin dev",
+    "web:run": "pnpm --filter kplus-web dev",
+    "admin:build": "pnpm --filter kplus-admin build",
+    "web:build": "pnpm --filter kplus-web build",
+    "all:build": "pnpm --filter kplus-* build",
     "lint": "pnpm dlx eslint . --fix-dry-run --ignore-pattern ./**/node_modules/*,./**/assets"
   },
   "dependencies": {
@@ -28,7 +28,6 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "eslint": "^9.18.0",
     "eslint-plugin-vue": "^9.27.0",
-    "lerna": "^8.1.9",
     "prettier": "^3.3.3",
     "sass": "1.77.5",
     "unplugin": "^1.12.0",
