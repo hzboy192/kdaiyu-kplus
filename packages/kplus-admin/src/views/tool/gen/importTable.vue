@@ -17,8 +17,8 @@
     </el-form>
     <el-row>
       <el-table @row-click="clickRow" ref="table" :data="dbTableList" @selection-change="handleSelectionChange"
-        height="260px">
-        <el-table-column type="selection" width="55"></el-table-column>
+        height="440px" border>
+        <el-table-column type="selection" width="45"></el-table-column>
         <el-table-column prop="tableName" label="表名称" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="tableComment" label="表描述" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
@@ -98,7 +98,7 @@ function handleImportTable() {
     return
   }
   importTable({ tables: tableNames }).then((res) => {
-    proxy.$modal.msgSuccess(res.msg)
+    proxy.$modal.msgSuccess(res.message)
     if (res.code === 200) {
       visible.value = false
       emit('ok')

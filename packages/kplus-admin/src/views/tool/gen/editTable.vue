@@ -5,7 +5,7 @@
         <basic-info-form ref="basicInfo" :info="info" />
       </el-tab-pane>
       <el-tab-pane label="字段信息" name="columnInfo">
-        <el-table ref="dragTable" :data="columns" row-key="columnId" :max-height="tableHeight">
+        <el-table ref="dragTable" v-loading="loading" :data="columns" row-key="columnId" :max-height="tableHeight">
           <el-table-column label="序号" type="index" min-width="5%" />
           <el-table-column label="字段列名" prop="columnName" min-width="10%" :show-overflow-tooltip="true" />
           <el-table-column label="字段描述" min-width="10%">
@@ -90,7 +90,8 @@
           <el-table-column label="字典类型" min-width="12%">
             <template #default="scope">
               <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择">
-                <el-option v-for="dict in dictOptions" :key="dict.dictType" :label="dict.dictName" :value="dict.dictType">
+                <el-option v-for="dict in dictOptions" :key="dict.dictType" :label="dict.dictName"
+                  :value="dict.dictType">
                   <span style="float: left">{{ dict.dictName }}</span>
                   <span style="float: right; color: #8492a6; font-size: 13px">{{ dict.dictType }}</span>
                 </el-option>
@@ -118,6 +119,7 @@ import { optionselect as getDictOptionselect } from '@/api/system/dict/type'
 import basicInfoForm from './basicInfoForm'
 import genInfoForm from './genInfoForm'
 
+
 const route = useRoute()
 const { proxy } = getCurrentInstance()
 
@@ -127,6 +129,7 @@ const tables = ref([])
 const columns = ref([])
 const dictOptions = ref([])
 const info = ref({})
+const loading = ref(true)
 
 /** 提交按钮 */
 function submitForm() {
@@ -144,7 +147,7 @@ function submitForm() {
         parentMenuId: info.value.parentMenuId
       }
       updateGenTable(genTable).then((res) => {
-        proxy.$modal.msgSuccess(res.msg)
+        proxy.$modal.msgSuccess(res.message)
         if (res.code === 200) {
           close()
         }
@@ -168,7 +171,7 @@ function close() {
   proxy.$tab.closeOpenPage(obj)
 }
 
-;(() => {
+; (() => {
   const tableId = route.params && route.params.tableId
   if (tableId) {
     // 获取表详细信息
@@ -176,6 +179,7 @@ function close() {
       columns.value = res.data.rows
       info.value = res.data.info
       tables.value = res.data.tables
+      loading.value = false
     })
     /** 查询字典下拉列表 */
     getDictOptionselect().then((response) => {
