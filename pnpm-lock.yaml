@@ -24,8 +24,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       element-plus:
-        specifier: ^2.9.3
-        version: 2.9.3(vue@3.5.13(typescript@5.7.3))
+        specifier: ^2.11.4
+        version: 2.11.4(vue@3.5.13(typescript@5.7.3))
       jsencrypt:
         specifier: 3.3.2
         version: 3.3.2
@@ -672,6 +672,9 @@ packages:
   '@types/lodash@4.17.15':
     resolution: {integrity: sha512-w/P33JFeySuhN6JLkysYUK2gEmy9kHHFN7E8ro0tkfmlDOgxBDzWEZ/J8cWA+fHqFevpswDTFZnDx+R9lbL6xw==}
 
+  '@types/lodash@4.17.20':
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
+
   '@types/node@22.13.1':
     resolution: {integrity: sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==}
 
@@ -1174,6 +1177,11 @@ packages:
 
   electron-to-chromium@1.5.92:
     resolution: {integrity: sha512-BeHgmNobs05N1HMmMZ7YIuHfYBGlq/UmvlsTgg+fsbFs9xVMj+xJHFg19GN04+9Q+r8Xnh9LXqaYIyEWElnNgQ==}
+
+  element-plus@2.11.4:
+    resolution: {integrity: sha512-sLq+Ypd0cIVilv8wGGMEGvzRVBBsRpJjnAS5PsI/1JU1COZXqzH3N1UYMUc/HCdvdjf6dfrBy80Sj7KcACsT7w==}
+    peerDependencies:
+      vue: ^3.2.0
 
   element-plus@2.9.3:
     resolution: {integrity: sha512-6tSLp5XytDS4TMZ0P3aGZnr7MXTagfNycepNfIDitd9IgwM9y01+Ssu6mglNi8RiXYhek6LBWNOd/cvpIO12+w==}
@@ -3388,9 +3396,11 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.15
+      '@types/lodash': 4.17.20
 
   '@types/lodash@4.17.15': {}
+
+  '@types/lodash@4.17.20': {}
 
   '@types/node@22.13.1':
     dependencies:
@@ -3991,6 +4001,27 @@ snapshots:
       zrender: 5.6.0
 
   electron-to-chromium@1.5.92: {}
+
+  element-plus@2.11.4(vue@3.5.13(typescript@5.7.3)):
+    dependencies:
+      '@ctrl/tinycolor': 3.6.1
+      '@element-plus/icons-vue': 2.3.1(vue@3.5.13(typescript@5.7.3))
+      '@floating-ui/dom': 1.6.13
+      '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
+      '@types/lodash': 4.17.20
+      '@types/lodash-es': 4.17.12
+      '@vueuse/core': 9.13.0(vue@3.5.13(typescript@5.7.3))
+      async-validator: 4.2.5
+      dayjs: 1.11.13
+      escape-html: 1.0.3
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      memoize-one: 6.0.0
+      normalize-wheel-es: 1.2.0
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   element-plus@2.9.3(vue@3.5.13(typescript@5.7.3)):
     dependencies:

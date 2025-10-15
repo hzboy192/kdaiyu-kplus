@@ -27,7 +27,8 @@
               </li>
               <li class="list-group-item">
                 <svg-icon icon-class="tree" />所属部门
-                <div class="pull-right" v-if="state.user.dept">{{ state.user.dept.deptName }} / {{ state.postGroup }}</div>
+                <div class="pull-right" v-if="state.user.dept">{{ state.user.dept.deptName }} / {{ state.postGroup }}
+                </div>
               </li>
               <li class="list-group-item">
                 <svg-icon icon-class="peoples" />所属角色
@@ -76,10 +77,10 @@ const state = reactive({
 })
 
 function getUser() {
-  getUserProfile().then((response) => {
-    state.user = response.data
-    state.roleGroup = response.roleGroup
-    state.postGroup = response.postGroup
+  getUserProfile().then(({ data }) => {
+    state.user = data.user
+    state.roleGroup = data.roleGroup
+    state.postGroup = data.postGroup
   })
 }
 
