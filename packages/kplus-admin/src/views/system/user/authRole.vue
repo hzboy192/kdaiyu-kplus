@@ -18,7 +18,8 @@
 
     <h4 class="form-header h4">角色信息</h4>
     <el-table v-loading="loading" :row-key="getRowKey" @row-click="clickRow" ref="roleRef"
-      @selection-change="handleSelectionChange" :data="roles.slice((pageNum - 1) * pageSize, pageNum * pageSize)">
+      @selection-change="handleSelectionChange" :data="roles.slice((pageNum - 1) * pageSize, pageNum * pageSize)"
+      :border="true" stripe>
       <el-table-column label="序号" width="55" type="index" align="center">
         <template #default="scope">
           <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>

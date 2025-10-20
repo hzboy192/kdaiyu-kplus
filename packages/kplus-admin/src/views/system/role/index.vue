@@ -374,8 +374,8 @@ function handleUpdate(row) {
     form.value.roleSort = Number(form.value.roleSort)
     open.value = true
     nextTick(() => {
-      roleMenu.then((res) => {
-        let checkedKeys = res.checkedKeys
+      roleMenu.then((k) => {
+        let checkedKeys = k.checkedKeys
         checkedKeys.forEach((v) => {
           nextTick(() => {
             menuRef.value.setChecked(v, true, false)
@@ -389,17 +389,17 @@ function handleUpdate(row) {
 
 /** 根据角色ID查询菜单树结构 */
 function getRoleMenuTreeselect(roleId) {
-  return roleMenuTreeselect(roleId).then((response) => {
-    menuOptions.value = response.menus
-    return response
+  return roleMenuTreeselect(roleId).then(({ data }) => {
+    menuOptions.value = data.menus
+    return data
   })
 }
 
 /** 根据角色ID查询部门树结构 */
 function getDeptTree(roleId) {
-  return deptTreeSelect(roleId).then((response) => {
-    deptOptions.value = response.depts
-    return response
+  return deptTreeSelect(roleId).then(({ data }) => {
+    deptOptions.value = data.depts
+    return data
   })
 }
 
