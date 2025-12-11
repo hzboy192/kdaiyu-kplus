@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期货交易模拟训练平台 - UI设计展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 主色调 - 专业深蓝色系 */
+            --primary-dark: #0f172a;
+            --primary: #1e293b;
+            --primary-light: #334155;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            
+            /* 功能色 */
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gold: #fbbf24;
+            
+            /* 背景色 */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-dark: #1e293b;
+            
+            /* 文字色 */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --text-white: #ffffff;
+            
+            /* 边框色 */
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            
+            /* 阴影 */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部导航 */
+        .header {
+            background: var(--bg-dark);
+            color: var(--text-white);
+            padding: 15px 0;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: var(--text-white);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+        }
+
+        /* 页面布局 */
+        .page-section {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--bg-secondary);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        /* 用户中心页面 */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .profile-sidebar {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .profile-avatar-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--text-white);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .upload-hint {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-level {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--text-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu-item {
+            padding: 12px 16px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .profile-menu-item.active {
+            background: var(--accent);
+            color: var(--text-white);
+        }
+
+        .profile-content {
+            background: var(--bg-primary);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--text-white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--text-white);
+        }
+
+        /* 交易统计页面 */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.danger {
+            border-left-color: var(--danger);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        /* 排行榜 */
+        .ranking-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ranking-tab {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .ranking-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .ranking-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .ranking-list {
+            list-style: none;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .ranking-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .ranking-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .ranking-number.top1 {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: var(--text-primary);
+        }
+
+        .ranking-number.top2 {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            color: var(--text-primary);
+        }
+
+        .ranking-number.top3 {
+            background: linear-gradient(135deg, #cd7f32, #e6a157);
+            color: var(--text-white);
+        }
+
+        .ranking-number.other {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .ranking-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .ranking-stats {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .ranking-profit {
+            text-align: right;
+        }
+
+        .profit-amount {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .profit-amount.positive {
+            color: var(--success);
+        }
+
+        .profit-amount.negative {
+            color: var(--danger);
+        }
+
+        .profit-rate {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 社区页面 */
+        .community-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topic-tags {
+            display: flex;
+            gap: 10px;
+        }
+
+        .topic-tag {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .topic-tag:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .topic-tag.active {
+            background: var(--accent);
+            color: var(--text-white);
+        }
+
+        .post-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .post-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .post-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .post-type {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .post-type.strategy {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+        }
+
+        .post-type.achievement {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .post-type.question {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .post-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .post-title:hover {
+            color: var(--accent);
+        }
+
+        .post-content {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 80px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        .post-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .post-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post-stat:hover {
+            color: var(--accent);
+        }
+
+        .post-stat.liked {
+            color: var(--danger);
+        }
+
+        /* 会员中心 */
+        .membership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .membership-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .membership-card.featured {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        .membership-card.featured::before {
+            content: '推荐';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--text-primary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .membership-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--text-white);
+        }
+
+        .membership-card.gold .membership-icon {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+        }
+
+        .membership-card.diamond .membership-icon {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+        }
+
+        .membership-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .membership-price {
+            margin-bottom: 20px;
+        }
+
+        .price-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .membership-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .membership-feature {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            color: var(--success);
+        }
+
+        .membership-cta {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .membership-card.basic .membership-cta {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .membership-card.gold .membership-cta {
+            background: var(--gold);
+            color: var(--text-primary);
+        }
+
+        .membership-card.diamond .membership-cta {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: var(--text-white);
+        }
+
+        .membership-cta:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow);
+        }
+
+        /* 积分商城 */
+        .points-header {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: var(--text-white);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .points-balance {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .points-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .mall-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .mall-item {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mall-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .mall-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--accent);
+        }
+
+        .mall-info {
+            padding: 20px;
+        }
+
+        .mall-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .mall-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .mall-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mall-price {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .mall-price-amount {
+            font-size: 20px;
+        }
+
+        .mall-price-unit {
+            font-size: 14px;
+        }
+
+        .exchange-btn {
+            padding: 6px 12px;
+            background: var(--gold);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .exchange-btn:hover {
+            background: #f59e0b;
+            transform: scale(1.05);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .membership-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .section-content {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .mall-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .points-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        /* 动画效果 */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-white);
+            font-size: 20px;
+        }
+
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-dark);
+            color: var(--text-white);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .tooltip:hover::before {
+            opacity: 1;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 徽章 */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">📈</div>
+                <span>期货模拟训练平台</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item active">交易大厅</li>
+                    <li class="nav-item">个人中心</li>
+                    <li class="nav-item">交易统计</li>
+                    <li class="nav-item">社区</li>
+                    <li class="nav-item">会员中心</li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="notification-bell">
+                    🔔
+                    <span class="notification-dot"></span>
+                </div>
+                <div class="user-avatar">张</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 用户中心页面 -->
+        <h1 class="page-title fade-in">
+            <div class="page-icon">👤</div>
+            个人中心
+        </h1>
+
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">个人资料管理</h2>
+            </div>
+            <div class="section-content">
+                <div class="profile-grid">
+                    <!-- 侧边栏 -->
+                    <aside class="profile-sidebar">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar">
+                                张
+                                <div class="upload-hint">📷</div>
+                            </div>
+                            <div class="profile-name">张交易员</div>
+                            <span class="profile-level">黄金会员</span>
+                        </div>
+                        <ul class="profile-menu">
+                            <li class="profile-menu-item active">
+                                <span>📝</span>
+                                <span>基本资料</span>
+                            </li>
+                            <li class="profile-menu-item">
+                                <span>⚙️</span>
+                                <span>偏好设置</span>
+                            </li>
+                            <li class="profile-menu-item">
+                                <span>🔒</span>
+                                <span>账户安全</span>
+                            </li>
+                            <li class="profile-menu-item">
+                                <span>⭐</span>
+                                <span>我的收藏</span>
+                            </li>
+                            <li class="profile-menu-item">
+                                <span>📊</span>
+                                <span>交易记录</span>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <!-- 主内容区 -->
+                    <div class="profile-content">
+                        <h3 style="margin-bottom: 25px; font-size: 18px;">基本信息</h3>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">昵称</label>
+                                    <input type="text" class="form-control" value="张交易员">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">手机号</label>
+                                    <input type="tel" class="form-control" value="138****8888">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">交易经验</label>
+                                    <select class="form-control">
+                                        <option>新手</option>
+                                        <option selected>入门</option>
+                                        <option>熟练</option>
+                                        <option>专家</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">投资风格</label>
+                                    <select class="form-control">
+                                        <option>保守</option>
+                                        <option selected>稳健</option>
+                                        <option>激进</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">个人简介</label>
+                                <textarea class="form-control" rows="4">专注于股指期货交易，擅长技术分析和趋势判断。</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">风险承受能力</label>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                                <div class="progress-label">
+                                    <span>低</span>
+                                    <span style="color: var(--warning);">中等</span>
+                                    <span>高</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                <button class="btn btn-primary">
+                                    <span>💾</span>
+                                    <span>保存修改</span>
+                                </button>
+                                <button class="btn btn-secondary">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 交易统计页面 -->
+        <h1 class="page-title fade-in">
+            <div class="page-icon">📊</div>
+            交易统计
+        </h1>
+
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">数据概览</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary">导出报告</button>
+                    <button class="btn btn-primary">生成分析</button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="stats-overview">
+                    <div class="stat-card success">
+                        <div class="stat-label">总收益率</div>
+                        <div class="stat-value">+28.5%</div>
+                        <div class="stat-change positive">
+                            <span>↑</span>
+                            <span>较上月 +5.2%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">胜率</div>
+                        <div class="stat-value">65.8%</div>
+                        <div class="stat-change positive">
+                            <span>↑</span>
+                            <span>较上月 +2.1%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-label">最大回撤</div>
+                        <div class="stat-value">-8.3%</div>
+                        <div class="stat-change positive">
+                            <span>↓</span>
+                            <span>较上月 -1.5%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">交易次数</div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-change positive">
+                            <span>↑</span>
+                            <span>较上月 +23</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-placeholder">收益曲线图表</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 收益排行榜 -->
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">收益排行榜</h2>
+            </div>
+            <div class="section-content">
+                <div class="ranking-tabs">
+                    <button class="ranking-tab active">日榜</button>
+                    <button class="ranking-tab">周榜</button>
+                    <button class="ranking-tab">月榜</button>
+                    <button class="ranking-tab">总榜</button>
+                </div>
+                <ul class="ranking-list">
+                    <li class="ranking-item">
+                        <div class="ranking-number top1">1</div>
+                        <div class="ranking-avatar">李</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">李大师</div>
+                            <div class="ranking-stats">胜率 78.5% | 交易 89次</div>
+                        </div>
+                        <div class="ranking-profit">
+                            <div class="profit-amount positive">+15,680</div>
+                            <div class="profit-rate">+12.8%</div>
+                        </div>
+                    </li>
+                    <li class="ranking-item">
+                        <div class="ranking-number top2">2</div>
+                        <div class="ranking-avatar">王</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">王高手</div>
+                            <div class="ranking-stats">胜率 72.3% | 交易 76次</div>
+                        </div>
+                        <div class="ranking-profit">
+                            <div class="profit-amount positive">+12,350</div>
+                            <div class="profit-rate">+10.2%</div>
+                        </div>
+                    </li>
+                    <li class="ranking-item">
+                        <div class="ranking-number top3">3</div>
+                        <div class="ranking-avatar">赵</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">赵专家</div>
+                            <div class="ranking-stats">胜率 69.8% | 交易 82次</div>
+                        </div>
+                        <div class="ranking-profit">
+                            <div class="profit-amount positive">+10,920</div>
+                            <div class="profit-rate">+9.5%</div>
+                        </div>
+                    </li>
+                    <li class="ranking-item" style="background: var(--bg-secondary);">
+                        <div class="ranking-number other">15</div>
+                        <div class="ranking-avatar">张</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">张交易员（我）</div>
+                            <div class="ranking-stats">胜率 65.8% | 交易 56次</div>
+                        </div>
+                        <div class="ranking-profit">
+                            <div class="profit-amount positive">+3,580</div>
+                            <div class="profit-rate">+3.2%</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 社区交流页面 -->
+        <h1 class="page-title fade-in">
+            <div class="page-icon">💬</div>
+            社区交流
+        </h1>
+
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">热门话题</h2>
+                <button class="btn btn-primary">
+                    <span>✍️</span>
+                    <span>发布动态</span>
+                </button>
+            </div>
+            <div class="section-content">
+                <div class="community-header">
+                    <div class="topic-tags">
+                        <span class="topic-tag active">全部</span>
+                        <span class="topic-tag">交易策略</span>
+                        <span class="topic-tag">技术分析</span>
+                        <span class="topic-tag">心得分享</span>
+                        <span class="topic-tag">求助问答</span>
+                    </div>
+                </div>
+
+                <div class="post-list">
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="author-avatar">刘</div>
+                                <div class="author-info">
+                                    <div class="author-name">刘分析师</div>
+                                    <div class="post-time">2小时前</div>
+                                </div>
+                            </div>
+                            <span class="post-type strategy">策略</span>
+                        </div>
+                        <h3 class="post-title">今日IF主力合约突破策略分享</h3>
+                        <p class="post-content">今天IF主力合约在重要支撑位获得有效支撑，形成了一个看涨的锤子线形态。结合MACD金叉信号，我认为后市有望突破前期高点...</p>
+                        <div class="post-images">
+                            <div class="post-image">📊</div>
+                            <div class="post-image">📈</div>
+                            <div class="post-image">📉</div>
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-stats">
+                                <span class="post-stat liked">
+                                    <span>❤️</span>
+                                    <span>128</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>💬</span>
+                                    <span>32</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>👁️</span>
+                                    <span>1.2k</span>
+                                </span>
+                            </div>
+                            <span class="post-stat">
+                                <span>⭐</span>
+                                <span>收藏</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="author-avatar">陈</div>
+                                <div class="author-info">
+                                    <div class="author-name">陈新手</div>
+                                    <div class="post-time">5小时前</div>
+                                </div>
+                            </div>
+                            <span class="post-type achievement">战绩</span>
+                        </div>
+                        <h3 class="post-title">本月收益率突破30%！感谢社区帮助</h3>
+                        <p class="post-content">作为一个交易新手，通过在社区学习各位大佬的策略，本月终于实现了30%的收益率目标！特别感谢刘分析师的突破策略...</p>
+                        <div class="post-footer">
+                            <div class="post-stats">
+                                <span class="post-stat">
+                                    <span>❤️</span>
+                                    <span>256</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>💬</span>
+                                    <span>45</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>👁️</span>
+                                    <span>3.5k</span>
+                                </span>
+                            </div>
+                            <span class="post-stat">
+                                <span>⭐</span>
+                                <span>收藏</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="author-avatar">孙</div>
+                                <div class="author-info">
+                                    <div class="author-name">孙学者</div>
+                                    <div class="post-time">昨天</div>
+                                </div>
+                            </div>
+                            <span class="post-type question">提问</span>
+                        </div>
+                        <h3 class="post-title">如何设置合理的止损策略？</h3>
+                        <p class="post-content">最近交易总是亏损，主要问题是止损设置不合理，请各位大佬分享一些有效的止损策略和方法...</p>
+                        <div class="post-footer">
+                            <div class="post-stats">
+                                <span class="post-stat">
+                                    <span>❤️</span>
+                                    <span>68</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>💬</span>
+                                    <span>23</span>
+                                </span>
+                                <span class="post-stat">
+                                    <span>👁️</span>
+                                    <span>856</span>
+                                </span>
+                            </div>
+                            <span class="post-stat">
+                                <span>⭐</span>
+                                <span>收藏</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 会员中心页面 -->
+        <h1 class="page-title fade-in">
+            <div class="page-icon">👑</div>
+            会员中心
+        </h1>
+
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">升级会员</h2>
+                <span class="badge badge-warning">限时优惠</span>
+            </div>
+            <div class="section-content">
+                <div class="membership-grid">
+                    <div class="membership-card basic">
+                        <div class="membership-icon">🆓</div>
+                        <h3 class="membership-name">基础会员</h3>
+                        <div class="membership-price">
+                            <span class="price-amount">免费</span>
+                            <span class="price-period">永久</span>
+                        </div>
+                        <ul class="membership-features">
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>基础交易模拟</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>每日10次练习</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>基础数据查看</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✗</span>
+                                <span style="color: var(--text-muted);">高级策略</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✗</span>
+                                <span style="color: var(--text-muted);">AI分析报告</span>
+                            </li>
+                        </ul>
+                        <button class="membership-cta">当前会员</button>
+                    </div>
+
+                    <div class="membership-card gold featured">
+                        <div class="membership-icon">🥇</div>
+                        <h3 class="membership-name">黄金会员</h3>
+                        <div class="membership-price">
+                            <span class="price-amount">¥99</span>
+                            <span class="price-period">/月</span>
+                        </div>
+                        <ul class="membership-features">
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>无限次交易模拟</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>高级策略模板</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>实时行情数据</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>交易复盘功能</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>优先客服支持</span>
+                            </li>
+                        </ul>
+                        <button class="membership-cta">立即升级</button>
+                    </div>
+
+                    <div class="membership-card diamond">
+                        <div class="membership-icon">💎</div>
+                        <h3 class="membership-name">钻石会员</h3>
+                        <div class="membership-price">
+                            <span class="price-amount">¥299</span>
+                            <span class="price-period">/月</span>
+                        </div>
+                        <ul class="membership-features">
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>黄金会员所有功能</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>AI智能分析</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>独家策略订阅</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>1对1专家指导</span>
+                            </li>
+                            <li class="membership-feature">
+                                <span class="feature-icon">✓</span>
+                                <span>VIP专属社区</span>
+                            </li>
+                        </ul>
+                        <button class="membership-cta">立即升级</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 积分商城页面 -->
+        <h1 class="page-title fade-in">
+            <div class="page-icon">🛍️</div>
+            积分商城
+        </h1>
+
+        <div class="points-header fade-in">
+            <div>
+                <div style="margin-bottom: 10px; color: rgba(255,255,255,0.8);">我的积分余额</div>
+                <div class="points-balance">
+                    <span class="balance-amount">3,580</span>
+                    <span>积分</span>
+                </div>
+            </div>
+            <div class="points-actions">
+                <button class="btn btn-secondary" style="background: rgba(255,255,255,0.2); color: white;">积分明细</button>
+                <button class="btn btn-secondary" style="background: rgba(255,255,255,0.2); color: white;">任务中心</button>
+            </div>
+        </div>
+
+        <div class="page-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">热门兑换</h2>
+            </div>
+            <div class="section-content">
+                <div class="mall-grid">
+                    <div class="mall-item">
+                        <div class="mall-image">📚</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">期货交易入门课程</h3>
+                            <p class="mall-desc">从零开始学期货，包含基础知识和实战技巧</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">800</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mall-item">
+                        <div class="mall-image">📊</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">高级策略模板</h3>
+                            <p class="mall-desc">专业交易员开发的高胜率策略模板</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">1200</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mall-item">
+                        <div class="mall-image">📈</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">历史数据包</h3>
+                            <p class="mall-desc">近5年主要期货品种历史数据</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">500</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mall-item">
+                        <div class="mall-image">🎯</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">专家诊断服务</h3>
+                            <p class="mall-desc">1对1交易诊断，专业分析师指导</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">2000</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mall-item">
+                        <div class="mall-image">🏆</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">月度VIP体验卡</h3>
+                            <p class="mall-desc">黄金会员30天体验特权</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">1500</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mall-item">
+                        <div class="mall-image">📱</div>
+                        <div class="mall-info">
+                            <h3 class="mall-name">移动端会员特权</h3>
+                            <p class="mall-desc">解锁APP专属功能和服务</p>
+                            <div class="mall-footer">
+                                <div class="mall-price">
+                                    <span class="mall-price-amount">600</span>
+                                    <span class="mall-price-unit">积分</span>
+                                </div>
+                                <button class="exchange-btn">兑换</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+
+            // 导航切换
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 侧边栏菜单切换
+            const menuItems = document.querySelectorAll('.profile-menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 话题标签切换
+            const topicTags = document.querySelectorAll('.topic-tag');
+            topicTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    topicTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 排行榜标签切换
+            const rankingTabs = document.querySelectorAll('.ranking-tab');
+            rankingTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    rankingTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 点赞交互
+            const likeButtons = document.querySelectorAll('.post-stat');
+            likeButtons.forEach(btn => {
+                if (btn.innerHTML.includes('❤️')) {
+                    btn.addEventListener('click', function() {
+                        this.classList.toggle('liked');
+                        const count = this.querySelector('span:last-child');
+                        if (this.classList.contains('liked')) {
+                            count.textContent = parseInt(count.textContent) + 1;
+                        } else {
+                            count.textContent = parseInt(count.textContent) - 1;
+                        }
+                    });
+                }
+            });
+
+            // 进度条动画
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+
+            // 通知铃铛点击
+            const notificationBell = document.querySelector('.notification-bell');
+            notificationBell.addEventListener('click', function() {
+                const dot = this.querySelector('.notification-dot');
+                if (dot) {
+                    dot.style.display = 'none';
+                }
+            });
+
+            // 表单提交提示
+            const saveBtn = document.querySelector('.btn-primary');
+            if (saveBtn && saveBtn.textContent.includes('保存')) {
+                saveBtn.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<span>✅</span><span>保存成功</span>';
+                    this.style.background = 'var(--success)';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                });
+            }
+
+            // 兑换按钮点击效果
+            const exchangeBtns = document.querySelectorAll('.exchange-btn');
+            exchangeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const originalText = this.textContent;
+                    this.textContent = '已兑换';
+                    this.style.background = 'var(--success)';
+                    this.disabled = true;
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                        this.disabled = false;
+                    }, 2000);
+                });
+            });
+
+            // 会员升级按钮
+            const membershipCtas = document.querySelectorAll('.membership-cta');
+            membershipCtas.forEach(cta => {
+                cta.addEventListener('click', function() {
+                    if (this.textContent === '立即升级') {
+                        this.textContent = '升级中...';
+                        setTimeout(() => {
+                            this.textContent = '升级成功';
+                            this.style.background = 'var(--success)';
+                        }, 1500);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
