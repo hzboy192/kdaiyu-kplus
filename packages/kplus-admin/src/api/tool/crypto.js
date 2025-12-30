@@ -35,3 +35,12 @@ export function rsaDecrypt(data) {
     data: data
   })
 }
+
+// bcrypt 加密
+export function bcryptEncrypt(data) {
+  return request({
+    url: '/tools/crypto/bcrypt/encrypt',
+    method: 'post',
+    data: data
+  })
+}

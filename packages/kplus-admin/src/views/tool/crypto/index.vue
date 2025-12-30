@@ -5,6 +5,7 @@
         <el-radio-group v-model="form.type">
           <el-radio label="aes">AES</el-radio>
           <el-radio label="rsa">RSA</el-radio>
+          <el-radio label="bcrypt">Bcrypt</el-radio>
           <el-radio label="base64">Base64</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -30,7 +31,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import CryptoJS from 'crypto-js';
-import { aesEncrypt, aesDecrypt, rsaEncrypt, rsaDecrypt } from '@/api/tool/crypto';
+import { aesEncrypt, aesDecrypt, rsaEncrypt, rsaDecrypt, bcryptEncrypt } from '@/api/tool/crypto';
 
 const form = ref({
   type: 'aes',
@@ -82,6 +83,12 @@ const handleSubmit = () => {
             res = await rsaEncrypt(text);
           } else {
             res = await rsaDecrypt(text);
+          }
+        } else if (type === 'bcrypt') {
+          if (action === 'encrypt') {
+            res = await bcryptEncrypt(text);
+          } else {
+            res = { data: 'Bcrypt 不支持解密操作' };
           }
         }
         result.value = res.data;
