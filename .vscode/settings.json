@@ -1,0 +1,15 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.exclude": {
+    "server": false,
+    "assets": false
+  },
+  "search.exclude": {
+    "server": true,
+    "assets": true,
+    "**/server/**": true,
+    "**/assets/**": true
+  }
+}
