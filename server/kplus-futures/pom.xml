@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.kdaiy</groupId>
+        <artifactId>kplus-parent</artifactId>
+        <version>1.0-release</version>
+    </parent>
+
+    <artifactId>kplus-futures</artifactId>
+    <packaging>jar</packaging>
+    <name>kplus-futures</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <common-boot.version>1.0-release</common-boot.version>
+        <common-msg.version>1.0-release</common-msg.version>
+        <common-captcha.version>1.0-release</common-captcha.version>
+        <common-quartz.version>1.0-release</common-quartz.version>
+        <common-tools.version>1.0-release</common-tools.version>
+        <common-oss.version>1.0-release</common-oss.version>
+        <common-admin.version>1.0-release</common-admin.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        
+        <!-- <dependency> -->
+        <!--     <groupId>com.mysql</groupId> -->
+        <!--     <artifactId>mysql-connector-j</artifactId> -->
+        <!-- </dependency> -->
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-boot</artifactId>
+            <version>${common-boot.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-msg</artifactId>
+            <version>${common-msg.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-captcha</artifactId>
+            <version>${common-captcha.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-quartz</artifactId>
+            <version>${common-quartz.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-tools</artifactId>
+            <version>${common-tools.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-oss</artifactId>
+            <version>${common-oss.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.kdaiy</groupId>
+            <artifactId>common-admin</artifactId>
+            <version>${common-admin.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <filters>
+            <!-- 按环境替换配置文件中的变量 -->
+            <filter>${basedir}/src/main/resources/bootstrap.yaml</filter>
+        </filters>
+        
+        <plugins>
+            <!-- springboot 项目打包必备，不能删除
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+             -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/release/lib</outputDirectory>
+                    <!-- 将配置文件排除在jar包 -->
+                    <excludes>
+                        <exclude>*.properties</exclude>
+                        <exclude>*.yaml</exclude>
+                        <exclude>*.xml</exclude>
+                        <exclude>*.txt</exclude>
+                    </excludes>
+                    <!-- 若用java -jar 方式运行需要以下配置指定依赖的jar; 若用java -cp运行时指定classpath，则不需要此配置 -->
+                    <archive>
+                        <!-- 生成的jar中，包含pom.xml和pom.properties这两个文件 -->
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                        <!-- 生成MANIFEST.MF的设置 -->
+                        <manifest>
+                            <!--这个属性特别关键，如果没有这个属性，有时候我们引用的包maven库 下面可能会有多个包，并且只有一个是正确的，
+                            其余的可能是带时间戳的，此时会在classpath下面把那个带时间戳的给添加上去，然后我们 在依赖打包的时候，
+                            打的是正确的，所以两头会对不上，报错。 -->
+                            <useUniqueVersions>false</useUniqueVersions>
+                            <!-- 为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下 -->
+                            <addClasspath>true</addClasspath>
+                            <!-- MANIFEST.MF 中 Class-Path 各个依赖加入前缀 -->
+                            <!--这个jar所依赖的jar包添加classPath的时候的前缀，需要 下面maven-dependency-plugin插件补充-->
+                            <!--一定要找对目录，否则jar找不到依赖lib，前边加../是因为jar在bin下，而bin与lib是平级目录-->
+                            <classpathPrefix>../lib</classpathPrefix>
+                            <!--指定jar启动入口类 -->
+                            <mainClass>cn.kdaiy.future.FuturesApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- 拷贝依赖到 lib 目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/release/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <!-- 复制配置文件 -->
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <!-- 注意：不要用src/main/resources,maven编译时可能有修改配置文件的动作，如修改profile -->
+                                    <directory>${project.build.directory}/classes</directory>
+                                    <includes>
+                                        <!--将如下格式配置文件拷贝,maven-jar-plugin插件排除的内容需要放在外部的配置文件 -->
+                                        <include>*.properties</include>
+                                        <include>*.yaml</include>
+                                        <include>*.xml</include>
+                                        <include>*.txt</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <!--输出路径-->
+                            <outputDirectory>${project.build.directory}/release/conf</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!-- copy 脚本文件 -->
+                    <execution>
+                        <id>copy-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>run.sh</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/release</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

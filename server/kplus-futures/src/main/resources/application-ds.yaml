@@ -1,0 +1,94 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cainan.kdaiyu.cn:6543/gdb?currentSchema=fina&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: kplus_app_rw
+    password: ***REMOVED***
+    
+    hikari:
+      # 最大连接池大小（默认值）
+      maximum-pool-size: 10
+      # 最小空闲连接数（默认值）
+      minimum-idle: 10
+      # 获取连接超时时间（默认 30 秒）
+      connection-timeout: 30000
+      # 空闲连接存活时间（默认 10 分钟）
+      idle-timeout: 600000
+      # 连接最大生命周期（默认 30 分钟）
+      max-lifetime: 1800000
+      # 空闲连接检查间隔（默认禁用）
+      keepalive-time: 0
+      # 初始化失败超时（默认 1 秒）
+      initialization-fail-timeout: 1000
+      # 验证连接超时（默认 5 秒）
+      validation-timeout: 5000
+    
+    druid:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置连接超时时间
+      connectTimeout: 30000
+      # 配置网络超时时间
+      socketTimeout: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT version()
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置IP白名单，不填则允许所有访问
+        allow: 127.0.0.1,192.168.1.1
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: ***REMOVED***
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  
+  # redis 配置
+  redis:
+    # 地址
+    host: cainan.kdaiyu.cn
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password: redis#321Weq$uw
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms

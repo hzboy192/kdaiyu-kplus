@@ -50,3 +50,24 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# 后端忽略规则（Java/Maven）
+server/**/target/
+server/**/*.iml
+server/**/.idea/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+server/.mvn/
+server/mvnw
+server/mvnw.cmd
+
+# 敏感信息
+.env
+.env.local
+.env.*.local
+server/**/application-prod.yml
+server/**/application-secret.yml

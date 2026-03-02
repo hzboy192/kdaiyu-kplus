@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kdaiy.future.mapper.BarInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.kdaiy.future.entity.BarInfoEntity">
+        <id column="CODE" jdbcType="VARCHAR" property="code"/>
+        <id column="G_CODE" jdbcType="VARCHAR" property="gCode"/>
+        <id column="CYCLE" jdbcType="VARCHAR" property="cycle"/>
+        <id column="DATE" jdbcType="VARCHAR" property="date"/>
+        <result column="OPEN" jdbcType="FLOAT" property="open"/>
+        <result column="HIGH" jdbcType="FLOAT" property="high"/>
+        <result column="LOW" jdbcType="FLOAT" property="low"/>
+        <result column="CLOSE" jdbcType="FLOAT" property="close"/>
+        <result column="VOL" jdbcType="BIGINT" property="vol"/>
+        <result column="AMOUNT" jdbcType="DOUBLE" property="amount"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        CODE, G_CODE, CYCLE, DATE, OPEN, HIGH, LOW, CLOSE, VOL, AMOUNT, UPDATE_TIME
+    </sql>
+    
+    <sql id="whereSql">
+        <where>
+            CODE = #{code} and CYCLE = #{cycle}
+            <if test="from != null">
+                and DATE <![CDATA[ > ]]> TO_TIMESTAMP(#{from,javaType=LONG}/1000) + '8 hour'
+            </if>
+            <if test="to != null">
+                and DATE <![CDATA[ <= ]]> TO_TIMESTAMP(#{to, javaType=LONG}/1000) + '8 hour'
+            </if>
+        </where>
+    </sql>
+    
+    <sql id="whereLimitSql">
+        <include refid="whereSql"/>
+        limit ${pageSize} offset ${pageOffset}
+    </sql>
+    
+    <sql id="selectBaseInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM FU_BAR_INFO
+    </sql>
+    
+    <sql id="selectHistoryLimitSql">
+        <if test="from != null">
+            and DATE <![CDATA[ > ]]> TO_TIMESTAMP(#{from,javaType=LONG}/1000) + '8 hour'
+        </if>
+        <if test="to != null">
+            and DATE <![CDATA[ <= ]]> TO_TIMESTAMP(#{to, javaType=LONG}/1000) + '8 hour'
+        </if>
+        ORDER BY DATE ASC
+        limit 500000
+    </sql>
+    
+    <!-- 查询日K、5分钟K -->
+    <select id="selectHistoryBar" resultType="cn.kdaiy.future.vo.BarVo">
+        SELECT CODE as symbol, CYCLE as period, EXTRACT(epoch FROM date + '-8 hour') *1000::INTEGER AS timestamp, OPEN, HIGH, LOW,
+        CLOSE,
+        VOL as volume
+        FROM FU_BAR_INFO WHERE CODE=#{symbol} and CYCLE=#{period}
+        <include refid="selectHistoryLimitSql"/>
+    </select>
+    <!-- 统计周K：从日K汇总 -->
+    <select id="selectHistoryBarForWeek" resultType="cn.kdaiy.future.vo.BarVo">
+        SELECT t.symbol, 'W' as period, max(t.timestamp) as timestamp, min(t.open) as OPEN,
+        max(t.close) as CLOSE, MIN(LOW) as LOW, MAX(HIGH) as HIGH, SUM(volume) as VOLUME FROM
+        (
+            select CODE as symbol, CYCLE as period, UNIX_TIMESTAMP(DATE)*1000 as timestamp, YEARWEEK(DATE) as wk,
+            FIRST_VALUE(OPEN) OVER (PARTITION BY CODE, CYCLE, YEARWEEK(date) ORDER BY date ASC) as open,
+            LAST_VALUE(CLOSE) OVER (PARTITION BY CODE, CYCLE, YEARWEEK(date) ORDER BY date ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as close,
+            HIGH, LOW, VOL as volume
+            from fu_bar_info where CODE=#{symbol} and CYCLE='D'
+            <include refid="selectHistoryLimitSql"/>
+        ) t
+        GROUP BY t.symbol, t.period, t.wk
+    </select>
+    
+    <!-- 统计分钟K: 从5分钟K汇总 -->
+    <select id="selectHistoryBarForMinute" resultType="cn.kdaiy.future.vo.BarVo">
+        SELECT s.symbol, '${period}' as period, UNIX_TIMESTAMP(TIMESTAMP(s.d,s.m))*1000 as timestamp,
+            MIN(s.OPEN) as open, max(s.HIGH) as high, MIN(s.LOW) as low, MAX(s.CLOSE) as close, SUM(s.volume) as volume
+        FROM
+        (
+            SELECT CODE as symbol, CYCLE as period, DATE(DATE) d, m.cycle_${period} m,
+            FIRST_VALUE(OPEN) OVER (PARTITION BY CODE, CYCLE, DATE(DATE), m.cycle_${period} ORDER BY date ASC) as open,
+            LAST_VALUE(CLOSE) OVER (PARTITION BY CODE, CYCLE, DATE(DATE), m.cycle_${period} ORDER BY date ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as close,
+            HIGH, LOW,VOL as volume
+            from FU_BAR_INFO t
+            LEFT JOIN FU_MIN_MAPPING m ON m.cycle_5m=time(t.DATE)
+            where CODE=#{symbol} and CYCLE='5M'
+            <include refid="selectHistoryLimitSql"/>
+        ) s
+        GROUP BY s.symbol, s.period, s.d, s.m
+    </select>
+
+</mapper>

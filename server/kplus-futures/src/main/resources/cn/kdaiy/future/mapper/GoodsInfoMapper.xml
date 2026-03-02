@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kdaiy.future.mapper.GoodsInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.kdaiy.future.entity.GoodsInfoEntity">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="MAIN_NUM" jdbcType="VARCHAR" property="mainNum"/>
+        <result column="MARKET_CODE" jdbcType="VARCHAR" property="marketCode"/>
+        <result column="MARKET_NAME" jdbcType="VARCHAR" property="marketName"/>
+        <result column="IS_ENABLE" jdbcType="TINYINT" property="isEnable"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, code, name, main_num, market_code, market_name, is_enable, create_by, create_time,
+        update_by, update_time
+    </sql>
+    
+    <select id="pageGoodsList" resultType="cn.kdaiy.future.entity.GoodsInfoEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM FU_GOODS_INFO
+        <include refid="pageGoodsList_WHERE"/>
+    </select>
+    
+    <select id="pageGoodsList_COUNT" resultType="long">
+        SELECT count(1) FROM FU_GOODS_INFO
+        <include refid="pageGoodsList_WHERE"/>
+    </select>
+    
+    <sql id="pageGoodsList_WHERE">
+        <where>
+            <if test="name != null and name != ''">
+                NAME LIKE CONCAT('%', #{name},'%') OR CODE LIKE CONCAT('%', #{name},'%')
+            </if>
+        </where>
+        LIMIT ${pageSize} offset ${pageOffset}
+    </sql>
+
+</mapper>

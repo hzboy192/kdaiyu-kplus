@@ -7,7 +7,11 @@
     "admin:build": "pnpm --filter kplus-admin build",
     "web:build": "pnpm --filter kplus-web build",
     "all:build": "pnpm --filter kplus-* build",
-    "lint": "pnpm dlx eslint . --fix-dry-run --ignore-pattern ./**/node_modules/*,./**/assets"
+    "backend:run": "cd server && mvn spring-boot:run -pl kdaiy-futures",
+    "backend:build": "cd server && mvn clean package -DskipTests",
+    "backend:test": "cd server && mvn test",
+    "backend:install": "cd server && mvn clean install -DskipTests",
+    "lint": "pnpm dlx eslint . --fix-dry-run --ignore-pattern ./**/node_modules/*,./**/assets,./server"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
