@@ -23,18 +23,21 @@ function build(){
     elif [ "$module_name" == "kplus-web" ]; then
       pnpm install
       pnpm web:build
+    elif [ "$module_name" == "kplus-server" ]; then
+      pnpm backend:build
     elif [ "$module_name" == "ALL" ]; then
       pnpm install
       pnpm all:build
+      pnpm backend:build
     else 
-      error "module name not in ALL|kplus-admin|kplus-web"
+      error "module name not in ALL|kplus-admin|kplus-web|kplus-server"
       exit 1
     fi
     log "pnpm build prod finish. exit status:$?" 
 }
 
 function deploy(){
-    if [ "$module_name" == "kplus-admin" -o "$module_name" == "kplus-web" ]; then
+    if [ "$module_name" == "kplus-admin" -o "$module_name" == "kplus-web" -o "$module_name" == "kplus-server" ]; then
       deploy_module $module_name
     elif [ "$module_name" == "ALL" ]; then
       deploy_module "kplus-admin"
