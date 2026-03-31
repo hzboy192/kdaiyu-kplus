@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS gen_table_column;
 CREATE TABLE gen_table_column
 (
     column_id      bigserial,
-    table_id       int8 COLLATE pg_catalog.default,
+    table_id       int8,
     column_name    varchar(200) COLLATE pg_catalog.default,
     column_comment varchar(500) COLLATE pg_catalog.default,
     column_type    varchar(100) COLLATE pg_catalog.default,
@@ -475,10 +475,9 @@ COMMENT ON TABLE sys_dept IS '部门表';
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-insert into sys_dept values(100,  0,   '0',          '五岳联盟',   0, '左冷禅', '15888888888', 'zlc@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(101,  100, '0,100',      '华山派', 1, '令狐冲', '15888888888', 'lhc@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(102,  100, '0,100',      '峨眉派', 2, '灭绝师太', '15888888888', 'mjst@qq.com', '0', '0', 'admin', sysdate(), '', null);
-
+insert into sys_dept values(100,  0,   '0',          '五岳联盟',   0, '左冷禅', '15888888888', 'zlc@qq.com', '0', '0', 'admin', NOW(), '', null);
+insert into sys_dept values(101,  100, '0,100',      '华山派', 1, '令狐冲', '15888888888', 'lhc@qq.com', '0', '0', 'admin', NOW(), '', null);
+insert into sys_dept values(102,  100, '0,100',      '峨眉派', 2, '灭绝师太', '15888888888', 'mjst@qq.com', '0', '0', 'admin', NOW(), '', null);
 -- ----------------------------
 -- Table structure for sys_dict_data
 -- ----------------------------
@@ -1101,16 +1100,6 @@ COMMENT ON COLUMN sys_notice.remark IS '备注';
 COMMENT ON TABLE sys_notice IS '通知公告表';
 
 -- ----------------------------
--- Records of sys_notice
--- ----------------------------
-INSERT INTO sys_notice
-VALUES (2, '维护通知：2018-07-01 若依系统凌晨维护', '1', '\xe7bbb4e68aa4e58685e5aeb9', '0', 'admin',
-        '2021-05-26 18:56:31', '', NULL, '管理员');
-INSERT INTO sys_notice
-VALUES (1, '温馨提醒：2018-07-01 若依新版本发布啦', '2', '\', '0', 'admin', '2021-05-26 18:56:31', 'admin',
-        '2021-05-27 09:08:41.403262', '管理员');
-
--- ----------------------------
 -- Table structure for sys_oper_log
 -- ----------------------------
 DROP TABLE IF EXISTS sys_oper_log;
@@ -1503,9 +1492,8 @@ COMMENT ON TABLE sys_user IS '用户信息表';
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-insert into sys_user values(1,  103, 'superadmin', '超级管理员', '00', 'superadmin@163.com', '15888888888', '1', '', '$2a$10$wYqcpkQDaIl.EQ.PqVl5LOqr1mmvEsgXd9hdgCmlKIwt3jfAVDsTS', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
-insert into sys_user values(2,  105, 'bizadmin',    '业务管理员', '00', 'bizadmin@qq.com',  '15666666666', '1', '', '$2a$10$wYqcpkQDaIl.EQ.PqVl5LOqr1mmvEsgXd9hdgCmlKIwt3jfAVDsTS', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '业务管理员');
-
+insert into sys_user values(1,  103, 'superadmin', '超级管理员', '00', 'superadmin@163.com', '15888888888', '','1', '', '$2a$10$wYqcpkQDaIl.EQ.PqVl5LOqr1mmvEsgXd9hdgCmlKIwt3jfAVDsTS', '0', '0', '127.0.0.1', now(), 'admin', now(), '', null, '管理员');
+insert into sys_user values(2,  105, 'bizadmin',    '业务管理员', '00', 'bizadmin@qq.com',  '15666666666', '','1', '', '$2a$10$wYqcpkQDaIl.EQ.PqVl5LOqr1mmvEsgXd9hdgCmlKIwt3jfAVDsTS', '0', '0', '127.0.0.1', now(), 'admin', now(), '', null, '业务管理员');
 
 -- ----------------------------
 -- Table structure for sys_user_post
