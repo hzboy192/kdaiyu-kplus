@@ -26,9 +26,9 @@ let handleDropdown = (command) => {
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
-        <el-dropdown-item command="">个性化设置</el-dropdown-item>
-        <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+        <el-dropdown-item command="Dashboard">个人中心</el-dropdown-item>
+        <el-dropdown-item command="Settings">个性化设置</el-dropdown-item>
+        <!-- <el-dropdown-item command="logout">退出登录</el-dropdown-item> -->
       </el-dropdown-menu>
     </template>
   </el-dropdown>

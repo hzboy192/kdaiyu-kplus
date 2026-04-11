@@ -2,9 +2,173 @@
 @import 'elements.css';
 @import 'var.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS Variables for Element Plus theme */
+:root {
+  --el-color-primary: #4f46e5;
+  --el-color-primary-light-3: #818cf8;
+  --el-color-primary-light-5: #a5b4fc;
+  --el-color-primary-light-7: #c7d2fe;
+  --el-color-primary-light-9: #eef2ff;
+  --el-color-primary-dark-2: #4338ca;
+  --el-color-success: #10b981;
+  --el-color-danger: #ef4444;
+  --el-color-warning: #f59e0b;
+  --el-border-radius-base: 8px;
+  --el-border-radius-small: 6px;
+  --el-border-radius-round: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 #app {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Card transitions */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom Element Plus overrides */
+.el-menu {
+  border-right: none !important;
+}
+
+.el-card {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.el-button--primary {
+  --el-button-bg-color: #4f46e5;
+  --el-button-border-color: #4f46e5;
+  --el-button-hover-bg-color: #4338ca;
+  --el-button-hover-border-color: #4338ca;
+}
+
+.el-input__wrapper {
+  border-radius: 8px;
+}
+
+.el-select__wrapper {
+  border-radius: 8px;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Account card states */
+.account-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.account-card:hover {
+  border-color: #e2e8f0;
+}
+
+.account-card.active {
+  border-color: #4f46e5;
+  background-color: #eef2ff;
+}
+
+.account-card.disabled {
+  opacity: 0.6;
+  background-color: #f8fafc;
+}
+
+/* Stat card gradients */
+.stat-card-blue {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+}
+
+.stat-card-green {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid #a7f3d0;
+}
+
+.stat-card-purple {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 1px solid #e9d5ff;
+}
+
+.stat-card-orange {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+}
+
+/* Page section */
+.page-section {
+  @apply bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100;
+}
+
+/* Navigation item */
+.nav-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 transition-all duration-200;
+}
+
+.nav-item:hover {
+  @apply bg-primary-50 text-primary-600;
+}
+
+.nav-item.active {
+  @apply bg-primary-600 text-white;
 }

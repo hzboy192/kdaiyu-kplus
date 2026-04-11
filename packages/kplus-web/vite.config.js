@@ -36,12 +36,14 @@ export default defineConfig(({ command, mode }) => {
         '@d': fileURLToPath(new URL('./src/data', import.meta.url)),
         '@r': fileURLToPath(new URL('./src/router', import.meta.url)),
         '@s': fileURLToPath(new URL('./src/stores', import.meta.url)),
-        '@u': fileURLToPath(new URL('./src/utils', import.meta.url))
+        '@u': fileURLToPath(new URL('./src/utils', import.meta.url)),
+        '@v': fileURLToPath(new URL('./src/views', import.meta.url)),
+        '@l': fileURLToPath(new URL('./src/layouts', import.meta.url))
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     server: {
-      port: 80,
+      port: 3000,
       proxy:  {
         '/api': {
           target: env.VITE_APP_API_BASE,
