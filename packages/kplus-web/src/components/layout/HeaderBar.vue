@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { ElBadge, ElDropdown, ElDropdownMenu, ElDropdownItem, ElAvatar, ElIcon, ElSelect, ElOption } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { ElBadge, ElDropdown, ElDropdownMenu, ElDropdownItem, ElAvatar, ElIcon, ElSelect, ElOption, ElMessage } from 'element-plus'
 import { Bell, Setting, SwitchButton, User, Wallet } from '@element-plus/icons-vue'
+import useUserStore from '@s/user'
+
+const router = useRouter()
+const userStore = useUserStore()
 
 defineProps({
   title: String
@@ -10,6 +15,16 @@ defineProps({
 const emit = defineEmits(['toggle-sidebar'])
 
 const currentAccount = ref('default')
+
+// 退出登录
+const handleLogout = () => {
+  userStore.logout().then(() => {
+    ElMessage.success('退出登录成功')
+    router.push('/login')
+  }).catch(() => {
+    ElMessage.error('退出登录失败')
+  })
+}
 const accounts = [
   { id: 'default', name: '默认账户', balance: 100000 },
   { id: 'strategy', name: '策略测试账户', balance: 55000 },
@@ -108,7 +123,7 @@ const unreadCount = ref(2)
               </el-icon>
               系统设置
             </el-dropdown-item>
-            <el-dropdown-item divided>
+            <el-dropdown-item divided @click="handleLogout">
               <el-icon class="mr-2">
                 <SwitchButton />
               </el-icon>
