@@ -17,13 +17,13 @@
                 <path d="M12 28V12h4l6 10 6-10h4v16h-4V18l-6 10-6-10v10h-4z" fill="white" />
                 <defs>
                   <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40">
-                    <stop stop-color="#10B981" />
-                    <stop offset="1" stop-color="#059669" />
+                    <stop stop-color="#f97316" />
+                    <stop offset="1" stop-color="#ef4444" />
                   </linearGradient>
                 </defs>
               </svg>
             </div>
-            <span class="logo-text">MockTrader</span>
+            <span class="logo-text">口袋鱼</span>
           </div>
 
           <h1 class="brand-title">开启您的交易训练之旅</h1>
@@ -361,8 +361,8 @@ const handleSocialRegister = (type) => {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
 }
 
 .auth-content {
@@ -381,7 +381,7 @@ const handleSocialRegister = (type) => {
 .auth-brand {
   flex: 1;
   padding: 48px;
-  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -556,12 +556,12 @@ const handleSocialRegister = (type) => {
 }
 
 .step.active .step-number {
-  background: #10b981;
+  background: #4f46e5;
   color: white;
 }
 
 .step.done .step-number {
-  background: #10b981;
+  background: #4f46e5;
   color: white;
 }
 
@@ -571,7 +571,7 @@ const handleSocialRegister = (type) => {
 }
 
 .step.active .step-label {
-  color: #10b981;
+  color: #4f46e5;
   font-weight: 500;
 }
 
@@ -585,7 +585,7 @@ const handleSocialRegister = (type) => {
 }
 
 .step-line.active {
-  background: #10b981;
+  background: #4f46e5;
 }
 
 .auth-form :deep(.el-input__wrapper) {
@@ -596,11 +596,11 @@ const handleSocialRegister = (type) => {
 }
 
 .auth-form :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px #10b981;
+  box-shadow: 0 0 0 1px #4f46e5;
 }
 
 .auth-form :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 0 0 1px #10b981;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2), 0 0 0 1px #4f46e5;
 }
 
 .auth-form :deep(.el-input__inner) {
@@ -655,14 +655,14 @@ const handleSocialRegister = (type) => {
   font-size: 16px;
   font-weight: 600;
   border-radius: 12px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   border: none;
   transition: all 0.3s;
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
 }
 
 :deep(.el-divider__text) {
@@ -694,8 +694,8 @@ const handleSocialRegister = (type) => {
 }
 
 .social-btn:hover {
-  border-color: #10b981;
-  color: #10b981;
+  border-color: #4f46e5;
+  color: #4f46e5;
 }
 
 .social-btn.wechat:hover {
@@ -716,7 +716,7 @@ const handleSocialRegister = (type) => {
 }
 
 .login-link {
-  color: #10b981;
+  color: #4f46e5;
   font-weight: 600;
   text-decoration: none;
   margin-left: 4px;
