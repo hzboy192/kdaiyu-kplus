@@ -1,142 +1,127 @@
 <template>
   <div class="auth-container">
-    <!-- 背景装饰 -->
-    <div class="auth-bg">
-      <div class="bg-gradient"></div>
-      <div class="bg-pattern"></div>
+    <!-- 抽象 K 线光影背景 -->
+    <div class="auth-bg" aria-hidden="true">
+      <svg class="kline-glow kline-glow-a" viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <g fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1.5">
+          <path d="M0 620 L140 560 L260 590 L420 480 L560 510 L700 420 L860 450 L1010 350 L1200 380" />
+          <path d="M0 700 L160 660 L320 690 L480 610 L640 640 L800 570 L960 600 L1200 520" opacity="0.6" />
+        </g>
+        <g fill="rgba(255,255,255,0.05)">
+          <rect x="180" y="420" width="7" height="70" rx="1" />
+          <rect x="186" y="440" width="7" height="50" rx="1" />
+          <rect x="420" y="360" width="7" height="64" rx="1" />
+          <rect x="426" y="380" width="7" height="44" rx="1" />
+          <rect x="660" y="310" width="7" height="58" rx="1" />
+          <rect x="666" y="328" width="7" height="40" rx="1" />
+          <rect x="920" y="250" width="7" height="52" rx="1" />
+          <rect x="926" y="266" width="7" height="36" rx="1" />
+        </g>
+      </svg>
+      <svg class="kline-glow kline-glow-b" viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <path
+          d="M0 300 L120 340 L260 300 L400 380 L540 340 L680 420 L840 370 L1000 450 L1200 400"
+          fill="none"
+          stroke="rgba(41,98,255,0.12)"
+          stroke-width="1.5"
+        />
+      </svg>
+      <div class="bg-vignette"></div>
     </div>
 
     <div class="auth-content">
-      <!-- 左侧品牌区域 -->
-      <div class="auth-brand">
-        <div class="brand-content">
-          <div class="logo-wrapper">
-            <div class="logo-icon">
-              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="40" height="40" rx="8" fill="url(#logo-gradient)" />
-                <path d="M12 28V12h4l6 10 6-10h4v16h-4V18l-6 10-6-10v10h-4z" fill="white" />
-                <defs>
-                  <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40">
-                    <stop stop-color="#f97316" />
-                    <stop offset="1" stop-color="#ef4444" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <span class="logo-text">口袋鱼</span>
-          </div>
-
-          <h1 class="brand-title">专业的K线模拟训练平台</h1>
-          <p class="brand-desc">
-            通过真实的市场数据，提升您的交易技能。<br />
-            支持多品种训练、策略回测、社区交流。
-          </p>
-
-          <div class="features-list">
-            <div class="feature-item">
-              <el-icon class="feature-icon">
-                <TrendCharts />
-              </el-icon>
-              <span>真实K线数据，还原市场走势</span>
-            </div>
-            <div class="feature-item">
-              <el-icon class="feature-icon">
-                <DataAnalysis />
-              </el-icon>
-              <span>智能数据分析，洞察交易习惯</span>
-            </div>
-            <div class="feature-item">
-              <el-icon class="feature-icon">
-                <Trophy />
-              </el-icon>
-              <span>排行榜竞技，与高手同台PK</span>
-            </div>
-            <div class="feature-item">
-              <el-icon class="feature-icon">
-                <ChatDotRound />
-              </el-icon>
-              <span>交流社区，分享策略心得</span>
-            </div>
-          </div>
+      <!-- 品牌 -->
+      <div class="brand">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+            />
+          </svg>
         </div>
-
-        <div class="brand-footer">
-          <p>已有 <span class="highlight">50,000+</span> 交易者在使用</p>
-        </div>
+        <span class="brand-name">口袋鱼</span>
+        <span class="brand-divider"></span>
+        <span class="brand-sub">K线训练终端</span>
       </div>
 
-      <!-- 右侧登录表单 -->
-      <div class="auth-form-wrapper">
-        <div class="auth-form-card">
-          <div class="form-header">
-            <h2 class="form-title">欢迎回来</h2>
-            <p class="form-subtitle">请登录您的账户继续训练</p>
-          </div>
+      <h1 class="auth-title">Log in to your terminal</h1>
+      <p class="auth-subtitle">使用真实市场数据，训练你的交易直觉</p>
 
-          <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="auth-form"
-            @submit.prevent="handleLogin">
-            <!-- 错误提示 -->
-            <el-form-item v-if="errorTips">
-              <el-alert :title="errorTips" type="error" show-icon :closable="false" />
+      <div class="auth-card">
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="auth-form" @submit.prevent="handleLogin">
+          <!-- 错误提示 -->
+          <el-form-item v-if="errorTips">
+            <el-alert :title="errorTips" type="error" show-icon :closable="false" />
+          </el-form-item>
+
+          <!-- 登录表单（非验证码模式） -->
+          <div v-show="!showCaptcha">
+            <el-form-item prop="account">
+              <el-input v-model="loginForm.account" placeholder="手机号 / 邮箱" size="large" class="term-input">
+                <template #prefix>
+                  <el-icon><User /></el-icon>
+                </template>
+              </el-input>
             </el-form-item>
 
-            <!-- 登录表单（非验证码模式） -->
-            <div v-show="!showCaptcha">
-              <el-form-item prop="account">
-                <el-input v-model="loginForm.account" placeholder="手机号 / 邮箱" size="large" :prefix-icon="User" />
-              </el-form-item>
+            <el-form-item prop="password">
+              <el-input v-model="loginForm.password" type="password" placeholder="密码" size="large" show-password class="term-input">
+                <template #prefix>
+                  <el-icon><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
 
-              <el-form-item prop="password">
-                <el-input v-model="loginForm.password" type="password" placeholder="密码" size="large" show-password
-                  :prefix-icon="Lock" />
-              </el-form-item>
-
-              <div class="form-options">
-                <el-checkbox v-model="loginForm.remember">7天内自动登录</el-checkbox>
-                <el-link type="primary" :underline="false" @click="showForgotPassword">忘记密码？</el-link>
-              </div>
-
-              <el-form-item>
-                <el-button type="primary" size="large" class="submit-btn" :loading="loading" :disabled="limitRequest"
-                  @click="handleLogin">
-                  登录
-                </el-button>
-              </el-form-item>
+            <div class="form-options">
+              <el-checkbox v-model="loginForm.remember">7天内自动登录</el-checkbox>
+              <el-link type="primary" :underline="false" @click="showForgotPassword">忘记密码？</el-link>
             </div>
 
-            <!-- 验证码组件（多次登录失败后显示） -->
-            <div v-show="showCaptcha">
-              <el-form-item>
-                <verify ref="verifyRef" v-model="loginForm.code" mode="banner" captcha-type="clickWord"
-                  :img-size="{ width: '375px', height: '200px' }" @success="checkSuccess" @ready="initReady" />
-              </el-form-item>
-            </div>
-          </el-form>
-
-          <el-divider>
-            <span class="divider-text">或使用以下方式登录</span>
-          </el-divider>
-
-          <div class="social-login">
-            <el-button class="social-btn wechat" @click="handleSocialLogin('wechat')">
-              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.269-.03-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z" />
-              </svg>
-              微信登录
-            </el-button>
-            <el-button class="social-btn" @click="handleSocialLogin('phone')">
-              <el-icon>
-                <Iphone />
-              </el-icon>
-              短信登录
-            </el-button>
+            <el-form-item>
+              <el-button size="large" class="term-btn" :loading="loading" :disabled="limitRequest" @click="handleLogin"> 登录 </el-button>
+            </el-form-item>
           </div>
 
-          <div class="form-footer">
-            <span>还没有账户？</span>
-            <router-link to="/register" class="register-link">立即注册</router-link>
+          <!-- 验证码组件（多次登录失败后显示） -->
+          <div v-show="showCaptcha">
+            <el-form-item>
+              <verify
+                ref="verifyRef"
+                v-model="loginForm.code"
+                mode="banner"
+                captcha-type="clickWord"
+                :img-size="{ width: '375px', height: '200px' }"
+                @success="checkSuccess"
+                @ready="initReady"
+              />
+            </el-form-item>
           </div>
+        </el-form>
+
+        <div class="auth-divider">
+          <span class="divider-line"></span>
+          <span class="divider-text">或</span>
+          <span class="divider-line"></span>
+        </div>
+
+        <div class="social-login">
+          <button class="social-btn" type="button" @click="handleSocialLogin('wechat')">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.269-.03-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"
+              />
+            </svg>
+            微信登录
+          </button>
+          <button class="social-btn" type="button" @click="handleSocialLogin('phone')">
+            <el-icon class="social-icon"><Iphone /></el-icon>
+            短信登录
+          </button>
+        </div>
+
+        <div class="form-footer">
+          <span>还没有账户？</span>
+          <router-link to="/register" class="register-link">立即注册</router-link>
         </div>
       </div>
     </div>
@@ -144,24 +129,26 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import {
-  User,
-  Lock,
-  TrendCharts,
-  DataAnalysis,
-  Trophy,
-  ChatDotRound,
-  Iphone
-} from '@element-plus/icons-vue'
+import { User, Lock, Iphone } from '@element-plus/icons-vue'
 import useUserStore from '@s/user'
 import verify from '@c/captcha/Verify.vue'
+import { setThemeClass, restoreTheme } from '@/utils/theme'
 
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
+
+// 登录页为独立深色终端页：进入强制暗色，离开恢复用户主题
+onMounted(() => {
+  setThemeClass('dark')
+})
+
+onUnmounted(() => {
+  restoreTheme()
+})
 
 const loginFormRef = ref(null)
 const verifyRef = ref(null)
@@ -206,40 +193,43 @@ const submitForm = async () => {
   errorTips.value = ''
   loading.value = true
 
-  userStore.login({
-    username: loginForm.account,
-    password: loginForm.password,
-    rememberMe: loginForm.remember,
-    code: loginForm.code,
-    uuid: loginForm.uuid
-  }).then(({ status, data, message }) => {
-    loading.value = false
-    loginForm.code = ''
+  userStore
+    .login({
+      username: loginForm.account,
+      password: loginForm.password,
+      rememberMe: loginForm.remember,
+      code: loginForm.code,
+      uuid: loginForm.uuid
+    })
+    .then(({ status, data, message }) => {
+      loading.value = false
+      loginForm.code = ''
 
-    if (status === 200) {
-      showCaptcha.value = false
-      ElMessage.success('登录成功')
-      userStore.getInfo().then(() => {
-        if (route.query['redirect_to']) {
-          window.location.href = decodeURIComponent(route.query['redirect_to'])
-        } else {
-          router.replace({ path: '/main/dashboard' })
-        }
-      })
-    } else {
-      retryCount.value = data
-      errorTips.value = message
-      limitRequest.value = status === 400108 || status === 400109
-      if (retryCount.value > 2 && status === 400104) {
-        showCaptcha.value = true
-      } else {
+      if (status === 200) {
         showCaptcha.value = false
+        ElMessage.success('登录成功')
+        userStore.getInfo().then(() => {
+          if (route.query['redirect_to']) {
+            window.location.href = decodeURIComponent(route.query['redirect_to'])
+          } else {
+            router.replace({ path: '/main/dashboard' })
+          }
+        })
+      } else {
+        retryCount.value = data
+        errorTips.value = message
+        limitRequest.value = status === 400108 || status === 400109
+        if (retryCount.value > 2 && status === 400104) {
+          showCaptcha.value = true
+        } else {
+          showCaptcha.value = false
+        }
       }
-    }
-  }).catch(() => {
-    loading.value = false
-    ElMessage.error('登录请求失败')
-  })
+    })
+    .catch(() => {
+      loading.value = false
+      ElMessage.error('登录请求失败')
+    })
 }
 
 const checkSuccess = (captchaVerification) => {
@@ -272,278 +262,259 @@ const showForgotPassword = () => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: #0a0a0a;
 }
 
 .auth-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
 }
 
-.bg-gradient {
+.kline-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  width: 100%;
+  height: 100%;
+  animation: drift 26s ease-in-out infinite alternate;
 }
 
-.bg-pattern {
+.kline-glow-b {
+  animation-duration: 34s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-24px);
+  }
+  to {
+    transform: translateX(24px);
+  }
+}
+
+.bg-vignette {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(41, 98, 255, 0.07) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, transparent 30%, transparent 70%, rgba(10, 10, 10, 0.55) 100%);
 }
 
 .auth-content {
   position: relative;
   z-index: 1;
-  display: flex;
   width: 100%;
-  max-width: 1200px;
-  min-height: 700px;
-  margin: 24px;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.auth-brand {
-  flex: 1;
-  padding: 48px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  max-width: 380px;
+  margin: 40px 24px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: white;
+  align-items: center;
 }
 
-.logo-wrapper {
+.brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 48px;
-}
-
-.logo-icon svg {
-  width: 40px;
-  height: 40px;
-}
-
-.logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.brand-title {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 16px;
-}
-
-.brand-desc {
-  font-size: 16px;
-  line-height: 1.8;
-  opacity: 0.9;
+  gap: 10px;
   margin-bottom: 40px;
 }
 
-.features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 15px;
-}
-
-.feature-icon {
-  font-size: 20px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-}
-
-.brand-footer {
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.brand-footer p {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.brand-footer .highlight {
-  font-weight: 700;
-  font-size: 18px;
-}
-
-.auth-form-wrapper {
-  flex: 1;
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  background: rgba(41, 98, 255, 0.14);
+  border: 1px solid rgba(41, 98, 255, 0.35);
+  color: #5c8fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px;
-  background: #ffffff;
 }
 
-.auth-form-card {
-  width: 100%;
-  max-width: 400px;
+.logo-mark svg {
+  width: 20px;
+  height: 20px;
 }
 
-.form-header {
-  text-align: center;
+.brand-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #e8eaed;
+  letter-spacing: 1px;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: #5f6469;
+  letter-spacing: 2px;
+}
+
+.auth-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #e8eaed;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  color: #5f6469;
   margin-bottom: 32px;
 }
 
-.form-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 8px;
+.auth-card {
+  width: 100%;
+  background: rgba(22, 24, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 32px 28px 24px;
+  backdrop-filter: blur(8px);
 }
 
-.form-subtitle {
-  color: #64748b;
-  font-size: 15px;
+.auth-form :deep(.el-form-item) {
+  margin-bottom: 22px;
 }
 
-.auth-form :deep(.el-input__wrapper) {
-  padding: 4px 16px;
-  border-radius: 12px;
-  box-shadow: 0 0 0 1px #e2e8f0;
-  transition: all 0.2s;
+/* 下划线式输入框 */
+.auth-form :deep(.term-input .el-input__wrapper) {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 1px 4px;
+  transition: border-color 0.2s;
 }
 
-.auth-form :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px #4f46e5;
+.auth-form :deep(.term-input .el-input__wrapper:hover) {
+  border-bottom-color: rgba(255, 255, 255, 0.32);
 }
 
-.auth-form :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2), 0 0 0 1px #4f46e5;
+.auth-form :deep(.term-input .el-input__wrapper.is-focus) {
+  box-shadow: none;
+  border-bottom-color: #2962ff;
 }
 
-.auth-form :deep(.el-input__inner) {
-  height: 44px;
+.auth-form :deep(.term-input .el-input__inner) {
+  height: 42px;
+  color: #e8eaed;
+  font-size: 14px;
+}
+
+.auth-form :deep(.term-input .el-input__inner::placeholder) {
+  color: #5f6469;
+}
+
+.auth-form :deep(.term-input .el-input__prefix) {
+  color: #5f6469;
 }
 
 .form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .form-options :deep(.el-checkbox__label) {
-  color: #64748b;
-  font-size: 14px;
+  color: #9aa0a6;
+  font-size: 13px;
 }
 
-.submit-btn {
+.form-options :deep(.el-link) {
+  font-size: 13px;
+}
+
+/* 幽灵按钮：描边，悬浮填充 */
+.auth-form .term-btn {
+  --el-button-bg-color: transparent;
+  --el-button-border-color: #2962ff;
+  --el-button-text-color: #5c8fff;
+  --el-button-hover-bg-color: #2962ff;
+  --el-button-hover-border-color: #2962ff;
+  --el-button-hover-text-color: #ffffff;
+  --el-button-active-bg-color: #1f4fd6;
+  --el-button-active-border-color: #1f4fd6;
   width: 100%;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  border: none;
-  transition: all 0.3s;
+  height: 44px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 6px;
+  text-indent: 6px;
 }
 
-.submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
 }
 
-:deep(.el-divider__text) {
-  background: white;
-  padding: 0 16px;
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .divider-text {
-  color: #94a3b8;
-  font-size: 13px;
+  font-size: 12px;
+  color: #5f6469;
 }
 
 .social-login {
   display: flex;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .social-btn {
   flex: 1;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid #e2e8f0;
-  background: white;
-  color: #475569;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #9aa0a6;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
   transition: all 0.2s;
 }
 
 .social-btn:hover {
-  border-color: #4f46e5;
-  color: #4f46e5;
-}
-
-.social-btn.wechat:hover {
-  border-color: #07c160;
-  color: #07c160;
+  border-color: #2962ff;
+  color: #8fb4ff;
 }
 
 .social-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
 }
 
 .form-footer {
   text-align: center;
-  color: #64748b;
-  font-size: 14px;
+  color: #5f6469;
+  font-size: 13px;
 }
 
 .register-link {
-  color: #4f46e5;
-  font-weight: 600;
+  color: #5c8fff;
+  font-weight: 500;
   text-decoration: none;
   margin-left: 4px;
 }
 
 .register-link:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 900px) {
-  .auth-content {
-    flex-direction: column;
-    margin: 16px;
-    min-height: auto;
-  }
-
-  .auth-brand {
-    padding: 32px;
-  }
-
-  .brand-title {
-    font-size: 24px;
-  }
-
-  .features-list {
-    display: none;
-  }
-
-  .auth-form-wrapper {
-    padding: 32px;
-  }
+  color: #8fb4ff;
 }
 </style>

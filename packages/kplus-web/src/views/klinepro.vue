@@ -4,11 +4,18 @@ import CustomDatafeed from '@/components/chart/customDatafeed'
 import defaultStyles from '@c/chart/default_style'
 
 import '@klinecharts/pro/dist/klinecharts-pro.css'
+import { setThemeClass, restoreTheme } from '@/utils/theme'
 
 onMounted(() => {
+  setThemeClass('dark')
+
   initKlineChart()
 
   bindHotKey()
+})
+
+onUnmounted(() => {
+  restoreTheme()
 })
 
 const initKlineChart = () => {

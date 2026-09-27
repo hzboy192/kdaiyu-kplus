@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElBadge, ElDropdown, ElDropdownMenu, ElDropdownItem, ElAvatar, ElIcon, ElSelect, ElOption, ElMessage } from 'element-plus'
-import { Bell, Setting, SwitchButton, User, Wallet } from '@element-plus/icons-vue'
+import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElAvatar, ElIcon, ElSelect, ElOption, ElMessage, ElTooltip } from 'element-plus'
+import { Bell, Setting, SwitchButton, User, Wallet, Moon, Sunny } from '@element-plus/icons-vue'
 import useUserStore from '@s/user'
+import { getTheme, applyTheme } from '@/utils/theme'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -12,18 +13,27 @@ defineProps({
   title: String
 })
 
-const emit = defineEmits(['toggle-sidebar'])
+defineEmits(['toggle-sidebar'])
 
 const currentAccount = ref('default')
 
+const isDark = ref(getTheme() === 'dark')
+
+const toggleTheme = () => {
+  isDark.value = applyTheme(isDark.value ? 'light' : 'dark') === 'dark'
+}
+
 // 退出登录
 const handleLogout = () => {
-  userStore.logout().then(() => {
-    ElMessage.success('退出登录成功')
-    router.push('/login')
-  }).catch(() => {
-    ElMessage.error('退出登录失败')
-  })
+  userStore
+    .logout()
+    .then(() => {
+      ElMessage.success('退出登录成功')
+      router.push('/login')
+    })
+    .catch(() => {
+      ElMessage.error('退出登录失败')
+    })
 }
 const accounts = [
   { id: 'default', name: '默认账户', balance: 100000 },
@@ -41,59 +51,81 @@ const unreadCount = ref(2)
 </script>
 
 <template>
-  <header class="h-16 bg-white border-b border-gray-100 px-6 flex items-center justify-between sticky top-0 z-40">
+  <header class="h-16 bg-panel border-b border-line px-6 flex items-center justify-between sticky top-0 z-40">
     <!-- Left: Page Title -->
     <div class="flex items-center gap-4">
-      <h1 class="text-xl font-bold text-gray-800">{{ title }}</h1>
+      <h1 class="text-lg font-semibold text-ink tracking-wide">{{ title }}</h1>
     </div>
 
     <!-- Right: Actions -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
       <!-- Account Selector -->
-      <div class="flex items-center gap-2 px-3 py-1.5 bg-primary-50 rounded-lg border border-primary-100">
-        <el-icon class="text-primary-500">
+      <div class="flex items-center gap-2 px-3 py-1 border border-line rounded bg-black/[0.02] dark:bg-white/[0.02]">
+        <el-icon class="text-primary-400">
           <Wallet />
         </el-icon>
-        <el-select v-model="currentAccount" size="small" style="width: 160px" :teleported="false">
-          <el-option v-for="account in accounts" :key="account.id"
-            :label="`${account.name} (¥${account.balance.toLocaleString()})`" :value="account.id"
-            :disabled="account.disabled" />
+        <el-select v-model="currentAccount" size="small" style="width: 168px" :teleported="false">
+          <el-option
+            v-for="account in accounts"
+            :key="account.id"
+            :label="`${account.name} (¥${account.balance.toLocaleString()})`"
+            :value="account.id"
+            :disabled="account.disabled"
+          />
         </el-select>
       </div>
 
+      <!-- Theme Toggle -->
+      <el-tooltip :content="isDark ? '切换为浅色' : '切换为暗色'" placement="bottom">
+        <button
+          class="p-2 text-ink-secondary hover:text-ink hover:bg-black/5 dark:hover:bg-white/5 rounded transition-colors"
+          @click="toggleTheme"
+        >
+          <el-icon :size="20">
+            <Sunny v-if="isDark" />
+            <Moon v-else />
+          </el-icon>
+        </button>
+      </el-tooltip>
+
       <!-- Notifications -->
       <el-dropdown trigger="click" :teleported="false">
-        <button class="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-          <el-icon :size="22">
+        <button class="relative p-2 text-ink-secondary hover:text-ink hover:bg-black/5 dark:hover:bg-white/5 rounded transition-colors">
+          <el-icon :size="20">
             <Bell />
           </el-icon>
-          <span v-if="unreadCount > 0" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          <span v-if="unreadCount > 0" class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-up rounded-full"></span>
         </button>
         <template #dropdown>
-          <div class="w-80">
-            <div class="px-4 py-3 border-b border-gray-100">
+          <div class="w-80 bg-panel-raised border border-line rounded-md shadow-xl">
+            <div class="px-4 py-3 border-b border-line">
               <div class="flex items-center justify-between">
-                <span class="font-semibold text-gray-800">通知消息</span>
-                <span class="text-xs text-primary-600 cursor-pointer hover:underline">全部已读</span>
+                <span class="font-medium text-ink text-sm">通知消息</span>
+                <span class="text-xs text-primary-400 cursor-pointer hover:text-primary-300">全部已读</span>
               </div>
             </div>
             <div class="max-h-80 overflow-y-auto">
-              <div v-for="notification in notifications" :key="notification.id"
-                class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-0"
-                :class="{ 'bg-primary-50/50': !notification.read }">
+              <div
+                v-for="notification in notifications"
+                :key="notification.id"
+                class="px-4 py-3 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer border-b border-line last:border-0"
+                :class="{ 'bg-primary-500/5': !notification.read }"
+              >
                 <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0"
-                    :class="notification.read ? 'bg-gray-300' : 'bg-primary-500'"></div>
+                  <div
+                    class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
+                    :class="notification.read ? 'bg-black/15 dark:bg-white/15' : 'bg-primary-500'"
+                  ></div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-800">{{ notification.title }}</p>
-                    <p class="text-xs text-gray-500 mt-0.5 truncate">{{ notification.content }}</p>
-                    <p class="text-xs text-gray-400 mt-1">{{ notification.time }}</p>
+                    <p class="text-sm text-ink">{{ notification.title }}</p>
+                    <p class="text-xs text-ink-secondary mt-0.5 truncate">{{ notification.content }}</p>
+                    <p class="text-xs text-ink-faint mt-1">{{ notification.time }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="px-4 py-2 border-t border-gray-100 text-center">
-              <span class="text-sm text-primary-600 cursor-pointer hover:underline">查看全部</span>
+            <div class="px-4 py-2 border-t border-line text-center">
+              <span class="text-sm text-primary-400 cursor-pointer hover:text-primary-300">查看全部</span>
             </div>
           </div>
         </template>
@@ -101,12 +133,13 @@ const unreadCount = ref(2)
 
       <!-- User Menu -->
       <el-dropdown trigger="click" :teleported="false">
-        <div class="flex items-center gap-3 cursor-pointer hover:bg-gray-50 rounded-xl px-2 py-1.5 transition-colors">
-          <el-avatar :size="38" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-            class="border-2 border-primary-100" />
-          <div class="hidden md:block">
-            <p class="text-sm font-semibold text-gray-800">泊远万里</p>
-            <p class="text-xs text-gray-500">VIP会员</p>
+        <div class="flex items-center gap-3 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 rounded px-2 py-1.5 transition-colors">
+          <el-avatar :size="34" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="border border-line" />
+          <div class="hidden md:block text-left">
+            <p class="text-sm text-ink leading-tight">泊远万里</p>
+            <p class="mt-0.5">
+              <span class="text-[10px] text-primary-400 border border-primary-500/40 rounded-[3px] px-1 py-px">VIP会员</span>
+            </p>
           </div>
         </div>
         <template #dropdown>

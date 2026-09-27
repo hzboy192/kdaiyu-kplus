@@ -9,6 +9,7 @@ import { initChart, disposeChart, curPeriod, curGoods, supportPeriods } from '@c
 import { closeAfterHandle, TIP_SETTING, trainInit, trainStop } from '@c/chart/TrainCore'
 import { closeTrainDtl, openTrainDtl, saveTrainData } from '@d/train_trade_data'
 import emit from '@/utils/mitt'
+import { setThemeClass, restoreTheme } from '@/utils/theme'
 import { ElNotification } from 'element-plus'
 import { getFundDftAccount } from '@d/fund_account'
 import FundSettingDialog from '@c/train/fundSettingDialog.vue'
@@ -41,7 +42,7 @@ let accountInfo = reactive({
 })
 
 onMounted(() => {
-  document.documentElement.setAttribute('class', 'dark')
+  setThemeClass('dark')
 
   initChart()
 
@@ -50,7 +51,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   disposeChart()
-  document.documentElement.setAttribute('class', 'light')
+  restoreTheme()
 })
 
 // todo 查询用户信息、图表设置、账号信息数据。

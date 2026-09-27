@@ -60,28 +60,17 @@ function strategy(data) {
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">策略编辑器</h2>
-        <p class="text-gray-500 text-sm mt-1">编写和管理自动化交易策略</p>
+        <h2 class="text-xl font-bold text-ink">策略编辑器</h2>
+        <p class="text-ink-faint text-sm mt-1">编写和管理自动化交易策略</p>
       </div>
-      <el-button 
-        type="primary" 
-        @click="showEditor = true"
-        :disabled="!isVip"
-        class="!rounded-xl"
-      >
+      <el-button type="primary" @click="showEditor = true" :disabled="!isVip" class="!rounded">
         <el-icon class="mr-1"><Plus /></el-icon>
         新建策略
       </el-button>
     </div>
 
     <!-- VIP Notice -->
-    <el-alert
-      v-if="!isVip"
-      type="warning"
-      :closable="false"
-      show-icon
-      class="!rounded-xl"
-    >
+    <el-alert v-if="!isVip" type="warning" :closable="false" show-icon class="!rounded">
       <template #title>
         <div class="flex items-center gap-2">
           <el-icon><Lock /></el-icon>
@@ -99,16 +88,12 @@ function strategy(data) {
       <div
         v-for="strategy in strategies"
         :key="strategy.id"
-        class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md hover:border-gray-200 transition-all"
+        class="bg-panel rounded-md border border-line p-5 hover:border-white/20 transition-all"
       >
         <div class="flex items-start justify-between mb-3">
           <div>
-            <h3 class="font-semibold text-gray-800">{{ strategy.name }}</h3>
-            <el-tag 
-              :type="strategy.status === 'active' ? 'success' : 'info'" 
-              size="small"
-              class="mt-1"
-            >
+            <h3 class="font-semibold text-ink">{{ strategy.name }}</h3>
+            <el-tag :type="strategy.status === 'active' ? 'success' : 'info'" size="small" class="mt-1">
               {{ strategy.status === 'active' ? '运行中' : '草稿' }}
             </el-tag>
           </div>
@@ -121,30 +106,30 @@ function strategy(data) {
             </el-button>
           </div>
         </div>
-        
-        <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ strategy.description }}</p>
-        
-        <div class="grid grid-cols-3 gap-2 text-center py-3 bg-gray-50 rounded-xl mb-4">
+
+        <p class="text-sm text-ink-faint mb-4 line-clamp-2">{{ strategy.description }}</p>
+
+        <div class="grid grid-cols-3 gap-2 text-center py-3 bg-white/[0.03] rounded mb-4">
           <div>
-            <p class="text-xs text-gray-500">胜率</p>
-            <p class="font-semibold text-gray-800">{{ strategy.winRate }}%</p>
+            <p class="text-xs text-ink-faint">胜率</p>
+            <p class="font-semibold text-ink font-mono tabular-nums">{{ strategy.winRate }}%</p>
           </div>
           <div>
-            <p class="text-xs text-gray-500">交易次数</p>
-            <p class="font-semibold text-gray-800">{{ strategy.trades }}</p>
+            <p class="text-xs text-ink-faint">交易次数</p>
+            <p class="font-semibold text-ink font-mono tabular-nums">{{ strategy.trades }}</p>
           </div>
           <div>
-            <p class="text-xs text-gray-500">最近运行</p>
-            <p class="font-semibold text-gray-800 text-xs">{{ strategy.lastRun }}</p>
+            <p class="text-xs text-ink-faint">最近运行</p>
+            <p class="font-semibold text-ink text-xs">{{ strategy.lastRun }}</p>
           </div>
         </div>
 
         <div class="flex gap-2">
-          <el-button type="primary" size="small" class="flex-1 !rounded-lg">
+          <el-button type="primary" size="small" class="flex-1 !rounded">
             <el-icon class="mr-1"><VideoPlay /></el-icon>
             回测
           </el-button>
-          <el-button size="small" class="flex-1 !rounded-lg">
+          <el-button size="small" class="flex-1 !rounded">
             <el-icon class="mr-1"><Document /></el-icon>
             详情
           </el-button>
@@ -154,10 +139,12 @@ function strategy(data) {
       <!-- Create New Card -->
       <div
         @click="isVip && (showEditor = true)"
-        class="border-2 border-dashed rounded-2xl p-5 flex flex-col items-center justify-center text-gray-400 transition-all min-h-[240px]"
-        :class="isVip 
-          ? 'border-gray-300 hover:border-primary-400 hover:text-primary-600 cursor-pointer' 
-          : 'border-gray-200 cursor-not-allowed opacity-60'"
+        class="border-2 border-dashed rounded-md p-5 flex flex-col items-center justify-center text-ink-faint transition-all min-h-[240px]"
+        :class="
+          isVip
+            ? 'border-white/20 hover:border-primary-400 hover:text-primary-400 cursor-pointer'
+            : 'border-line cursor-not-allowed opacity-60'
+        "
       >
         <el-icon :size="48" class="mb-2">
           <Lock v-if="!isVip" />
@@ -169,9 +156,9 @@ function strategy(data) {
     </div>
 
     <!-- Code Preview -->
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-        <h3 class="font-semibold text-gray-800">策略代码示例</h3>
+    <div class="bg-panel rounded-md border border-line overflow-hidden">
+      <div class="px-6 py-4 border-b border-line flex items-center justify-between">
+        <h3 class="font-semibold text-ink">策略代码示例</h3>
         <el-tag type="info" size="small">只读预览</el-tag>
       </div>
       <pre class="p-6 bg-gray-900 text-gray-100 text-sm overflow-x-auto"><code>{{ sampleCode }}</code></pre>

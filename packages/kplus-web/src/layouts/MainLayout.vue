@@ -18,12 +18,12 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex bg-slate-50">
+  <div class="min-h-screen flex bg-app">
     <!-- Sidebar -->
     <SidebarNav :collapsed="isCollapsed" @toggle="toggleSidebar" />
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col transition-all duration-300" :class="isCollapsed ? 'ml-20' : 'ml-64'">
+    <div class="flex-1 flex flex-col transition-all duration-200" :class="isCollapsed ? 'ml-[72px]' : 'ml-60'">
       <!-- Header -->
       <HeaderBar :title="pageTitle" @toggle-sidebar="toggleSidebar" />
 

@@ -5,7 +5,7 @@ import { Star, TrendCharts, User, Check, Plus, Lock } from '@element-plus/icons-
 
 const sortBy = ref('profit')
 const showSubscribeDialog = ref(false)
-const selectedTrader = ref<any>(null)
+const selectedTrader = ref < any > null
 const copyRatio = ref(50)
 
 const traders = ref([
@@ -67,8 +67,8 @@ const openSubscribe = (trader) => {
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">跟单大厅</h2>
-        <p class="text-gray-500 text-sm mt-1">订阅高手策略，自动跟随交易</p>
+        <h2 class="text-xl font-bold text-ink">跟单大厅</h2>
+        <p class="text-ink-faint text-sm mt-1">订阅高手策略，自动跟随交易</p>
       </div>
       <div class="flex gap-3">
         <el-select v-model="sortBy" class="!w-36">
@@ -80,23 +80,23 @@ const openSubscribe = (trader) => {
     </div>
 
     <!-- My Subscriptions -->
-    <div class="bg-primary-50 rounded-2xl p-5 border border-primary-100">
+    <div class="bg-primary-500/10 rounded-md p-5 border border-primary-500/30">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="font-semibold text-gray-800">我的订阅</h3>
+        <h3 class="font-semibold text-ink">我的订阅</h3>
         <el-tag type="primary" effect="light">已订阅 1 位交易员</el-tag>
       </div>
-      <div class="flex items-center gap-4 bg-white rounded-xl p-4">
+      <div class="flex items-center gap-4 bg-panel-raised rounded p-4">
         <el-avatar src="https://api.dicebear.com/7.x/avataaars/svg?seed=2" :size="56" />
         <div class="flex-1">
           <div class="flex items-center gap-2">
-            <span class="font-semibold text-gray-800">交易小王子</span>
+            <span class="font-semibold text-ink">交易小王子</span>
             <el-tag type="warning" size="small">专业</el-tag>
           </div>
-          <p class="text-sm text-gray-500 mt-1">跟单比例: 50% | 本月跟单收益: +¥2,450</p>
+          <p class="text-sm text-ink-faint mt-1">跟单比例: 50% | 本月跟单收益: +¥2,450</p>
         </div>
         <div class="text-right">
-          <p class="text-sm text-gray-500">今日信号</p>
-          <p class="font-semibold text-primary-600">3 笔交易</p>
+          <p class="text-sm text-ink-faint">今日信号</p>
+          <p class="font-semibold text-primary-400">3 笔交易</p>
         </div>
         <el-button type="primary" link>管理</el-button>
       </div>
@@ -107,72 +107,61 @@ const openSubscribe = (trader) => {
       <div
         v-for="trader in traders"
         :key="trader.id"
-        class="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all"
+        class="bg-panel rounded-md border border-line p-6 hover:border-white/20 transition-all"
       >
         <!-- Header -->
         <div class="flex items-start gap-4 mb-4">
-          <el-avatar :src="trader.avatar" :size="64" class="border-2 border-primary-100" />
+          <el-avatar :src="trader.avatar" :size="64" class="border-2 border-primary-500/30" />
           <div class="flex-1">
             <div class="flex items-center gap-2">
-              <h3 class="font-bold text-lg text-gray-800">{{ trader.name }}</h3>
-              <el-tag 
-                :type="trader.level === '大师' ? 'danger' : 'warning'" 
-                size="small"
-              >
+              <h3 class="font-bold text-lg text-ink">{{ trader.name }}</h3>
+              <el-tag :type="trader.level === '大师' ? 'danger' : 'warning'" size="small">
                 {{ trader.level }}
               </el-tag>
-              <el-icon v-if="trader.subscribed" class="text-primary-600"><Check /></el-icon>
+              <el-icon v-if="trader.subscribed" class="text-primary-400"><Check /></el-icon>
             </div>
-            <p class="text-sm text-gray-500 mt-1">{{ trader.description }}</p>
-            <div class="flex items-center gap-4 mt-2 text-xs text-gray-400">
-              <span><el-icon><User /></el-icon> {{ trader.followers }} 粉丝</span>
+            <p class="text-sm text-ink-faint mt-1">{{ trader.description }}</p>
+            <div class="flex items-center gap-4 mt-2 text-xs text-ink-faint">
+              <span
+                ><el-icon><User /></el-icon> {{ trader.followers }} 粉丝</span
+              >
               <span>交易 {{ trader.tradingDays }} 天</span>
             </div>
           </div>
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-4 gap-3 p-4 bg-gray-50 rounded-xl mb-4">
+        <div class="grid grid-cols-4 gap-3 p-4 bg-white/[0.03] rounded mb-4">
           <div class="text-center">
-            <p class="text-xs text-gray-500">胜率</p>
-            <p class="font-bold text-green-600">{{ trader.winRate }}%</p>
+            <p class="text-xs text-ink-faint">胜率</p>
+            <p class="font-bold text-down font-mono tabular-nums">{{ trader.winRate }}%</p>
           </div>
           <div class="text-center">
-            <p class="text-xs text-gray-500">月收益</p>
-            <p class="font-bold text-red-500">+{{ trader.monthlyReturn }}%</p>
+            <p class="text-xs text-ink-faint">月收益</p>
+            <p class="font-bold text-up font-mono tabular-nums">+{{ trader.monthlyReturn }}%</p>
           </div>
           <div class="text-center">
-            <p class="text-xs text-gray-500">最大回撤</p>
-            <p class="font-bold text-gray-700">{{ trader.maxDrawdown }}%</p>
+            <p class="text-xs text-ink-faint">最大回撤</p>
+            <p class="font-bold text-ink-secondary font-mono tabular-nums">{{ trader.maxDrawdown }}%</p>
           </div>
           <div class="text-center">
-            <p class="text-xs text-gray-500">月收益额</p>
-            <p class="font-bold text-gray-800">¥{{ (trader.monthlyProfit / 10000).toFixed(1) }}万</p>
+            <p class="text-xs text-ink-faint">月收益额</p>
+            <p class="font-bold text-ink font-mono tabular-nums">¥{{ (trader.monthlyProfit / 10000).toFixed(1) }}万</p>
           </div>
         </div>
 
         <!-- Actions -->
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-500">
-            订阅费: <span class="font-semibold text-gray-800">¥{{ trader.fee }}/月</span>
+          <span class="text-sm text-ink-faint">
+            订阅费: <span class="font-semibold text-ink font-mono tabular-nums">¥{{ trader.fee }}/月</span>
           </span>
           <div class="flex gap-2">
             <el-button size="small">查看详情</el-button>
-            <el-button 
-              v-if="!trader.subscribed"
-              type="primary" 
-              size="small"
-              @click="openSubscribe(trader)"
-            >
+            <el-button v-if="!trader.subscribed" type="primary" size="small" @click="openSubscribe(trader)">
               <el-icon class="mr-1"><Plus /></el-icon>
               订阅跟单
             </el-button>
-            <el-button 
-              v-else 
-              type="success" 
-              size="small"
-              disabled
-            >
+            <el-button v-else type="success" size="small" disabled>
               <el-icon class="mr-1"><Check /></el-icon>
               已订阅
             </el-button>
@@ -182,12 +171,7 @@ const openSubscribe = (trader) => {
     </div>
 
     <!-- VIP Notice -->
-    <el-alert
-      type="info"
-      :closable="false"
-      show-icon
-      class="!rounded-xl"
-    >
+    <el-alert type="info" :closable="false" show-icon class="!rounded">
       <template #title>
         <div class="flex items-center gap-2">
           <el-icon><Lock /></el-icon>
@@ -201,40 +185,33 @@ const openSubscribe = (trader) => {
     </el-alert>
 
     <!-- Subscribe Dialog -->
-    <el-dialog
-      v-model="showSubscribeDialog"
-      title="订阅跟单"
-      width="480"
-      :close-on-click-modal="false"
-    >
+    <el-dialog v-model="showSubscribeDialog" title="订阅跟单" width="480" :close-on-click-modal="false">
       <div v-if="selectedTrader" class="space-y-6">
-        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+        <div class="flex items-center gap-4 p-4 bg-white/[0.03] rounded">
           <el-avatar :src="selectedTrader.avatar" :size="48" />
           <div>
-            <p class="font-semibold text-gray-800">{{ selectedTrader.name }}</p>
-            <p class="text-sm text-gray-500">胜率 {{ selectedTrader.winRate }}% | 月收益 +{{ selectedTrader.monthlyReturn }}%</p>
+            <p class="font-semibold text-ink">{{ selectedTrader.name }}</p>
+            <p class="text-sm text-ink-faint">胜率 {{ selectedTrader.winRate }}% | 月收益 +{{ selectedTrader.monthlyReturn }}%</p>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-3">跟单比例</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-3">跟单比例</label>
           <el-slider v-model="copyRatio" :min="10" :max="100" :step="10" show-stops />
-          <p class="text-sm text-gray-500 mt-2">
+          <p class="text-sm text-ink-faint mt-2">
             当交易员开仓时，您将以 <span class="font-semibold">{{ copyRatio }}%</span> 的比例跟随交易
           </p>
         </div>
 
-        <div class="p-4 bg-yellow-50 rounded-xl border border-yellow-100">
-          <p class="text-sm text-yellow-800">
+        <div class="p-4 bg-white/[0.04] rounded border border-line">
+          <p class="text-sm text-warning-500">
             <span class="font-semibold">风险提示：</span>跟单交易存在风险，历史收益不代表未来收益。请根据自身风险承受能力合理配置。
           </p>
         </div>
       </div>
       <template #footer>
         <el-button @click="showSubscribeDialog = false">取消</el-button>
-        <el-button type="primary" @click="showSubscribeDialog = false">
-          确认订阅 (¥{{ selectedTrader?.fee }}/月)
-        </el-button>
+        <el-button type="primary" @click="showSubscribeDialog = false"> 确认订阅 (¥{{ selectedTrader?.fee }}/月) </el-button>
       </template>
     </el-dialog>
   </div>

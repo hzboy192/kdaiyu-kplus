@@ -1,10 +1,13 @@
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import './assets/css/style.css'
+import { restoreTheme } from './utils/theme'
+
+restoreTheme()
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import ElementPlus from 'element-plus'
 import zh_CN from 'element-plus/es/locale/lang/zh-cn'
-import 'element-plus/theme-chalk/dark/css-vars.css'
 import iconFont from '@c/icons/IconFont.vue'
 
 import App from './App.vue'

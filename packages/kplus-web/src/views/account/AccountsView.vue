@@ -1,36 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import {
-  ElCard,
   ElButton,
   ElInput,
   ElSelect,
   ElOption,
-  ElTag,
-  ElIcon,
   ElDialog,
   ElForm,
   ElFormItem,
   ElAlert,
-  ElPopconfirm
+  ElPopconfirm,
+  ElTable,
+  ElTableColumn,
+  ElIcon
 } from 'element-plus'
-import { Plus, Search, View, Edit, Delete, CircleCheck, VideoPause } from '@element-plus/icons-vue'
+import { Plus, Search, Edit, Delete, Sort } from '@element-plus/icons-vue'
 
 interface Account {
-  id
-  name
-  type
-  balance
-  profit
-  profitRate
+  id: string
+  name: string
+  type: string
+  balance: number
+  profit: number
+  profitRate: number
   status: 'active' | 'disabled' | 'default'
-  createdAt
+  createdAt: string
 }
 
 const searchQuery = ref('')
 const statusFilter = ref('')
 const typeFilter = ref('')
 const showCreateDialog = ref(false)
+const editingId = ref<string | null>(null)
 
 const accounts = ref<Account[]>([
   {
@@ -71,21 +72,66 @@ const newAccount = ref({
   initialBalance: 100000
 })
 
+const filteredAccounts = computed(() => {
+  return accounts.value.filter((a) => {
+    if (searchQuery.value && !a.name.includes(searchQuery.value)) return false
+    if (statusFilter.value === 'active' && a.status === 'disabled') return false
+    if (statusFilter.value === 'disabled' && a.status !== 'disabled') return false
+    if (typeFilter.value && a.type !== typeFilter.value) return false
+    return true
+  })
+})
+
+const dialogTitle = computed(() => (editingId.value ? '编辑账户' : '新建账户'))
+
 const formatMoney = (value) => {
   return value.toLocaleString('zh-CN')
 }
 
-const getStatusTag = (status) => {
-  switch (status) {
-    case 'default':
-      return { text: '默认', type: 'primary' }
-    case 'active':
-      return { text: '正常', type: 'success' }
-    case 'disabled':
-      return { text: '已禁用', type: 'info' }
-    default:
-      return { text: '未知', type: 'info' }
+const openCreate = () => {
+  editingId.value = null
+  newAccount.value = { name: '', type: '股票账户', initialBalance: 100000 }
+  showCreateDialog.value = true
+}
+
+const openEdit = (account: Account) => {
+  editingId.value = account.id
+  newAccount.value = { name: account.name, type: account.type, initialBalance: account.balance }
+  showCreateDialog.value = true
+}
+
+const saveAccount = () => {
+  if (!newAccount.value.name) return
+  if (editingId.value) {
+    const target = accounts.value.find((a) => a.id === editingId.value)
+    if (target) {
+      target.name = newAccount.value.name
+      target.type = newAccount.value.type
+      target.balance = newAccount.value.initialBalance
+    }
+  } else {
+    accounts.value.push({
+      id: String(Date.now()),
+      name: newAccount.value.name,
+      type: newAccount.value.type,
+      balance: newAccount.value.initialBalance,
+      profit: 0,
+      profitRate: 0,
+      status: 'active',
+      createdAt: new Date().toISOString().slice(0, 10)
+    })
   }
+  showCreateDialog.value = false
+}
+
+const setDefault = (account: Account) => {
+  accounts.value.forEach((a) => {
+    a.status = a.id === account.id ? 'default' : a.status === 'default' ? 'active' : a.status
+  })
+}
+
+const removeAccount = (account: Account) => {
+  accounts.value = accounts.value.filter((a) => a.id !== account.id)
 }
 </script>
 
@@ -94,13 +140,19 @@ const getStatusTag = (status) => {
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">账户管理</h2>
-        <p class="text-gray-500 text-sm mt-1">多账户体系：支持股票、期货、期权等账户类型，独立核算盈亏</p>
+        <h2 class="text-xl font-semibold text-ink">账户管理</h2>
+        <p class="text-ink-secondary text-sm mt-1">多账户体系：支持股票、期货、期权等账户类型，独立核算盈亏</p>
       </div>
-      <el-button type="primary" @click="showCreateDialog = true" class="!rounded-xl">
-        <el-icon class="mr-1"><Plus /></el-icon>
-        创建账户
-      </el-button>
+      <div class="flex items-center gap-3">
+        <router-link to="/main/transfer" class="ghost-btn">
+          <el-icon :size="14"><Sort /></el-icon>
+          资金调拨
+        </router-link>
+        <el-button class="ghost-btn" @click="openCreate">
+          <el-icon :size="14"><Plus /></el-icon>
+          新建账户
+        </el-button>
+      </div>
     </div>
 
     <!-- Filters -->
@@ -111,106 +163,97 @@ const getStatusTag = (status) => {
         <el-option label="已禁用" value="disabled" />
       </el-select>
       <el-select v-model="typeFilter" placeholder="全部类型" clearable class="!w-32">
-        <el-option label="股票账户" value="stock" />
-        <el-option label="期货账户" value="futures" />
-        <el-option label="期权账户" value="options" />
+        <el-option label="股票账户" value="股票账户" />
+        <el-option label="期货账户" value="期货账户" />
+        <el-option label="期权账户" value="期权账户" />
       </el-select>
     </div>
 
-    <!-- Account Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Account Cards -->
-      <div
-        v-for="account in accounts"
-        :key="account.id"
-        class="bg-white rounded-2xl p-6 border-2 transition-all duration-200 relative"
-        :class="[
-          account.status === 'default'
-            ? 'border-primary-500 bg-primary-50/30'
-            : account.status === 'disabled'
-              ? 'border-gray-200 bg-gray-50 opacity-75'
-              : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
-        ]"
-      >
-        <!-- Status Badge -->
-        <div v-if="account.status === 'default'" class="absolute -top-3 left-6">
-          <el-tag type="primary" effect="dark" size="small" round>默认</el-tag>
-        </div>
-        <div v-else-if="account.status === 'disabled'" class="absolute -top-3 left-6">
-          <el-tag type="info" effect="dark" size="small" round>已禁用</el-tag>
-        </div>
-
-        <!-- Header -->
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="text-lg font-bold text-gray-800">{{ account.name }}</h3>
-            <el-tag size="small" type="info" class="mt-1">{{ account.type }}</el-tag>
-          </div>
-          <div class="flex gap-1">
-            <el-button text circle size="small">
-              <el-icon><View /></el-icon>
-            </el-button>
-            <el-button text circle size="small">
-              <el-icon><Edit /></el-icon>
-            </el-button>
-            <el-button v-if="account.status === 'disabled'" text circle size="small" type="success">
-              <el-icon><CircleCheck /></el-icon>
-            </el-button>
-            <el-button v-else-if="account.status !== 'default'" text circle size="small" type="warning">
-              <el-icon><VideoPause /></el-icon>
-            </el-button>
-            <el-popconfirm title="确定要删除此账户吗？" confirm-button-text="确定" cancel-button-text="取消">
-              <template #reference>
-                <el-button text circle size="small" type="danger" :disabled="account.status === 'default'">
-                  <el-icon><Delete /></el-icon>
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <p class="text-xs text-gray-500 mb-1">账户余额</p>
-            <p class="text-xl font-bold text-gray-800">¥{{ formatMoney(account.balance) }}</p>
-          </div>
-          <div>
-            <p class="text-xs text-gray-500 mb-1">账户盈亏</p>
-            <p class="text-xl font-bold" :class="account.profit >= 0 ? 'text-red-500' : 'text-green-500'">
-              {{ account.profit >= 0 ? '+' : '' }}¥{{ formatMoney(account.profit) }}
+    <!-- Account Table -->
+    <div class="bg-panel border border-line rounded-md overflow-hidden">
+      <el-table :data="filteredAccounts" style="width: 100%" class="account-table">
+        <el-table-column label="账户名称" min-width="180">
+          <template #default="{ row }">
+            <p class="text-sm text-ink">{{ row.name }}</p>
+            <p class="text-xs text-ink-faint mt-0.5">创建于 {{ row.createdAt }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="type" label="类型" width="120">
+          <template #default="{ row }">
+            <span class="text-sm text-ink-secondary">{{ row.type }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="余额" width="150">
+          <template #default="{ row }">
+            <span class="text-sm text-ink font-mono tabular-nums">¥{{ formatMoney(row.balance) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="盈亏" width="160">
+          <template #default="{ row }">
+            <p
+              class="text-sm font-medium font-mono tabular-nums"
+              :class="row.profit > 0 ? 'text-up' : row.profit < 0 ? 'text-down' : 'text-ink-secondary'"
+            >
+              {{ row.profit > 0 ? '+' : '' }}¥{{ formatMoney(row.profit) }}
             </p>
-            <p class="text-xs" :class="account.profitRate >= 0 ? 'text-red-400' : 'text-green-400'">
-              {{ account.profitRate >= 0 ? '+' : '' }}{{ account.profitRate.toFixed(2) }}%
+            <p
+              class="text-xs mt-0.5 font-mono tabular-nums"
+              :class="row.profitRate > 0 ? 'text-up/80' : row.profitRate < 0 ? 'text-down/80' : 'text-ink-faint'"
+            >
+              {{ row.profitRate > 0 ? '+' : '' }}{{ row.profitRate.toFixed(2) }}%
             </p>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-          <span class="text-xs text-gray-400">创建时间: {{ account.createdAt }}</span>
-          <el-button v-if="account.status !== 'disabled'" type="primary" link size="small">
-            {{ account.status === 'default' ? '当前交易账户' : '切换到此账户' }}
-          </el-button>
-          <span v-else class="text-xs text-gray-400">暂停使用</span>
-        </div>
-      </div>
-
-      <!-- Create New Account Card -->
-      <div
-        @click="showCreateDialog = true"
-        class="border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center text-gray-400 hover:border-primary-400 hover:text-primary-600 cursor-pointer transition-all min-h-[200px]"
-      >
-        <el-icon :size="48" class="mb-2"><Plus /></el-icon>
-        <span class="font-medium">创建新账户</span>
-        <span class="text-xs mt-1">支持股票、期货、期权等</span>
-      </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="状态" width="110">
+          <template #default="{ row }">
+            <span class="inline-flex items-center gap-1.5 text-xs">
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                :class="{
+                  'bg-primary-500': row.status === 'default',
+                  'bg-down': row.status === 'active',
+                  'bg-ink-faint': row.status === 'disabled'
+                }"
+              ></span>
+              <span :class="row.status === 'disabled' ? 'text-ink-faint' : 'text-ink-secondary'">
+                {{ row.status === 'default' ? '默认' : row.status === 'active' ? '正常' : '已禁用' }}
+              </span>
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="200" align="right">
+          <template #default="{ row }">
+            <div class="flex items-center justify-end gap-4">
+              <el-button
+                link
+                size="small"
+                class="!text-xs !text-primary-400 hover:!text-primary-300"
+                :disabled="row.status === 'default'"
+                @click="setDefault(row)"
+              >
+                设默认
+              </el-button>
+              <el-button link size="small" class="!text-xs !text-ink-secondary hover:!text-ink" @click="openEdit(row)"> 编辑 </el-button>
+              <el-popconfirm title="确定要删除此账户吗？" confirm-button-text="确定" cancel-button-text="取消">
+                <template #reference>
+                  <el-button link size="small" class="!text-xs !text-up hover:!opacity-80" :disabled="row.status === 'default'">
+                    删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+            </div>
+          </template>
+        </el-table-column>
+        <template #empty>
+          <span class="text-ink-faint text-sm">暂无匹配的账户</span>
+        </template>
+      </el-table>
     </div>
 
     <!-- Info Alert -->
-    <el-alert type="info" :closable="false" show-icon class="!rounded-xl">
+    <el-alert type="info" :closable="false" show-icon>
       <template #title>
-        <span class="font-semibold">账户使用说明</span>
+        <span class="font-medium">账户使用说明</span>
       </template>
       <div class="text-sm mt-1 space-y-1">
         <p>默认账户：新用户自动创建，用于日常训练</p>
@@ -220,8 +263,8 @@ const getStatusTag = (status) => {
       </div>
     </el-alert>
 
-    <!-- Create Account Dialog -->
-    <el-dialog v-model="showCreateDialog" title="创建新账户" width="480" :close-on-click-modal="false">
+    <!-- Create / Edit Account Dialog -->
+    <el-dialog v-model="showCreateDialog" :title="dialogTitle" width="480" :close-on-click-modal="false">
       <el-form :model="newAccount" label-position="top">
         <el-form-item label="账户名称" required>
           <el-input v-model="newAccount.name" placeholder="请输入账户名称" />
@@ -241,8 +284,36 @@ const getStatusTag = (status) => {
       </el-form>
       <template #footer>
         <el-button @click="showCreateDialog = false">取消</el-button>
-        <el-button type="primary" @click="showCreateDialog = false">创建</el-button>
+        <el-button type="primary" @click="saveAccount">保存</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
+
+<style scoped>
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: #9aa0a6;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.ghost-btn:hover {
+  border-color: #2962ff;
+  background: #2962ff;
+  color: #ffffff;
+}
+
+.account-table {
+  --el-table-bg-color: transparent;
+  --el-table-tr-bg-color: transparent;
+  --el-table-header-bg-color: transparent;
+}
+</style>

@@ -3,15 +3,15 @@ import { ref } from 'vue'
 import { ElCard, ElButton, ElDatePicker, ElSelect, ElOption, ElProgress, ElIcon, ElTable, ElTableColumn, ElTag } from 'element-plus'
 import { VideoPlay, Clock, TrendCharts, DataAnalysis } from '@element-plus/icons-vue'
 
-const dateRange = ref<[Date, Date] | null>(null)
+const dateRange = (ref < [Date, Date]) | (null > null)
 const selectedIndex = ref('000001')
 const isRunning = ref(false)
 const progress = ref(0)
 
 const backtestResults = ref([
-  { id: 1, date: '2024-01-15', action: '买入', price: 3045.20, profit: 1200, rate: 1.88 },
-  { id: 2, date: '2024-01-18', action: '卖出', price: 3102.50, profit: -450, rate: -0.45 },
-  { id: 3, date: '2024-01-22', action: '买入', price: 3080.80, profit: 860, rate: 0.91 }
+  { id: 1, date: '2024-01-15', action: '买入', price: 3045.2, profit: 1200, rate: 1.88 },
+  { id: 2, date: '2024-01-18', action: '卖出', price: 3102.5, profit: -450, rate: -0.45 },
+  { id: 3, date: '2024-01-22', action: '买入', price: 3080.8, profit: 860, rate: 0.91 }
 ])
 
 const stats = [
@@ -38,16 +38,16 @@ const startBacktest = () => {
   <div class="space-y-6">
     <!-- Header -->
     <div>
-      <h2 class="text-xl font-bold text-gray-800">历史回测</h2>
-      <p class="text-gray-500 text-sm mt-1">对历史数据进行策略验证和分析</p>
+      <h2 class="text-xl font-bold text-ink">历史回测</h2>
+      <p class="text-ink-faint text-sm mt-1">对历史数据进行策略验证和分析</p>
     </div>
 
     <!-- Settings Panel -->
-    <div class="bg-white rounded-2xl border border-gray-100 p-6">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">回测设置</h3>
+    <div class="bg-panel rounded-md border border-line p-6">
+      <h3 class="text-lg font-semibold text-ink mb-4">回测设置</h3>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">交易品种</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">交易品种</label>
           <el-select v-model="selectedIndex" class="!w-full">
             <el-option label="上证指数 (000001)" value="000001" />
             <el-option label="深证成指 (399001)" value="399001" />
@@ -56,7 +56,7 @@ const startBacktest = () => {
           </el-select>
         </div>
         <div class="md:col-span-2">
-          <label class="block text-sm font-medium text-gray-700 mb-2">回测区间</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">回测区间</label>
           <el-date-picker
             v-model="dateRange"
             type="daterange"
@@ -67,12 +67,7 @@ const startBacktest = () => {
           />
         </div>
         <div class="flex items-end">
-          <el-button 
-            type="primary" 
-            class="!w-full !rounded-xl"
-            :loading="isRunning"
-            @click="startBacktest"
-          >
+          <el-button type="primary" class="!w-full !rounded" :loading="isRunning" @click="startBacktest">
             <el-icon class="mr-1"><VideoPlay /></el-icon>
             开始回测
           </el-button>
@@ -82,8 +77,8 @@ const startBacktest = () => {
       <!-- Progress -->
       <div v-if="isRunning" class="mt-6">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-sm text-gray-600">回测进度</span>
-          <span class="text-sm font-medium text-primary-600">{{ progress }}%</span>
+          <span class="text-sm text-ink-secondary">回测进度</span>
+          <span class="text-sm font-medium text-primary-400">{{ progress }}%</span>
         </div>
         <el-progress :percentage="progress" :show-text="false" />
       </div>
@@ -91,26 +86,19 @@ const startBacktest = () => {
 
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div 
-        v-for="stat in stats" 
-        :key="stat.label"
-        class="bg-white rounded-xl p-4 border border-gray-100"
-      >
-        <p class="text-sm text-gray-500">{{ stat.label }}</p>
-        <p class="text-xl font-bold text-gray-800 mt-1">{{ stat.value }}</p>
-        <p 
-          class="text-xs mt-1"
-          :class="stat.change.startsWith('+') ? 'text-green-600' : 'text-red-500'"
-        >
+      <div v-for="stat in stats" :key="stat.label" class="bg-panel rounded p-4 border border-line">
+        <p class="text-sm text-ink-faint">{{ stat.label }}</p>
+        <p class="text-xl font-bold text-ink mt-1 font-mono tabular-nums">{{ stat.value }}</p>
+        <p class="text-xs mt-1" :class="stat.change.startsWith('+') ? 'text-down' : 'text-up'">
           {{ stat.change }}
         </p>
       </div>
     </div>
 
     <!-- Results Table -->
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-100">
-        <h3 class="font-semibold text-gray-800">回测交易记录</h3>
+    <div class="bg-panel rounded-md border border-line overflow-hidden">
+      <div class="px-6 py-4 border-b border-line">
+        <h3 class="font-semibold text-ink">回测交易记录</h3>
       </div>
       <el-table :data="backtestResults" style="width: 100%">
         <el-table-column prop="date" label="日期" width="120" />
@@ -122,18 +110,20 @@ const startBacktest = () => {
           </template>
         </el-table-column>
         <el-table-column prop="price" label="价格" width="120">
-          <template #default="{ row }">{{ row.price.toFixed(2) }}</template>
+          <template #default="{ row }"
+            ><span class="font-mono tabular-nums">{{ row.price.toFixed(2) }}</span></template
+          >
         </el-table-column>
         <el-table-column label="盈亏" width="120">
           <template #default="{ row }">
-            <span :class="row.profit >= 0 ? 'text-red-500' : 'text-green-500'">
+            <span class="font-mono tabular-nums" :class="row.profit >= 0 ? 'text-up' : 'text-down'">
               {{ row.profit >= 0 ? '+' : '' }}¥{{ row.profit }}
             </span>
           </template>
         </el-table-column>
         <el-table-column label="收益率">
           <template #default="{ row }">
-            <span :class="row.rate >= 0 ? 'text-red-500' : 'text-green-500'">
+            <span class="font-mono tabular-nums" :class="row.rate >= 0 ? 'text-up' : 'text-down'">
               {{ row.rate >= 0 ? '+' : '' }}{{ row.rate }}%
             </span>
           </template>

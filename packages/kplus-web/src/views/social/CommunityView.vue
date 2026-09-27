@@ -79,10 +79,10 @@ const categories = [
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">交流社区</h2>
-        <p class="text-gray-500 text-sm mt-1">策略分享、心得交流、问答互动</p>
+        <h2 class="text-xl font-bold text-ink">交流社区</h2>
+        <p class="text-ink-faint text-sm mt-1">策略分享、心得交流、问答互动</p>
       </div>
-      <el-button type="primary" @click="showPostDialog = true" class="!rounded-xl">
+      <el-button type="primary" @click="showPostDialog = true" class="!rounded">
         <el-icon class="mr-1"><Plus /></el-icon>
         发布帖子
       </el-button>
@@ -94,10 +94,12 @@ const categories = [
         v-for="cat in categories"
         :key="cat.value"
         @click="activeTab = cat.value"
-        class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all"
-        :class="activeTab === cat.value 
-          ? 'bg-primary-600 text-white shadow-md shadow-primary-500/30' 
-          : 'bg-white text-gray-600 border border-gray-200 hover:border-primary-300 hover:text-primary-600'"
+        class="flex items-center gap-2 px-4 py-2 rounded text-sm font-medium whitespace-nowrap transition-all"
+        :class="
+          activeTab === cat.value
+            ? 'bg-primary-500/15 text-primary-400 border border-primary-500/30'
+            : 'bg-panel text-ink-secondary border border-line hover:border-primary-300 hover:text-primary-400'
+        "
       >
         <el-icon :size="16"><component :is="cat.icon" /></el-icon>
         {{ cat.label }}
@@ -109,32 +111,24 @@ const categories = [
       <div
         v-for="post in posts"
         :key="post.id"
-        class="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all cursor-pointer"
+        class="bg-panel rounded-md p-5 border border-line hover:border-white/20 transition-all cursor-pointer"
       >
         <div class="flex gap-4">
           <el-avatar :src="post.avatar" :size="48" class="flex-shrink-0" />
           <div class="flex-1 min-w-0">
             <div class="flex items-start gap-2 mb-2">
-              <h3 class="font-semibold text-gray-800 hover:text-primary-600 transition-colors line-clamp-1">
+              <h3 class="font-semibold text-ink hover:text-primary-400 transition-colors line-clamp-1">
                 {{ post.title }}
               </h3>
-              <el-tag v-if="post.isHot" type="danger" size="small" effect="light" class="flex-shrink-0">
-                热门
-              </el-tag>
+              <el-tag v-if="post.isHot" type="danger" size="small" effect="light" class="flex-shrink-0"> 热门 </el-tag>
             </div>
-            <p class="text-sm text-gray-500 line-clamp-2 mb-3">{{ post.content }}</p>
+            <p class="text-sm text-ink-faint line-clamp-2 mb-3">{{ post.content }}</p>
             <div class="flex flex-wrap gap-2 mb-3">
-              <el-tag 
-                v-for="tag in post.tags" 
-                :key="tag"
-                size="small"
-                type="info"
-                effect="plain"
-              >
+              <el-tag v-for="tag in post.tags" :key="tag" size="small" type="info" effect="plain">
                 {{ tag }}
               </el-tag>
             </div>
-            <div class="flex items-center gap-4 text-xs text-gray-400">
+            <div class="flex items-center gap-4 text-xs text-ink-faint">
               <span class="flex items-center gap-1">
                 <el-icon><User /></el-icon>
                 {{ post.author }}
@@ -167,35 +161,32 @@ const categories = [
     </div>
 
     <!-- Create Post Dialog -->
-    <el-dialog
-      v-model="showPostDialog"
-      title="发布帖子"
-      width="600"
-      :close-on-click-modal="false"
-    >
+    <el-dialog v-model="showPostDialog" title="发布帖子" width="600" :close-on-click-modal="false">
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">帖子分类</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">帖子分类</label>
           <div class="flex gap-2">
             <button
               v-for="cat in categories.slice(1)"
               :key="cat.value"
               @click="newPost.category = cat.value"
-              class="px-3 py-1.5 rounded-lg text-sm border transition-all"
-              :class="newPost.category === cat.value 
-                ? 'bg-primary-50 border-primary-500 text-primary-600' 
-                : 'border-gray-200 text-gray-600 hover:border-gray-300'"
+              class="px-3 py-1.5 rounded text-sm border transition-all"
+              :class="
+                newPost.category === cat.value
+                  ? 'bg-primary-500/10 border-primary-500/40 text-primary-400'
+                  : 'border-line text-ink-secondary hover:border-white/20'
+              "
             >
               {{ cat.label }}
             </button>
           </div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">标题</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">标题</label>
           <el-input v-model="newPost.title" placeholder="请输入标题" maxlength="50" show-word-limit />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">内容</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">内容</label>
           <el-input
             v-model="newPost.content"
             type="textarea"

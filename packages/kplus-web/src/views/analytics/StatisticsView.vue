@@ -109,15 +109,15 @@ const summaryStats = [
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">交易统计</h2>
-        <p class="text-gray-500 text-sm mt-1">详细的交易记录和胜率分析</p>
+        <h2 class="text-xl font-bold text-ink">交易统计</h2>
+        <p class="text-ink-faint text-sm mt-1">详细的交易记录和胜率分析</p>
       </div>
       <div class="flex gap-2">
-        <el-button class="!rounded-xl">
+        <el-button class="!rounded">
           <el-icon class="mr-1"><Download /></el-icon>
           导出报表
         </el-button>
-        <el-button type="primary" class="!rounded-xl">
+        <el-button type="primary" class="!rounded">
           <el-icon class="mr-1"><Filter /></el-icon>
           筛选
         </el-button>
@@ -126,14 +126,14 @@ const summaryStats = [
 
     <!-- Summary Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div v-for="stat in summaryStats" :key="stat.label" class="bg-white rounded-xl p-4 border border-gray-100">
-        <p class="text-sm text-gray-500">{{ stat.label }}</p>
-        <p class="text-xl font-bold text-gray-800 mt-1">{{ stat.value }}</p>
+      <div v-for="stat in summaryStats" :key="stat.label" class="bg-panel rounded p-4 border border-line">
+        <p class="text-sm text-ink-faint">{{ stat.label }}</p>
+        <p class="text-xl font-bold text-ink mt-1 font-mono tabular-nums">{{ stat.value }}</p>
       </div>
     </div>
 
     <!-- Filters -->
-    <div class="flex flex-wrap gap-4 bg-white p-4 rounded-xl border border-gray-100">
+    <div class="flex flex-wrap gap-4 bg-panel p-4 rounded border border-line">
       <el-select v-model="currentAccount" placeholder="选择账户" class="!w-40">
         <el-option label="全部账户" value="all" />
         <el-option label="默认账户" value="default" />
@@ -160,11 +160,11 @@ const summaryStats = [
     </div>
 
     <!-- Table -->
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+    <div class="bg-panel rounded-md border border-line overflow-hidden">
       <el-table
         :data="tradeRecords"
         style="width: 100%"
-        :header-cell-style="{ backgroundColor: '#f8fafc', color: '#64748b', fontWeight: '500' }"
+        :header-cell-style="{ backgroundColor: 'var(--c-panel)', color: 'var(--c-ink-secondary)', fontWeight: '500' }"
       >
         <el-table-column prop="date" label="日期" width="120" />
         <el-table-column label="账户" width="120">
@@ -184,24 +184,24 @@ const summaryStats = [
         </el-table-column>
         <el-table-column prop="openPrice" label="开仓价" width="120">
           <template #default="{ row }">
-            {{ row.openPrice.toFixed(2) }}
+            <span class="font-mono tabular-nums">{{ row.openPrice.toFixed(2) }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="closePrice" label="平仓价" width="120">
           <template #default="{ row }">
-            {{ row.closePrice.toFixed(2) }}
+            <span class="font-mono tabular-nums">{{ row.closePrice.toFixed(2) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="盈亏" width="120">
           <template #default="{ row }">
-            <span class="font-semibold" :class="row.profit >= 0 ? 'text-red-500' : 'text-green-500'">
+            <span class="font-semibold font-mono tabular-nums" :class="row.profit >= 0 ? 'text-up' : 'text-down'">
               {{ row.profit >= 0 ? '+' : '' }}¥{{ row.profit }}
             </span>
           </template>
         </el-table-column>
         <el-table-column label="收益率" width="100">
           <template #default="{ row }">
-            <span :class="row.profitRate >= 0 ? 'text-red-500' : 'text-green-500'">
+            <span class="font-mono tabular-nums" :class="row.profitRate >= 0 ? 'text-up' : 'text-down'">
               {{ row.profitRate >= 0 ? '+' : '' }}{{ row.profitRate }}%
             </span>
           </template>
@@ -216,8 +216,8 @@ const summaryStats = [
       </el-table>
 
       <!-- Pagination -->
-      <div class="flex justify-between items-center p-4 border-t border-gray-100">
-        <span class="text-sm text-gray-500">共 128 条记录</span>
+      <div class="flex justify-between items-center p-4 border-t border-line">
+        <span class="text-sm text-ink-faint">共 128 条记录</span>
         <el-pagination
           v-model:current-page="currentPage"
           v-model:page-size="pageSize"
