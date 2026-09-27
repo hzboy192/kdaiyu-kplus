@@ -16,7 +16,10 @@
   --c-panel-raised: #f9fafb;
   --c-line: rgba(17, 24, 39, 0.08);
   --c-line-strong: rgba(17, 24, 39, 0.16);
+  --c-line-hover: rgba(17, 24, 39, 0.32);
   --c-hover: rgba(17, 24, 39, 0.05);
+  --c-link: #1f4fd6;
+  --c-link-hover: #2962ff;
   --scroll-track: #f1f2f4;
   --scroll-thumb: #c1c5cc;
   --scroll-thumb-hover: #a3a8b0;
@@ -58,7 +61,10 @@ html.dark {
   --c-panel-raised: #1b1d22;
   --c-line: rgba(255, 255, 255, 0.08);
   --c-line-strong: rgba(255, 255, 255, 0.18);
+  --c-line-hover: rgba(255, 255, 255, 0.32);
   --c-hover: rgba(255, 255, 255, 0.05);
+  --c-link: #5c8fff;
+  --c-link-hover: #8fb4ff;
   --scroll-track: #1a1b1f;
   --scroll-thumb: #3a3d42;
   --scroll-thumb-hover: #4c5056;

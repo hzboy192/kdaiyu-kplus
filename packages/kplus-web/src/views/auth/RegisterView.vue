@@ -3,11 +3,11 @@
     <!-- 抽象 K 线光影背景 -->
     <div class="auth-bg" aria-hidden="true">
       <svg class="kline-glow kline-glow-a" viewBox="0 0 1200 800" preserveAspectRatio="none">
-        <g fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1.5">
+        <g fill="none" stroke="var(--c-line)" stroke-width="1.5">
           <path d="M0 620 L140 560 L260 590 L420 480 L560 510 L700 420 L860 450 L1010 350 L1200 380" />
           <path d="M0 700 L160 660 L320 690 L480 610 L640 640 L800 570 L960 600 L1200 520" opacity="0.6" />
         </g>
-        <g fill="rgba(255,255,255,0.05)">
+        <g fill="var(--c-line)">
           <rect x="180" y="420" width="7" height="70" rx="1" />
           <rect x="186" y="440" width="7" height="50" rx="1" />
           <rect x="420" y="360" width="7" height="64" rx="1" />
@@ -160,22 +160,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { User, Lock, Iphone, ArrowLeft } from '@element-plus/icons-vue'
-import { setThemeClass, restoreTheme } from '@/utils/theme'
 
 const router = useRouter()
-
-// 注册页为独立深色终端页：进入强制暗色，离开恢复用户主题
-onMounted(() => {
-  setThemeClass('dark')
-})
-
-onUnmounted(() => {
-  restoreTheme()
-})
 const step1FormRef = ref(null)
 const step2FormRef = ref(null)
 const loading = ref(false)
@@ -302,7 +292,7 @@ const handleSocialRegister = (type) => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0a0a0a;
+  background: var(--app-bg);
 }
 
 .auth-bg {
@@ -338,7 +328,7 @@ const handleSocialRegister = (type) => {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(41, 98, 255, 0.07) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, transparent 30%, transparent 70%, rgba(10, 10, 10, 0.55) 100%);
+    linear-gradient(180deg, var(--app-bg) 0%, transparent 30%, transparent 70%, var(--app-bg) 100%);
 }
 
 .auth-content {
@@ -365,7 +355,7 @@ const handleSocialRegister = (type) => {
   border-radius: 4px;
   background: rgba(41, 98, 255, 0.14);
   border: 1px solid rgba(41, 98, 255, 0.35);
-  color: #5c8fff;
+  color: var(--c-link);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -379,40 +369,40 @@ const handleSocialRegister = (type) => {
 .brand-name {
   font-size: 17px;
   font-weight: 600;
-  color: #e8eaed;
+  color: var(--c-ink);
   letter-spacing: 1px;
 }
 
 .brand-divider {
   width: 1px;
   height: 14px;
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--c-line-strong);
 }
 
 .brand-sub {
   font-size: 12px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   letter-spacing: 2px;
 }
 
 .auth-title {
   font-size: 22px;
   font-weight: 600;
-  color: #e8eaed;
+  color: var(--c-ink);
   letter-spacing: 0.5px;
   margin-bottom: 10px;
 }
 
 .auth-subtitle {
   font-size: 13px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   margin-bottom: 32px;
 }
 
 .auth-card {
   width: 100%;
-  background: rgba(22, 24, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--c-panel);
+  border: 1px solid var(--c-line);
   border-radius: 6px;
   padding: 32px 28px 24px;
   backdrop-filter: blur(8px);
@@ -438,8 +428,8 @@ const handleSocialRegister = (type) => {
   height: 28px;
   border-radius: 4px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #5f6469;
+  border: 1px solid var(--c-line-strong);
+  color: var(--c-ink-faint);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,22 +442,22 @@ const handleSocialRegister = (type) => {
 .step.done .step-number {
   border-color: #2962ff;
   background: rgba(41, 98, 255, 0.14);
-  color: #5c8fff;
+  color: var(--c-link);
 }
 
 .step-label {
   font-size: 12px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .step.active .step-label {
-  color: #8fb4ff;
+  color: var(--c-link-hover);
 }
 
 .step-line {
   width: 64px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--c-line);
   margin: 0 16px;
   margin-bottom: 24px;
   transition: all 0.2s;
@@ -486,13 +476,13 @@ const handleSocialRegister = (type) => {
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid var(--c-line-strong);
   padding: 1px 4px;
   transition: border-color 0.2s;
 }
 
 .auth-form :deep(.term-input .el-input__wrapper:hover) {
-  border-bottom-color: rgba(255, 255, 255, 0.32);
+  border-bottom-color: var(--c-line-hover);
 }
 
 .auth-form :deep(.term-input .el-input__wrapper.is-focus) {
@@ -502,16 +492,16 @@ const handleSocialRegister = (type) => {
 
 .auth-form :deep(.term-input .el-input__inner) {
   height: 42px;
-  color: #e8eaed;
+  color: var(--c-ink);
   font-size: 14px;
 }
 
 .auth-form :deep(.term-input .el-input__inner::placeholder) {
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .auth-form :deep(.term-input .el-input__prefix) {
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .auth-form .agreement-item {
@@ -519,7 +509,7 @@ const handleSocialRegister = (type) => {
 }
 
 .auth-form .agreement-item :deep(.el-checkbox__label) {
-  color: #9aa0a6;
+  color: var(--c-ink-secondary);
   font-size: 12px;
 }
 
@@ -531,7 +521,7 @@ const handleSocialRegister = (type) => {
 .auth-form .term-btn {
   --el-button-bg-color: transparent;
   --el-button-border-color: #2962ff;
-  --el-button-text-color: #5c8fff;
+  --el-button-text-color: var(--c-link);
   --el-button-hover-bg-color: #2962ff;
   --el-button-hover-border-color: #2962ff;
   --el-button-hover-text-color: #ffffff;
@@ -549,14 +539,14 @@ const handleSocialRegister = (type) => {
 .verify-phone-info {
   text-align: center;
   margin-bottom: 24px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   font-size: 13px;
 }
 
 .verify-phone-info .phone-number {
   font-size: 22px;
   font-weight: 600;
-  color: #e8eaed;
+  color: var(--c-ink);
   font-family: 'Roboto Mono', 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   font-variant-numeric: tabular-nums;
   margin-top: 8px;
@@ -578,14 +568,14 @@ const handleSocialRegister = (type) => {
   border-radius: 4px;
   font-size: 12px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #9aa0a6;
+  border: 1px solid var(--c-line-strong);
+  color: var(--c-ink-secondary);
   white-space: nowrap;
 }
 
 .send-code-btn:hover:not(:disabled) {
   border-color: #2962ff;
-  color: #8fb4ff;
+  color: var(--c-link-hover);
   background: transparent;
 }
 
@@ -600,13 +590,13 @@ const handleSocialRegister = (type) => {
   border-radius: 4px;
   font-size: 13px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #9aa0a6;
+  border: 1px solid var(--c-line-strong);
+  color: var(--c-ink-secondary);
 }
 
 .back-btn:hover {
-  border-color: rgba(255, 255, 255, 0.32);
-  color: #e8eaed;
+  border-color: var(--c-line-hover);
+  color: var(--c-ink);
   background: transparent;
 }
 
@@ -617,19 +607,19 @@ const handleSocialRegister = (type) => {
 
 .form-footer {
   text-align: center;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   font-size: 13px;
   margin-top: 4px;
 }
 
 .login-link {
-  color: #5c8fff;
+  color: var(--c-link);
   font-weight: 500;
   text-decoration: none;
   margin-left: 4px;
 }
 
 .login-link:hover {
-  color: #8fb4ff;
+  color: var(--c-link-hover);
 }
 </style>

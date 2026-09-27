@@ -3,11 +3,11 @@
     <!-- 抽象 K 线光影背景 -->
     <div class="auth-bg" aria-hidden="true">
       <svg class="kline-glow kline-glow-a" viewBox="0 0 1200 800" preserveAspectRatio="none">
-        <g fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1.5">
+        <g fill="none" stroke="var(--c-line)" stroke-width="1.5">
           <path d="M0 620 L140 560 L260 590 L420 480 L560 510 L700 420 L860 450 L1010 350 L1200 380" />
           <path d="M0 700 L160 660 L320 690 L480 610 L640 640 L800 570 L960 600 L1200 520" opacity="0.6" />
         </g>
-        <g fill="rgba(255,255,255,0.05)">
+        <g fill="var(--c-line)">
           <rect x="180" y="420" width="7" height="70" rx="1" />
           <rect x="186" y="440" width="7" height="50" rx="1" />
           <rect x="420" y="360" width="7" height="64" rx="1" />
@@ -129,26 +129,16 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { User, Lock, Iphone } from '@element-plus/icons-vue'
 import useUserStore from '@s/user'
 import verify from '@c/captcha/Verify.vue'
-import { setThemeClass, restoreTheme } from '@/utils/theme'
 
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
-
-// 登录页为独立深色终端页：进入强制暗色，离开恢复用户主题
-onMounted(() => {
-  setThemeClass('dark')
-})
-
-onUnmounted(() => {
-  restoreTheme()
-})
 
 const loginFormRef = ref(null)
 const verifyRef = ref(null)
@@ -262,7 +252,7 @@ const showForgotPassword = () => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0a0a0a;
+  background: var(--app-bg);
 }
 
 .auth-bg {
@@ -298,7 +288,7 @@ const showForgotPassword = () => {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(41, 98, 255, 0.07) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, transparent 30%, transparent 70%, rgba(10, 10, 10, 0.55) 100%);
+    linear-gradient(180deg, var(--app-bg) 0%, transparent 30%, transparent 70%, var(--app-bg) 100%);
 }
 
 .auth-content {
@@ -325,7 +315,7 @@ const showForgotPassword = () => {
   border-radius: 4px;
   background: rgba(41, 98, 255, 0.14);
   border: 1px solid rgba(41, 98, 255, 0.35);
-  color: #5c8fff;
+  color: var(--c-link);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,40 +329,40 @@ const showForgotPassword = () => {
 .brand-name {
   font-size: 17px;
   font-weight: 600;
-  color: #e8eaed;
+  color: var(--c-ink);
   letter-spacing: 1px;
 }
 
 .brand-divider {
   width: 1px;
   height: 14px;
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--c-line-strong);
 }
 
 .brand-sub {
   font-size: 12px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   letter-spacing: 2px;
 }
 
 .auth-title {
   font-size: 22px;
   font-weight: 600;
-  color: #e8eaed;
+  color: var(--c-ink);
   letter-spacing: 0.5px;
   margin-bottom: 10px;
 }
 
 .auth-subtitle {
   font-size: 13px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   margin-bottom: 32px;
 }
 
 .auth-card {
   width: 100%;
-  background: rgba(22, 24, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--c-panel);
+  border: 1px solid var(--c-line);
   border-radius: 6px;
   padding: 32px 28px 24px;
   backdrop-filter: blur(8px);
@@ -387,13 +377,13 @@ const showForgotPassword = () => {
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid var(--c-line-strong);
   padding: 1px 4px;
   transition: border-color 0.2s;
 }
 
 .auth-form :deep(.term-input .el-input__wrapper:hover) {
-  border-bottom-color: rgba(255, 255, 255, 0.32);
+  border-bottom-color: var(--c-line-hover);
 }
 
 .auth-form :deep(.term-input .el-input__wrapper.is-focus) {
@@ -403,16 +393,16 @@ const showForgotPassword = () => {
 
 .auth-form :deep(.term-input .el-input__inner) {
   height: 42px;
-  color: #e8eaed;
+  color: var(--c-ink);
   font-size: 14px;
 }
 
 .auth-form :deep(.term-input .el-input__inner::placeholder) {
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .auth-form :deep(.term-input .el-input__prefix) {
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .form-options {
@@ -423,7 +413,7 @@ const showForgotPassword = () => {
 }
 
 .form-options :deep(.el-checkbox__label) {
-  color: #9aa0a6;
+  color: var(--c-ink-secondary);
   font-size: 13px;
 }
 
@@ -435,7 +425,7 @@ const showForgotPassword = () => {
 .auth-form .term-btn {
   --el-button-bg-color: transparent;
   --el-button-border-color: #2962ff;
-  --el-button-text-color: #5c8fff;
+  --el-button-text-color: var(--c-link);
   --el-button-hover-bg-color: #2962ff;
   --el-button-hover-border-color: #2962ff;
   --el-button-hover-text-color: #ffffff;
@@ -460,12 +450,12 @@ const showForgotPassword = () => {
 .divider-line {
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--c-line);
 }
 
 .divider-text {
   font-size: 12px;
-  color: #5f6469;
+  color: var(--c-ink-faint);
 }
 
 .social-login {
@@ -483,16 +473,16 @@ const showForgotPassword = () => {
   gap: 6px;
   border-radius: 4px;
   font-size: 13px;
-  color: #9aa0a6;
+  color: var(--c-ink-secondary);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--c-line-strong);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .social-btn:hover {
   border-color: #2962ff;
-  color: #8fb4ff;
+  color: var(--c-link-hover);
 }
 
 .social-icon {
@@ -503,18 +493,18 @@ const showForgotPassword = () => {
 
 .form-footer {
   text-align: center;
-  color: #5f6469;
+  color: var(--c-ink-faint);
   font-size: 13px;
 }
 
 .register-link {
-  color: #5c8fff;
+  color: var(--c-link);
   font-weight: 500;
   text-decoration: none;
   margin-left: 4px;
 }
 
 .register-link:hover {
-  color: #8fb4ff;
+  color: var(--c-link-hover);
 }
 </style>
