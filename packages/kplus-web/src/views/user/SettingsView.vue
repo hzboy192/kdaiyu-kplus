@@ -95,7 +95,7 @@ const selectSettings = [
               <p class="text-sm text-ink-faint">{{ item.desc }}</p>
             </div>
             <template v-if="false">
-              <el-switch v-model="settings[item.key as keyof typeof settings]" :active-value="true" :inactive-value="false" />
+              <el-switch v-model="settings[item.key]" :active-value="true" :inactive-value="false" />
             </template>
           </div>
         </div>
@@ -113,7 +113,7 @@ const selectSettings = [
       <div class="divide-y divide-line">
         <div v-for="item in selectSettings" :key="item.key" class="flex items-center justify-between px-6 py-4">
           <p class="font-medium text-ink">{{ item.label }}</p>
-          <el-select v-model="settings[item.key as keyof typeof settings]" class="!w-52">
+          <el-select v-model="settings[item.key]" class="!w-52">
             <el-option v-for="opt in item.options" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
         </div>
