@@ -69,3 +69,5 @@ server/mvnw.cmd
 .env.*.local
 server/**/application-prod.yml
 server/**/application-secret.yml
+server/**/application-dev.yaml
+server/**/application-dev.yml

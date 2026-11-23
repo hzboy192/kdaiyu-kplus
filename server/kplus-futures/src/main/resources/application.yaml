@@ -1,6 +1,6 @@
 app:
   name: K-PLUS
-  site: https://kplus.kdaiyu.com
+  site: https://kplus.dpdns.laoder.org
   version: 1.0.1
   copyright: 2025
   upload-base: /uploadFiles/kplus
@@ -21,7 +21,7 @@ app:
     ignore:
       urls: /, /login, /logout, /druid/**, /register
     token:
-      secret: ***REMOVED***
+      secret: ${app_token_secret}
       # 令牌有效期（默认30分钟）
       expireTime: 30
 
@@ -49,8 +49,8 @@ spring:
   mail:
     host: smtp.126.com
     port: 25
-    username: kdaiyu@126.com
-    password: ***REMOVED***
+    username: ${mail_username:kdaiyu@126.com}
+    password: ${mail_password}
     properties:
       mail:
         smtp:
