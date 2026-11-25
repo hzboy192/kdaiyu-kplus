@@ -546,10 +546,11 @@ insert into sys_config values(5, '账号自助-是否开启用户注册功能', 
 insert into sys_config values(6, '用户登录-黑名单列表',           'sys.login.blackIPList',         '',              'Y', 'superadmin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 INSERT INTO sys_config VALUES (102, '业务端-用户注册开关', 'biz.user.registerEnabled', 'true', 'Y', 'superadmin', SYSDATE(), '',
         NULL, '业务用户注册功能开关');
-INSERT INTO sys_config VALUES (101, '业务端-AES秘钥', 'biz.aes.secret.key', '***REMOVED***', 'Y', '', SYSDATE(),
-        '', NULL, 'AES加密秘钥');
-INSERT INTO sys_config VALUES (103, '业务端-AES秘钥IV值', 'biz.aes.secret.iv', '***REMOVED***', 'Y', 'superadmin', SYSDATE(), '',
-        NULL, 'AES加密IV');
+-- AES 密钥请部署时通过管理后台或环境配置写入，切勿提交真实密钥到版本库
+INSERT INTO sys_config VALUES (101, '业务端-AES秘钥', 'biz.aes.secret.key', '', 'Y', '', SYSDATE(),
+        '', NULL, 'AES加密秘钥（32位），部署时自行配置');
+INSERT INTO sys_config VALUES (103, '业务端-AES秘钥IV值', 'biz.aes.secret.iv', '', 'Y', 'superadmin', SYSDATE(), '',
+        NULL, 'AES加密IV（16位），部署时自行配置');
 INSERT INTO sys_config VALUES (104, '对象存储根', 'biz.oss.root', '/home/ossFiles', 'Y', 'superadmin', SYSDATE(), '',
         NULL, '上传资源存储根地址。');
 INSERT INTO sys_config VALUES (100, '业务端-验证码开关', 'biz.user.captchaEnabled', 'true', 'N', 'superadmin', SYSDATE(), '',

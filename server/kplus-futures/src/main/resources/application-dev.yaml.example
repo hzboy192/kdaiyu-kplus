@@ -1,0 +1,14 @@
+# 复制为 application-dev.yaml 并填入本地开发配置
+# application-dev.yaml 已被 .gitignore 忽略，请勿提交
+spring:
+  datasource:
+    username: your_db_username
+    password: your_db_password
+  mail:
+    username: your_mail_username
+    password: your_mail_password
+
+app:
+  security:
+    token:
+      secret: your_token_secret
